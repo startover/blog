@@ -1,0 +1,8 @@
+{% macro render_body(is_summary=False) %}
+    {% if is_summary %}
+        <div class="entry-content"> {{ article.summary }} </div>
+        <div class="medium primary btn"><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">Read more <i class="icon-arrow-right"></i></a></div>
+    {% else %}
+        {{article.content}}
+    {% endif %}
+{% endmacro %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    {% if article.tags %}
+    <meta name="keywords" content="{{ article.tags|join(",") }}" />
+    {% endif %}
+    {% if article.description %}
+    <meta name="description" content="{{ article.description }}" />
+    {% endif %}
+{% endblock %}
+
+{% block title %}{{ SITENAME }} | {{ article.title }}{% endblock %}
+
+{% block content %}
+{% set is_summary = False %}
+{% include "article_stub.html" %}
+
+{% if DUOSHUO_SITENAME and SITEURL and article.status != "draft" %}
+<section>
+<h1>Comments</h1>
+<div id="DuoShuoComment" aria-live="polite">
+    {% include 'duoshuo_script.html' %}
+</div>
+</section>
+{% endif %}
+{% endblock %}
