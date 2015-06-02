@@ -59,6 +59,9 @@ CATEGORIES_SAVE_AS = 'categories/index.html'
 ARCHIVES_URL       = 'archives'
 ARCHIVES_SAVE_AS   = 'archives/index.html'
 
+PAGE_URL = '{slug}.html'
+PAGE_SAVE_AS = '{slug}.html'
+
 # use those if you want pelican standard pages to appear in your menu
 MENU_INTERNAL_PAGES = (
     ('Categories', CATEGORIES_URL, CATEGORIES_SAVE_AS),

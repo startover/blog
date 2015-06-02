@@ -16,7 +16,24 @@
 {% set is_summary = False %}
 {% include "article_stub.html" %}
 
-{% if DUOSHUO_SITENAME and SITEURL and article.status != "draft" %}
+<ul style="float:right;">
+    {% if article.prev_article %}
+    <li>
+        上一篇：<a href="{{ SITEURL }}/{{ article.prev_article.url}}">
+            {{ article.prev_article.title }}
+        </a>
+    </li>
+    {% endif %}
+    {% if article.next_article %}
+    <li>
+        下一篇：<a href="{{ SITEURL }}/{{ article.next_article.url}}">
+            {{ article.next_article.title }}
+        </a>
+    </li>
+    {% endif %}
+</ul>
+
+{% if DUOSHUO_SITENAME %}
 <section>
 <h1>Comments</h1>
 <div id="DuoShuoComment" aria-live="polite">
