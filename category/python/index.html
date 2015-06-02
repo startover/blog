@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>startover's blog | articles in the "Python" category</title>
+    <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/screen.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/print.css" type="text/css" media="print" />
+    <meta name="generator" content="Pelican" />
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+
+                <li class="ephemeral selected"><a href="http://startover.github.io/category/python/index.html">Python</a></li>
+                <li><a href="http://startover.github.io/">Home</a></li>
+                <li><a href="http://startover.github.io/categories">Categories</a></li>
+                <li><a href="http://startover.github.io/tags">Tags</a></li>
+                <li><a href="http://startover.github.io/archives">Archives</a></li>
+            </ul>
+        </nav>
+        <div class="header_box">
+            <h1><a href="http://startover.github.io/">startover's blog</a></h1>
+        </div>
+    </header>
+    <div id="wrapper">
+        <div id="content">        <h4 class="date">5月 18, 2015</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2015/05/18/python-performance-tips/" rel="bookmark" title="Permanent Link to &quot;【译】提高Python运行效率的六个窍门&quot;">【译】提高Python运行效率的六个窍门</a>
+            </h2>
+
+            <div class="entry-content"> <p>原文地址：<a href="https://blog.newrelic.com/2015/01/21/python-performance-tips/">https://blog.newrelic.com/2015/01/21/python-performance-tips/</a></p>
+<p>Python是一门优秀的语言，它能让你在短时间内通过极少量代码就能完成许多操作。不仅如此，它还轻松支持多任务处理，比如多进程。</p>
+<p>不喜欢Python的人经常会吐嘈Python运行太慢。但是，事实并非如此。尝试以下六个窍门，来为你的Python应用提速。</p>
+<h2>窍门一：关键代码使用外部功能包</h2>
+<p>Python简化了许多编程任务，但是对于一些时间敏感的任务，它的表现经常不尽人意。使用C/C++或机器语言的外部功能包处理时间敏感任务，可以有效提高应用的运行效率。这些功能包往往依附于特定的平台，因此你要根据自己所用的平台选择合适的功能包。简而言之，这个窍门要你牺牲应用的可移植性以换取只有通过对底层主机的直接编程才能获得的运行效率。以下是一些你可以选择用来提升效率的功能包：</p>
+<ul>
+<li><a href="http://cython.org/">Cython</a></li>
+<li><a href="http://pyinline.sourceforge.net/">Pylnlne</a></li>
+<li><a href="http://pypy.org/">PyPy</a></li>
+<li><a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">Pyrex</a></li>
+</ul>
+<p>这些功能包的用处各有不同。比如说，使用C语言的数据类型，可以使涉及内存操作的任务更高效或者更直观。Pyrex就能帮助Python延展出这样的功能。Pylnline能使你在Python应用中直接使用C代码。内联代码是独立编译的，但是它把所有编译文件都保存在某处，并能充分利用C语言提供的高效率。</p>
+<h2>窍门二：在排序时使用键</h2>
+<p>Python含有许多古老的排序规则，这些规则在你创建定制的排序方法时会占用很多时间 ...</p> </div>
+            <div class="medium primary btn"><a href="http://startover.github.io/articles/2015/05/18/python-performance-tips/" rel="bookmark" title="Permalink to 【译】提高Python运行效率的六个窍门">Read more <i class="icon-arrow-right"></i></a></div>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2015/05/18/python-performance-tips/">posted at 10:00</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/python/" rel="tag">Python</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags">Python</a>
+            &nbsp;<a href="http://startover.github.io/tag/performance/" class="tags">Performance</a>
+        </div>
+    </article>        <h4 class="date">4月 27, 2015</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/" rel="bookmark" title="Permanent Link to &quot;Python - 装饰器使用过程中的误区&quot;">Python - 装饰器使用过程中的误区</a>
+            </h2>
+
+            <div class="entry-content"> <h2><strong>装饰器基本概念</strong></h2>
+<p>大家都知道装饰器是一个很著名的设计模式，经常被用于AOP(面向切面编程)的场景，较为经典的有插入日志，性能测试，事务处理，Web权限校验，Cache等。</p>
+<p>Python语言本身提供了装饰器语法（@），典型的装饰器实现如下：</p>
+<div class="highlight"><pre>    <span class="nd">@function_wrapper</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+        <span class="k">pass</span>
+</pre></div>
+
+
+<p>@实际上是python2.4才提出的语法糖，针对python2.4以前的版本有另一种等价的实现：</p>
+<div class="highlight"><pre>    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+        <span class="k">pass</span>
+
+    <span class="n">function</span> <span class="o">=</span> <span class="n">function_wrapper</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+</pre></div>
+
+
+<h2><strong>装饰器的两种实现</strong></h2>
+<p><strong>函数包装器 - 经典实现</strong></p>
+<div class="highlight"><pre>    <span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_wrapper</span>
+
+    <span class="nd">@function_wrapper</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+        <span class="k">pass</span>
+</pre></div>
+
+
+<p><strong>类包装器 - 易于理解</strong></p>
+<div class="highlight"><pre>    <span class="k">class</span> <span class="nc">function_wrapper ...</span></pre></div> </div>
+            <div class="medium primary btn"><a href="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/" rel="bookmark" title="Permalink to Python - 装饰器使用过程中的误区">Read more <i class="icon-arrow-right"></i></a></div>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/">posted at 14:07</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/python/" rel="tag">Python</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags">Python</a>
+            &nbsp;<a href="http://startover.github.io/tag/zhuang-shi-qi/" class="tags">装饰器</a>
+        </div>
+    </article>
+
+            <div class="clear"></div>
+            <footer>
+                <p>
+                <a href="https://github.com/jody-frankowski/blue-penguin">Blue Penguin</a> Theme
+                &middot;
+                Powered by <a href="http://getpelican.com">Pelican</a>
+            </footer>
+        </div>
+        <div class="clear"></div>
+    </div>
+</body>
+</html>

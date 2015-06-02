@@ -5,49 +5,49 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://startover.github.io/</loc>
-<lastmod>2015-06-02T10:00:59-00:00</lastmod>
+<lastmod>2015-06-02T10:37:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://startover.github.io/articles/2015/05/18/python-performance-tips/</loc>
-<lastmod>2015-05-18T10:00:00+02:00</lastmod>
+<lastmod>2015-05-18T10:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
 <loc>http://startover.github.io/articles/2015/04/27/python-decorator-mistake/</loc>
-<lastmod>2015-04-27T14:07:00+02:00</lastmod>
+<lastmod>2015-04-27T14:07:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
 <loc>http://startover.github.io/category/python/</loc>
-<lastmod>2015-05-18T10:00:00+00:09</lastmod>
+<lastmod>2015-05-18T10:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://startover.github.io/tag/python/</loc>
-<lastmod>2015-05-18T10:00:00+00:09</lastmod>
+<lastmod>2015-05-18T10:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://startover.github.io/tag/performance/</loc>
-<lastmod>2015-05-18T10:00:00+00:09</lastmod>
+<lastmod>2015-05-18T10:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://startover.github.io/tag/zhuang-shi-qi/</loc>
-<lastmod>2015-04-27T14:07:00+00:09</lastmod>
+<lastmod>2015-04-27T14:07:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
