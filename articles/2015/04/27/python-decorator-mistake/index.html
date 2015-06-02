@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+    <title>startover's blog | Python - 装饰器使用过程中的误区</title>
+    <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/screen.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/print.css" type="text/css" media="print" />
+    <meta name="generator" content="Pelican" />
+
+    <meta name="keywords" content="Python,装饰器" />
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="http://startover.github.io/">Home</a></li>
+                <li><a href="http://startover.github.io/categories">Categories</a></li>
+                <li><a href="http://startover.github.io/tags">Tags</a></li>
+                <li><a href="http://startover.github.io/archives">Archives</a></li>
+            </ul>
+        </nav>
+        <div class="header_box">
+            <h1><a href="http://startover.github.io/">startover's blog</a></h1>
+        </div>
+    </header>
+    <div id="wrapper">
+        <div id="content">        <h4 class="date">4月 27, 2015</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/" rel="bookmark" title="Permanent Link to &quot;Python - 装饰器使用过程中的误区&quot;">Python - 装饰器使用过程中的误区</a>
+            </h2>
+
+            <h2><strong>装饰器基本概念</strong></h2>
+<p>大家都知道装饰器是一个很著名的设计模式，经常被用于AOP(面向切面编程)的场景，较为经典的有插入日志，性能测试，事务处理，Web权限校验，Cache等。</p>
+<p>Python语言本身提供了装饰器语法（@），典型的装饰器实现如下：</p>
+<div class="highlight"><pre>    <span class="nd">@function_wrapper</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+        <span class="k">pass</span>
+</pre></div>
+
+
+<p>@实际上是python2.4才提出的语法糖，针对python2.4以前的版本有另一种等价的实现：</p>
+<div class="highlight"><pre>    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+        <span class="k">pass</span>
+
+    <span class="n">function</span> <span class="o">=</span> <span class="n">function_wrapper</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+</pre></div>
+
+
+<h2><strong>装饰器的两种实现</strong></h2>
+<p><strong>函数包装器 - 经典实现</strong></p>
+<div class="highlight"><pre>    <span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_wrapper</span>
+
+    <span class="nd">@function_wrapper</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+        <span class="k">pass</span>
+</pre></div>
+
+
+<p><strong>类包装器 - 易于理解</strong></p>
+<div class="highlight"><pre>    <span class="k">class</span> <span class="nc">function_wrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wrapped</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wrapped</span> <span class="o">=</span> <span class="n">wrapped</span>
+        <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@function_wrapper</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+        <span class="k">pass</span>
+</pre></div>
+
+
+<h2><strong>函数（function）自省</strong></h2>
+<p>当我们谈到一个函数时，通常希望这个函数的属性像其文档上描述的那样，是被明确定义的，例如<code>__name__</code>和<code>__doc__</code> 。</p>
+<p>针对某个函数应用装饰器时，这个函数的属性就会发生变化，但这并不是我们所期望的。</p>
+<div class="highlight"><pre>    <span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_wrapper</span>
+
+    <span class="nd">@function_wrapper</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+        <span class="k">pass</span>
+
+    <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">function</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+    <span class="n">_wrapper</span>
+</pre></div>
+
+
+<p>python标准库提供了<code>functools.wraps()</code>，来解决这个问题。</p>
+<div class="highlight"><pre>    <span class="kn">import</span> <span class="nn">functools</span>
+
+    <span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">):</span>
+        <span class="nd">@functools.wraps</span><span class="p">(</span><span class="n">wrapped</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_wrapper</span>
+
+    <span class="nd">@function_wrapper</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+        <span class="k">pass</span>
+
+    <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">function</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+    <span class="n">function</span>
+</pre></div>
+
+
+<p>然而，当我们想要获取被包装函数的参数（<code>argument</code>）或源代码（<code>source code</code>）时，同样不能得到我们想要的结果。</p>
+<div class="highlight"><pre>    <span class="kn">import</span> <span class="nn">inspect</span>
+
+    <span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@function_wrapper</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span> <span class="k">pass</span>
+
+    <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">function</span><span class="p">))</span>
+    <span class="n">ArgSpec</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="p">[],</span> <span class="n">varargs</span><span class="o">=</span><span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="n">keywords</span><span class="o">=</span><span class="s">&#39;kwargs&#39;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+    <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">function</span><span class="p">))</span>
+        <span class="nd">@functools.wraps</span><span class="p">(</span><span class="n">wrapped</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
+
+<h2><strong>包装类方法（<code>@classmethod</code>）</strong></h2>
+<p>当包装器（<code>@function_wrapper</code>）被应用于<code>@classmethod</code>时，将会抛出如下异常：</p>
+<div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Class</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="nd">@function_wrapper</span>
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">cmethod</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+    <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+      <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+      <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">3</span><span class="p">,</span> <span class="ow">in</span> <span class="n">Class</span>
+      <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="n">wrapper</span>
+      <span class="n">File</span> <span class="s">&quot;.../functools.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">33</span><span class="p">,</span> <span class="ow">in</span> <span class="n">update_wrapper</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+    <span class="ne">AttributeError</span><span class="p">:</span> <span class="s">&#39;classmethod&#39;</span> <span class="nb">object</span> <span class="n">has</span> <span class="n">no</span> <span class="n">attribute</span> <span class="s">&#39;__module__&#39;</span>
+</pre></div>
+
+
+<p>因为<code>@classmethod</code>在实现时，缺少<code>functools.update_wrapper</code>需要的某些属性。这是<code>functools.update_wrapper</code>在python2中的bug，3.2版本已被修复，参考<a href="http://bugs.python.org/issue3445">http://bugs.python.org/issue3445</a>。</p>
+<p>然而，在python3下执行，另一个问题出现了：</p>
+<div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Class</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="nd">@function_wrapper</span>
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">cmethod</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+    <span class="o">&gt;&gt;&gt;</span> <span class="n">Class</span><span class="o">.</span><span class="n">cmethod</span><span class="p">()</span>
+    <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+      <span class="n">File</span> <span class="s">&quot;classmethod.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">15</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+        <span class="n">Class</span><span class="o">.</span><span class="n">cmethod</span><span class="p">()</span>
+      <span class="n">File</span> <span class="s">&quot;classmethod.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">6</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_wrapper</span>
+        <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="ne">TypeError</span><span class="p">:</span> <span class="s">&#39;classmethod&#39;</span> <span class="nb">object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">callable</span>
+</pre></div>
+
+
+<p>这是因为包装器认定被包装的函数（<code>@classmethod</code>）是可以直接被调用的，但事实并不一定是这样的。被包装的函数实际上可能是描述符（<code>descriptor</code>），意味着为了使其可调用，该函数（描述符）必须被正确地绑定到某个实例上。关于描述符的定义，可以参考<a href="https://docs.python.org/2/howto/descriptor.html">https://docs.python.org/2/howto/descriptor.html</a>。</p>
+<h2><strong>总结 - 简单并不意味着正确</strong></h2>
+<p>尽管大家实现装饰器所用的方法通常都很简单，但这并不意味着它们一定是正确的并且始终能正常工作。</p>
+<p>如同上面我们所看到的，<code>functools.wraps()</code>可以帮我们解决<code>__name__</code>和<code>__doc__</code> 的问题，但对于获取函数的参数（<code>argument</code>）或源代码（<code>source code</code>）则束手无策。</p>
+<p>以上问题，<a href="https://github.com/GrahamDumpleton/wrapt">wrapt</a>都可以帮忙解决，详细用法可参考其官方文档：<a href="http://wrapt.readthedocs.org">http://wrapt.readthedocs.org</a></p>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/">posted at 14:07</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/python/" rel="tag">Python</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags">Python</a>
+            &nbsp;<a href="http://startover.github.io/tag/zhuang-shi-qi/" class="tags">装饰器</a>
+        </div>
+    </article>
+<ul style="float:right;">
+    <li>
+        下一篇：<a href="http://startover.github.io/articles/2015/05/18/python-performance-tips/">
+            【译】提高Python运行效率的六个窍门
+        </a>
+    </li>
+</ul>
+
+<section>
+<h1>Comments</h1>
+<div id="DuoShuoComment" aria-live="polite">
+<!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="python-decorator-mistake" data-title="Python - 装饰器使用过程中的误区" data-url="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"startover"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<!-- 多说公共JS代码 end --></div>
+</section>
+
+            <div class="clear"></div>
+            <footer>
+                <p>
+                <a href="https://github.com/jody-frankowski/blue-penguin">Blue Penguin</a> Theme
+                &middot;
+                Powered by <a href="http://getpelican.com">Pelican</a>
+            </footer>
+        </div>
+        <div class="clear"></div>
+    </div>
+</body>
+</html>

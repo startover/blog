@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<head>
+    <title>random</title>
+    <script type="text/javascript">
+        function redirect(){
+            var urls = [
+ "http://startover.github.io/articles/2015/05/18/python-performance-tips/",
+ "http://startover.github.io/articles/2015/04/27/python-decorator-mistake/",
+
+        ""];
+
+        var index = Math.floor(Math.random() * (urls.length-1));
+        window.location = urls[index];
+    }
+</script>
+<body onload="redirect()">
+</body>
+</html>
