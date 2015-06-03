@@ -19,12 +19,14 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
+GITHUB_URL = 'https://github.com/startover'
+
 # Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),)
+# LINKS = (('Pelican', 'http://getpelican.com/'),)
 
 # Social widget
-SOCIAL = (('github', 'https://github.com/startover'),
-        ('weibo', 'http://weibo.com/u/1530368442'),)
+# SOCIAL = (('github', 'https://github.com/startover'),
+        # ('weibo', 'http://weibo.com/u/1530368442'),)
 
 DEFAULT_PAGINATION = 5
 

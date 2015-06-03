@@ -42,6 +42,13 @@
     {% endblock head %}
 </head>
 <body>
+    <!-- Fork me on github -->
+    {% if GITHUB_URL %}
+    <a target="_blank" href="{{ GITHUB_URL }}">
+    <img width="149px" height="149px" style="position: absolute; top: 0px; right: 0; border: 0; margin: 0; box-shadow: initial" src="{{ SITEURL }}/theme/icons/forkme.png" alt="Fork me on GitHub" />
+    </a>
+    {% endif %}
+
     {% if DISPLAY_HEADER or DISPLAY_HEADER is not defined %}
     <header>
         {% if DISPLAY_MENU or DISPLAY_MENU is not defined %}
@@ -97,6 +104,25 @@
         </div>
         <div class="clear"></div>
     </div>
+
+<script src="{{ SITEURL }}/theme/js/libs/jquery-1.9.1.min.js"></script>
+<script>
+    (function() {
+    var $backToTopTxt = "返回顶部", $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+    .text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+    }), $backToTopFun = function() {
+    var st = $(document).scrollTop(), winh = $(window).height();
+    (st > 0)? $backToTopEle.show(): $backToTopEle.hide();
+    //IE6下的定位
+    if (!window.XMLHttpRequest) {
+    $backToTopEle.css("top", st + winh - 166);
+    }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $(function() { $backToTopFun(); });
+    })();
+</script>
 {% include 'analytics.html' %}
 </body>
 </html>
