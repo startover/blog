@@ -3,27 +3,32 @@
 <head>
     <meta charset="utf-8" />
     <title>startover's blog | articles tagged "Performance"</title>
-    <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
-    <link rel="stylesheet" href="http://startover.github.io/theme/css/screen.css" type="text/css" />
-    <link rel="stylesheet" href="http://startover.github.io/theme/css/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="http://startover.github.io/theme/css/print.css" type="text/css" media="print" />
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/theme/css/screen.css" type="text/css" />
+    <link rel="stylesheet" href="/theme/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="/theme/css/print.css" type="text/css" media="print" />
     <meta name="generator" content="Pelican" />
 </head>
 <body>
+    <!-- Fork me on github -->
+    <a target="_blank" href="https://github.com/startover">
+    <img width="149px" height="149px" style="position: absolute; top: 0px; right: 0; border: 0; margin: 0; box-shadow: initial" src="/theme/icons/forkme.png" alt="Fork me on GitHub" />
+    </a>
+
     <header>
         <nav>
             <ul>
-                <li class="ephemeral selected"><a href="http://startover.github.io/tag/performance/index.html">Performance</a></li>
-                <li><a href="http://startover.github.io/">Home</a></li>
-                <li><a href="http://startover.github.io/about.html">About</a></li>
-                <li><a href="http://startover.github.io/categories">Categories</a></li>
-                <li><a href="http://startover.github.io/tags">Tags</a></li>
-                <li><a href="http://startover.github.io/archives">Archives</a></li>
+                <li class="ephemeral selected"><a href="/tag/performance/index.html">Performance</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/categories">Categories</a></li>
+                <li><a href="/tags">Tags</a></li>
+                <li><a href="/archives">Archives</a></li>
             </ul>
         </nav>
         <div class="header_box">
-            <h1><a href="http://startover.github.io/">startover's blog</a></h1>
+            <h1><a href="/">startover's blog</a></h1>
         </div>
     </header>
     <div id="wrapper">
@@ -31,7 +36,7 @@
 
     <article class="post">
             <h2 class="title">
-                <a href="http://startover.github.io/articles/2015/05/18/python-performance-tips/" rel="bookmark" title="Permanent Link to &quot;【译】提高Python运行效率的六个窍门&quot;">【译】提高Python运行效率的六个窍门</a>
+                <a href="/articles/2015/05/18/python-performance-tips/" rel="bookmark" title="Permanent Link to &quot;【译】提高Python运行效率的六个窍门&quot;">【译】提高Python运行效率的六个窍门</a>
             </h2>
 
             <div class="entry-content"> <p>原文地址：<a href="https://blog.newrelic.com/2015/01/21/python-performance-tips/">https://blog.newrelic.com/2015/01/21/python-performance-tips/</a></p>
@@ -48,16 +53,16 @@
 <p>这些功能包的用处各有不同。比如说，使用C语言的数据类型，可以使涉及内存操作的任务更高效或者更直观。Pyrex就能帮助Python延展出这样的功能。Pylnline能使你在Python应用中直接使用C代码。内联代码是独立编译的，但是它把所有编译文件都保存在某处，并能充分利用C语言提供的高效率。</p>
 <h2>窍门二：在排序时使用键</h2>
 <p>Python含有许多古老的排序规则，这些规则在你创建定制的排序方法时会占用很多时间 ...</p> </div>
-            <div class="medium primary btn"><a href="http://startover.github.io/articles/2015/05/18/python-performance-tips/" rel="bookmark" title="Permalink to 【译】提高Python运行效率的六个窍门">Read more <i class="icon-arrow-right"></i></a></div>
+            <div class="medium primary btn"><a href="/articles/2015/05/18/python-performance-tips/" rel="bookmark" title="Permalink to 【译】提高Python运行效率的六个窍门">Read more <i class="icon-arrow-right"></i></a></div>
 
         <div class="clear"></div>
 
         <div class="info">
-            <a href="http://startover.github.io/articles/2015/05/18/python-performance-tips/">posted at 10:00</a>
-            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/python/" rel="tag">Python</a>
+            <a href="/articles/2015/05/18/python-performance-tips/">posted at 10:00</a>
+            &nbsp;&middot;&nbsp;<a href="/category/python/" rel="tag">Python</a>
             &nbsp;&middot;
-            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags">Python</a>
-            &nbsp;<a href="http://startover.github.io/tag/performance/" class="tags selected">Performance</a>
+            &nbsp;<a href="/tag/python/" class="tags">Python</a>
+            &nbsp;<a href="/tag/performance/" class="tags selected">Performance</a>
         </div>
     </article>
 
@@ -71,5 +76,24 @@
         </div>
         <div class="clear"></div>
     </div>
+
+<script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+<script>
+    (function() {
+    var $backToTopTxt = "返回顶部", $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+    .text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+    }), $backToTopFun = function() {
+    var st = $(document).scrollTop(), winh = $(window).height();
+    (st > 0)? $backToTopEle.show(): $backToTopEle.hide();
+    //IE6下的定位
+    if (!window.XMLHttpRequest) {
+    $backToTopEle.css("top", st + winh - 166);
+    }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $(function() { $backToTopFun(); });
+    })();
+</script>
 </body>
 </html>
