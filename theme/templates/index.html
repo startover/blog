@@ -10,7 +10,7 @@
 {%   endif %}
 {%   set date = article.date.date() %}
 {%   set is_summary = True %}
-{%   include "article_stub.html" %}
+{% include "article_stub.html" %}
 {% endfor %}
 
 {% include "pagination.html" %}

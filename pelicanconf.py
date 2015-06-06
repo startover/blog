@@ -35,6 +35,9 @@ DEFAULT_PAGINATION = 5
 
 THEME = 'theme'
 
+GOOGLE_ANALYTICS_ID = 'UA-63815463-1'
+GOOGLE_ANALYTICS_SITENAME = 'startover.github.io'
+
 # very useful for debugging purposes
 DELETE_OUTPUT_DIRECTORY = True
 
