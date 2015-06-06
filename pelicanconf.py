@@ -36,7 +36,7 @@ DEFAULT_PAGINATION = 5
 THEME = 'theme'
 
 # very useful for debugging purposes
-DELETE_OUTPUT_DIRECTORY = False
+DELETE_OUTPUT_DIRECTORY = True
 
 # all defaults to True.
 DISPLAY_HEADER = True
@@ -61,7 +61,7 @@ CATEGORIES_SAVE_AS = 'categories/index.html'
 ARCHIVES_URL       = 'archives'
 ARCHIVES_SAVE_AS   = 'archives/index.html'
 
-PAGE_URL = '{slug}.html'
+PAGE_URL = '{slug}'
 PAGE_SAVE_AS = '{slug}.html'
 
 # use those if you want pelican standard pages to appear in your menu
@@ -93,6 +93,5 @@ SITEMAP = {
 }
 }
 RANDOM = 'random.html'
-LICENSE = '码字不易，转载请注明来源<a href="http://startover.github.io/" target="_blank">startover</a>'
 
 DUOSHUO_SITENAME = "startover"
