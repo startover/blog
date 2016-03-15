@@ -10,8 +10,8 @@ env.deploy_path = 'output'
 DEPLOY_PATH = env.deploy_path
 
 # Remote server configuration
-# production = 'root@localhost:22'
-# dest_path = '/tmp'
+production = 'root@localhost:22'
+dest_path = '/tmp'
 
 # Rackspace Cloud Files configuration settings
 env.cloudfiles_username = 'my_rackspace_username'
@@ -37,7 +37,7 @@ def regenerate():
 def serve():
     os.chdir(env.deploy_path)
 
-    PORT = 8000
+    PORT = 8001
     class AddressReuseTCPServer(SocketServer.TCPServer):
         allow_reuse_address = True
 
