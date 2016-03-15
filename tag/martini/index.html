@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>startover's blog | articles tagged "mock"</title>
+    <title>startover's blog | articles tagged "Martini"</title>
     <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
     <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
     <link href="http://startover.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Full Atom Feed" />
@@ -20,7 +20,7 @@
     <header>
         <nav>
             <ul>
-                <li class="ephemeral selected"><a href="http://startover.github.io/tag/mock/index.html">mock</a></li>
+                <li class="ephemeral selected"><a href="http://startover.github.io/tag/martini/index.html">Martini</a></li>
                 <li><a href="http://startover.github.io/">Home</a></li>
                 <li><a href="http://startover.github.io/about">About</a></li>
                 <li><a href="http://startover.github.io/categories">Categories</a></li>
@@ -33,39 +33,33 @@
         </div>
     </header>
     <div id="wrapper">
-        <div id="content">        <h4 class="date">Jun 06, 2015</h4>
+        <div id="content">        <h4 class="date">Mar 15, 2016</h4>
 
     <article class="post">
             <h2 class="title">
-                <a href="http://startover.github.io/articles/2015/06/06/python-mock-introduction/" rel="bookmark" title="Permanent Link to &quot;【译】Python中如何创建mock？&quot;">【译】Python中如何创建mock？</a>
+                <a href="http://startover.github.io/articles/2016/03/15/python-ruby-go-node-benchmark/" rel="bookmark" title="Permanent Link to &quot;Python Flask vs Ruby Sinatra vs Go Martini vs Node Express&quot;">Python Flask vs Ruby Sinatra vs Go Martini vs Node Express</a>
             </h2>
 
-            <div class="entry-content"> <p>原文地址：<a href="http://engineroom.trackmaven.com/blog/making-a-mockery-of-python/">http://engineroom.trackmaven.com/blog/making-a-mockery-of-python/</a></p>
-<p>今天我们来谈论下mock的使用。当然，请不要误会，这里的mock可不是嘲弄的意思。mock是一门技术，通过伪造部分实际代码，从而让我们能够验证剩余代码的正确性。现在我们将通过几个简单的示例演示mock在Python测试代码中的使用，以及这项极其有用的技术是如何帮助我们改善测试代码的。</p>
-<h2>为什么我们需要mock？</h2>
-<p>当我们进行单元测试的时候，我们的目标往往是为了测试非常小的代码块，例如一个独立存在的函数或类方法。换句话说，我们只需要针对那个函数内部的代码进行测试。如果测试代码依赖于其他的代码片段，即使被测试的函数没有变化，我们会发现在某种不幸的情形下，这部分内嵌代码的修改可能会破坏原有的测试。看看下面的例子，你将豁然开朗：</p>
-<div class="highlight"><pre><span class="c"># function.py</span>
-<span class="k">def</span> <span class="nf">add_and_multiply</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-
-    <span class="n">addition</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-    <span class="n">multiple</span> <span class="o">=</span> <span class="n">multiply</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="n">addition</span><span class="p">,</span> <span class="n">multiple</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-
-    <span class="k">return</span> <span class="n">x ...</span></pre></div> </div>
-            <div class="medium primary btn"><a href="http://startover.github.io/articles/2015/06/06/python-mock-introduction/" rel="bookmark" title="Permalink to 【译】Python中如何创建mock？">Read more <i class="icon-arrow-right"></i></a></div>
+            <div class="entry-content"> <p>题外话一：<br />
+最近一段时间，Cloud Insight接连发布了三种语言（Python, Node, Ruby）的SDK，Cloud Insight Agent也迎来了重大突破，发布了Windows监控第一个版本，总算可以松口气写点东西了~</p>
+<p>题外话二：<br />
+偶然的机会看到一篇<a href="https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/">blog</a>，文中详细的介绍了<a href="https://github.com/mitsuhiko/flask">Flask</a>(Python), <a href="https://github.com/sinatra/sinatra">Sinatra</a>(Ruby)以及 <a href="https://github.com/go-martini/martini">Matini</a>(Golang)这三类微型框架的用法，并提供了各个框架在Docker下的部署方式。然而，美中不足的是没有提供各个框架的性能对比情况，经过一番搜罗，发现了一篇对现今主流框架做性能对比的<a href="https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.vticwh9tn">文章</a>，找到两者的结合点，于是才有了今天这篇文章~</p>
+<hr />
+<p>回归正题，之所以选择<a href="https://github.com/mitsuhiko/flask">Flask</a>(Python), <a href="https://github.com/sinatra/sinatra">Sinatra</a>(Ruby),  <a href="https://github.com/go-martini/martini">Matini</a>(Golang)和<a href="https://github.com/expressjs/express">Express</a>(Node)，主要是经验所限以及个人比较喜欢这类微型框架，下面我们就对各个框架在同等条件下的性能表现一探究竟。</p>
+<p>本文源码地址：<a href="https://github.com/startover/fibonacci-webapp-benchmark">https://github.com ...</a></p> </div>
+            <div class="medium primary btn"><a href="http://startover.github.io/articles/2016/03/15/python-ruby-go-node-benchmark/" rel="bookmark" title="Permalink to Python Flask vs Ruby Sinatra vs Go Martini vs Node Express">Read more <i class="icon-arrow-right"></i></a></div>
 
         <div class="clear"></div>
 
         <div class="info">
-            <a href="http://startover.github.io/articles/2015/06/06/python-mock-introduction/">posted at 11:10</a>
-            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/python/" rel="tag">Python</a>
+            <a href="http://startover.github.io/articles/2016/03/15/python-ruby-go-node-benchmark/">posted at 14:21</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/python-ruby-go-node/" rel="tag">Python, Ruby, Go, Node</a>
             &nbsp;&middot;
-            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags">Python</a>
-            &nbsp;<a href="http://startover.github.io/tag/mock/" class="tags selected">mock</a>
+            &nbsp;<a href="http://startover.github.io/tag/flask/" class="tags">Flask</a>
+            &nbsp;<a href="http://startover.github.io/tag/sinatra/" class="tags">Sinatra</a>
+            &nbsp;<a href="http://startover.github.io/tag/martini/" class="tags selected">Martini</a>
+            &nbsp;<a href="http://startover.github.io/tag/express/" class="tags">Express</a>
+            &nbsp;<a href="http://startover.github.io/tag/performance/" class="tags">Performance</a>
         </div>
     </article>
 
