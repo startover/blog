@@ -14,7 +14,6 @@ Authors: startover
 
 * * *
 
-
 回归正题，之所以选择[Flask](https://github.com/mitsuhiko/flask)(Python), [Sinatra](https://github.com/sinatra/sinatra)(Ruby),  [Matini](https://github.com/go-martini/martini)(Golang)和[Express](https://github.com/expressjs/express)(Node)，主要是经验所限以及个人比较喜欢这类微型框架，下面我们就对各个框架在同等条件下的性能表现一探究竟。
 
 本文源码地址：[https://github.com/startover/fibonacci-webapp-benchmark](https://github.com/startover/fibonacci-webapp-benchmark)
@@ -165,44 +164,17 @@ Total:         26   60  11.1     59     171
 
 ## 总结：
 
-
-<table class="table table-bordered table-striped table-condensed">
-    <tr>
-        <td> </td>
-        <td>avg(ms) </td>
-        <td>min(ms) </td>
-        <td>max(ms)</td>
-    </tr>
-    <tr>
-        <td>Flask(Python) </td>
-        <td>168 </td>
-        <td>26 </td>
-        <td>295</td>
-    </tr>
-    <tr>
-        <td>Sinatra(Ruby) </td>
-        <td>496 </td>
-        <td>180 </td>
-        <td>10507</td>
-    </tr>
-    <tr>
-        <td>Martini(Go) </td>
-        <td>48 </td>
-        <td>14 </td>
-        <td>112</td>
-    </tr>
-    <tr>
-        <td>Express(Node) </td>
-        <td>60 </td>
-        <td>26 </td>
-        <td>171</td>
-    </tr>
-</table>
+| Web framework | avg   | min   | max
+| ------------- |:-----:|:-----:|:-----:
+| Flask(Python) | 168ms | 26ms  | 295ms
+| Sinatra(Ruby) | 496ms | 180ms | 10507ms
+| Martini(Go)   | 48ms  | 14ms  | 112ms
+| Express(Node) | 60ms  | 26ms  | 171ms
 
 
 可见，[Matini](https://github.com/go-martini/martini)(Golang)和[Express](https://github.com/expressjs/express)(Node)性能优势比较明显，也在意料之中，[Flask](https://github.com/mitsuhiko/flask)(Python)表现中规中矩，相较之下，[Sinatra](https://github.com/sinatra/sinatra)(Ruby)的性能简直是没法忍（PS: 我不是Ruby黑）！感兴趣的亲们可以在自己的环境测试下。完。
 
 
-参考链接：  
+参考链接：
 [https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/](https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison)
 [https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.6katm1qn2](https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.6katm1qn2)
