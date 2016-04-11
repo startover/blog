@@ -81,19 +81,19 @@ PAGINATION_PATTERNS = (
 
 # plugins
 PLUGIN_PATHS = ['pelican-plugins',]
-PLUGINS = ['summary','sitemap','random_article','neighbors','global_license']
+PLUGINS = ['summary', 'sitemap', 'random_article', 'neighbors', 'global_license']
 SITEMAP = {
-'format': 'xml',
-'priorities': {
-'articles': 0.7,
-'indexes': 0.5,
-'pages': 0.5
-},
-'changefreqs': {
-'articles': 'monthly',
-'indexes': 'daily',
-'pages': 'monthly'
-}
+    'format': 'xml',
+    'priorities': {
+        'articles': 0.7,
+        'indexes': 0.5,
+        'pages': 0.5
+    },
+    'changefreqs': {
+        'articles': 'monthly',
+        'indexes': 'daily',
+        'pages': 'monthly'
+    }
 }
 RANDOM = 'random.html'
 
