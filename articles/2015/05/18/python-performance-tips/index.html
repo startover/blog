@@ -35,7 +35,7 @@
         </div>
     </header>
     <div id="wrapper">
-        <div id="content">        <h4 class="date">May 18, 2015</h4>
+        <div id="content">        <h4 class="date"> 5月 18, 2015</h4>
 
     <article class="post">
             <h2 class="title">
@@ -56,31 +56,31 @@
 <p>这些功能包的用处各有不同。比如说，使用C语言的数据类型，可以使涉及内存操作的任务更高效或者更直观。Pyrex就能帮助Python延展出这样的功能。Pylnline能使你在Python应用中直接使用C代码。内联代码是独立编译的，但是它把所有编译文件都保存在某处，并能充分利用C语言提供的高效率。</p>
 <h2>窍门二：在排序时使用键</h2>
 <p>Python含有许多古老的排序规则，这些规则在你创建定制的排序方法时会占用很多时间，而这些排序方法运行时也会拖延程序实际的运行速度。最佳的排序方法其实是尽可能多地使用键和内置的sort()方法。譬如，拿下面的代码来说：</p>
-<div class="highlight"><pre>    <span class="kn">import</span> <span class="nn">operator</span>
-    <span class="n">somelist</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
-    <span class="n">somelist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-    <span class="n">somelist</span>
-    <span class="c">#Output = [(1, 5, 8), (6, 2, 4), (9, 7, 5)]</span>
-    <span class="n">somelist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">somelist</span>
-    <span class="c">#Output = [(6, 2, 4), (1, 5, 8), (9, 7, 5)]</span>
-    <span class="n">somelist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-    <span class="n">somelist</span>
-    <span class="c">#Output = [(6, 2, 4), (9, 7, 5), (1, 5, 8)],</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">operator</span>
+<span class="n">somelist</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+<span class="n">somelist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">somelist</span>
+<span class="c1">#Output = [(1, 5, 8), (6, 2, 4), (9, 7, 5)]</span>
+<span class="n">somelist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">somelist</span>
+<span class="c1">#Output = [(6, 2, 4), (1, 5, 8), (9, 7, 5)]</span>
+<span class="n">somelist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">somelist</span>
+<span class="c1">#Output = [(6, 2, 4), (9, 7, 5), (1, 5, 8)],</span>
 </pre></div>
 
 
 <p>在每段例子里，list都是根据你选择的用作关键参数的索引进行排序的。这个方法不仅对数值类型有效，还同样适用于字符串类型。</p>
 <h2>窍门三：针对循环的优化</h2>
 <p>每一种编程语言都强调最优化的循环方案。当使用Python时，你可以借助丰富的技巧让循环程序跑得更快。然而，开发者们经常遗忘的一个技巧是：尽量避免在循环中访问变量的属性。譬如，拿下面的代码来说：</p>
-<div class="highlight"><pre>    <span class="n">lowerlist</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;this&#39;</span><span class="p">,</span> <span class="s">&#39;is&#39;</span><span class="p">,</span> <span class="s">&#39;lowercase&#39;</span><span class="p">]</span>
-    <span class="n">upper</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">upper</span>
-    <span class="n">upperlist</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">append</span> <span class="o">=</span> <span class="n">upperlist</span><span class="o">.</span><span class="n">append</span>
-    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">lowerlist</span><span class="p">:</span>
-        <span class="n">append</span><span class="p">(</span><span class="n">upper</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">upperlist</span><span class="p">)</span>
-        <span class="c">#Output = [&#39;THIS&#39;, &#39;IS&#39;, &#39;LOWERCASE&#39;]</span>
+<div class="highlight"><pre><span></span><span class="n">lowerlist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;lowercase&#39;</span><span class="p">]</span>
+<span class="n">upper</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">upper</span>
+<span class="n">upperlist</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">append</span> <span class="o">=</span> <span class="n">upperlist</span><span class="o">.</span><span class="n">append</span>
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">lowerlist</span><span class="p">:</span>
+    <span class="n">append</span><span class="p">(</span><span class="n">upper</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">upperlist</span><span class="p">)</span>
+    <span class="c1">#Output = [&#39;THIS&#39;, &#39;IS&#39;, &#39;LOWERCASE&#39;]</span>
 </pre></div>
 
 
@@ -92,27 +92,27 @@
 <p>然而，如果你只是确保自己的应用在新版本中可以运行，你很可能会错过新版本提供的新特性。一旦你决定更新，请分析你的应用在新版本下的表现，并检查可能出问题的部分，然后优先针对这些部分应用新版本的特性。只有这样，用户才能在更新之初就觉察到应用性能的改观。</p>
 <h2>窍门五：尝试多种编码方法</h2>
 <p>每次创建应用时都使用同一种编码方法几乎无一例外会导致应用的运行效率不尽人意。可以在程序分析时尝试一些试验性的办法。譬如说，在处理字典中的数据项时，你既可以使用安全的方法，先确保数据项已经存在再进行更新，也可以直接对数据项进行更新，把不存在的数据项作为特例分开处理。请看下面第一段代码：</p>
-<div class="highlight"><pre>    <span class="n">n</span> <span class="o">=</span> <span class="mi">16</span>
-    <span class="n">myDict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-        <span class="n">char</span> <span class="o">=</span> <span class="s">&#39;abcd&#39;</span><span class="p">[</span><span class="n">i</span><span class="o">%</span><span class="mi">4</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">char</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">myDict</span><span class="p">:</span>
-            <span class="n">myDict</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">myDict</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">myDict</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">myDict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">char</span> <span class="o">=</span> <span class="s1">&#39;abcd&#39;</span><span class="p">[</span><span class="n">i</span><span class="o">%</span><span class="mi">4</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">char</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">myDict</span><span class="p">:</span>
+        <span class="n">myDict</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">myDict</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">myDict</span><span class="p">)</span>
 </pre></div>
 
 
 <p>当一开始myDict为空时，这段代码会跑得比较快。然而，通常情况下，myDict填满了数据，至少填有大部分数据，这时换另一种方法会更有效率。</p>
-<div class="highlight"><pre>    <span class="n">n</span> <span class="o">=</span> <span class="mi">16</span>
-    <span class="n">myDict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-        <span class="n">char</span> <span class="o">=</span> <span class="s">&#39;abcd&#39;</span><span class="p">[</span><span class="n">i</span><span class="o">%</span><span class="mi">4</span><span class="p">]</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">myDict</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="n">myDict</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">myDict</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">myDict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">char</span> <span class="o">=</span> <span class="s1">&#39;abcd&#39;</span><span class="p">[</span><span class="n">i</span><span class="o">%</span><span class="mi">4</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">myDict</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">myDict</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">myDict</span><span class="p">)</span>
 </pre></div>
 
 

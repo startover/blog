@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/benchmark.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-03-15T14:21:00+08:00</updated><entry><title>Python Flask vs Ruby Sinatra vs Go Martini vs Node Express</title><link href="http://startover.github.io/articles/2016/03/15/python-ruby-go-node-benchmark/" rel="alternate"></link><published>2016-03-15T14:21:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-03-15:articles/2016/03/15/python-ruby-go-node-benchmark/</id><summary type="html">&lt;p&gt;&lt;em&gt;题外话一&lt;/em&gt;：&lt;br /&gt;
+最近一段时间，Cloud Insight接连发布了三种语言（Python, Node, Ruby）的SDK，Cloud Insight Agent也迎来了重大突破，发布了&lt;a href="http://www.oneapm.com/ci/windows.html"&gt;Windows监控&lt;/a&gt;第一个版本，总算可以松口气写点东西了...&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;题外话二&lt;/em&gt;：&lt;br /&gt;
+偶然的机会看到一篇&lt;a href="https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/"&gt;blog&lt;/a&gt;，文中详细介绍了&lt;a href="https://github.com/mitsuhiko/flask"&gt;Flask&lt;/a&gt;(Python), &lt;a href="https://github.com/sinatra/sinatra"&gt;Sinatra&lt;/a&gt;(Ruby)以及&lt;a href="https://github.com/go-martini/martini"&gt;Matini&lt;/a&gt;(Golang)这三类微型框架的用法，并提供了各个框架在Docker下的部署方式。然而，美中不足的是没有提供各个框架的性能对比情况，经过一番搜罗，发现了一篇对现今主流框架做&lt;a href="https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.vticwh9tn"&gt;性能对比的文章&lt;/a&gt;，找到两者的结合点，于是才有了今天这篇文章 :)&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;回归正题，之所以选择&lt;a href="https://github.com/mitsuhiko/flask"&gt;Flask&lt;/a&gt;(Python), &lt;a href="https://github.com/sinatra/sinatra"&gt;Sinatra&lt;/a&gt;(Ruby), &lt;a href="https://github.com/go-martini/martini"&gt;Matini&lt;/a&gt;(Golang)和&lt;a href="https://github.com/expressjs/express"&gt;Express&lt;/a&gt;(Node)，主要是经验所限以及个人比较喜欢这类微型框架，下面我们就对各个框架在同等条件下的性能表现一探究竟。&lt;/p&gt;
+&lt;p&gt;本文源码地址：&lt;a href="https://github.com/startover/fibonacci-webapp-benchmark"&gt;https://github.com/startover/fibonacci-webapp-benchmark&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;环境准备：&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h4&gt;&lt;a href="https://www.docker.com/"&gt;Docker&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;安装文档：&lt;a href="https://docs.docker.com/engine/installation/"&gt;https://docs.docker.com/engine/installation/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h4&gt;&lt;a href="https://httpd.apache.org/docs/2.4/programs/ab.html"&gt;ab&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;CentOS/Redhat:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;yum install httpd-tools&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Ubuntu/Debian:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;apt-get update &amp;amp;&amp;amp; apt-get install apache2-utils&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;启动容器&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git clone git@github.com:startover/fibonacci-webapp-benchmark.git
+$ &lt;span class="nb"&gt;cd&lt;/span&gt; fibonacci-webapp-benchmark
+$ ./docker-compose up -d
+Recreating fibonacciwebappbenchmark_python_1...
+Recreating fibonacciwebappbenchmark_go_1...
+Recreating fibonacciwebappbenchmark_ruby_1...
+Recreating fibonacciwebappbenchmark_node_1...
+$ docker ps
+CONTAINER ID        IMAGE                             COMMAND                  CREATED             STATUS              PORTS                    NAMES
+14e0d2388dca        fibonacciwebappbenchmark_node     &lt;span class="s2"&gt;&amp;quot;npm start&amp;quot;&lt;/span&gt;              &lt;span class="m"&gt;6&lt;/span&gt; seconds ago       Up &lt;span class="m"&gt;5&lt;/span&gt; seconds        0.0.0.0:8080-&amp;gt;8080/tcp   fibonacciwebappbenchmark_node_1
+8b1bdd070f83        fibonacciwebappbenchmark_ruby     &lt;span class="s2"&gt;&amp;quot;bundle exec ruby sin&amp;quot;&lt;/span&gt;   &lt;span class="m"&gt;23&lt;/span&gt; seconds ago      Up &lt;span class="m"&gt;22&lt;/span&gt; seconds       0.0.0.0:4567-&amp;gt;4567/tcp   fibonacciwebappbenchmark_ruby_1
+333360123b56        fibonacciwebappbenchmark_go       &lt;span class="s2"&gt;&amp;quot;go run martini.go&amp;quot;&lt;/span&gt;      &lt;span class="m"&gt;34&lt;/span&gt; seconds ago      Up &lt;span class="m"&gt;32&lt;/span&gt; seconds       0.0.0.0:3000-&amp;gt;3000/tcp   fibonacciwebappbenchmark_go_1
+df50829f511b        fibonacciwebappbenchmark_python   &lt;span class="s2"&gt;&amp;quot;python app.py&amp;quot;&lt;/span&gt;          &lt;span class="m"&gt;42&lt;/span&gt; seconds ago      Up &lt;span class="m"&gt;41&lt;/span&gt; seconds       0.0.0.0:5000-&amp;gt;5000/tcp   fibonacciwebappbenchmark_python_1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;性能测试（请求数10w，并发100）&lt;/h2&gt;
+&lt;h4&gt;Python + Flask&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ab -n &lt;span class="m"&gt;100000&lt;/span&gt; -c &lt;span class="m"&gt;100&lt;/span&gt; http://localhost:5000/10
+...
+Concurrency Level:      100
+Time taken &lt;span class="k"&gt;for&lt;/span&gt; tests:   168.322 seconds
+Complete requests:      100000
+Failed requests:        0
+Write errors:           0
+Total transferred:      &lt;span class="m"&gt;18400000&lt;/span&gt; bytes
+HTML transferred:       &lt;span class="m"&gt;2900000&lt;/span&gt; bytes
+Requests per second:    594.10 &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="c1"&gt;#/sec] (mean)&lt;/span&gt;
+Time per request:       168.322 &lt;span class="o"&gt;[&lt;/span&gt;ms&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;mean&lt;span class="o"&gt;)&lt;/span&gt;
+Time per request:       1.683 &lt;span class="o"&gt;[&lt;/span&gt;ms&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;mean, across all concurrent requests&lt;span class="o"&gt;)&lt;/span&gt;
+Transfer rate:          106.75 &lt;span class="o"&gt;[&lt;/span&gt;Kbytes/sec&lt;span class="o"&gt;]&lt;/span&gt; received
+
+Connection Times &lt;span class="o"&gt;(&lt;/span&gt;ms&lt;span class="o"&gt;)&lt;/span&gt;
+              min  mean&lt;span class="o"&gt;[&lt;/span&gt;+/-sd&lt;span class="o"&gt;]&lt;/span&gt; median   max
+Connect:        &lt;span class="m"&gt;0&lt;/span&gt;    &lt;span class="m"&gt;0&lt;/span&gt;   0.3      &lt;span class="m"&gt;0&lt;/span&gt;      12
+Processing:    &lt;span class="m"&gt;21&lt;/span&gt;  &lt;span class="m"&gt;168&lt;/span&gt;  15.3    &lt;span class="m"&gt;166&lt;/span&gt;     295
+Waiting:       &lt;span class="m"&gt;13&lt;/span&gt;  &lt;span class="m"&gt;167&lt;/span&gt;  15.1    &lt;span class="m"&gt;165&lt;/span&gt;     286
+Total:         &lt;span class="m"&gt;26&lt;/span&gt;  &lt;span class="m"&gt;168&lt;/span&gt;  15.3    &lt;span class="m"&gt;166&lt;/span&gt;     295
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Ruby + Sinatra&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ab -n &lt;span class="m"&gt;100000&lt;/span&gt; -c &lt;span class="m"&gt;100&lt;/span&gt; http://localhost:4567/10
+...
+Concurrency Level:      100
+Time taken &lt;span class="k"&gt;for&lt;/span&gt; tests:   496.401 seconds
+Complete requests:      100000
+Failed requests:        0
+Write errors:           0
+Total transferred:      &lt;span class="m"&gt;30700000&lt;/span&gt; bytes
+HTML transferred:       &lt;span class="m"&gt;3000000&lt;/span&gt; bytes
+Requests per second:    201.45 &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="c1"&gt;#/sec] (mean)&lt;/span&gt;
+Time per request:       496.401 &lt;span class="o"&gt;[&lt;/span&gt;ms&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;mean&lt;span class="o"&gt;)&lt;/span&gt;
+Time per request:       4.964 &lt;span class="o"&gt;[&lt;/span&gt;ms&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;mean, across all concurrent requests&lt;span class="o"&gt;)&lt;/span&gt;
+Transfer rate:          60.40 &lt;span class="o"&gt;[&lt;/span&gt;Kbytes/sec&lt;span class="o"&gt;]&lt;/span&gt; received
+
+Connection Times &lt;span class="o"&gt;(&lt;/span&gt;ms&lt;span class="o"&gt;)&lt;/span&gt;
+              min  mean&lt;span class="o"&gt;[&lt;/span&gt;+/-sd&lt;span class="o"&gt;]&lt;/span&gt; median   max
+Connect:        &lt;span class="m"&gt;0&lt;/span&gt;    &lt;span class="m"&gt;0&lt;/span&gt;   0.3      &lt;span class="m"&gt;0&lt;/span&gt;      14
+Processing:   &lt;span class="m"&gt;180&lt;/span&gt;  &lt;span class="m"&gt;493&lt;/span&gt; 522.3    &lt;span class="m"&gt;412&lt;/span&gt;   10507
+Waiting:      &lt;span class="m"&gt;177&lt;/span&gt;  &lt;span class="m"&gt;485&lt;/span&gt; 521.7    &lt;span class="m"&gt;404&lt;/span&gt;   10505
+Total:        &lt;span class="m"&gt;180&lt;/span&gt;  &lt;span class="m"&gt;493&lt;/span&gt; 522.3    &lt;span class="m"&gt;412&lt;/span&gt;   10507
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Go + Martini&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ab -n &lt;span class="m"&gt;100000&lt;/span&gt; -c &lt;span class="m"&gt;100&lt;/span&gt; http://localhost:3000/10
+...
+Concurrency Level:      100
+Time taken &lt;span class="k"&gt;for&lt;/span&gt; tests:   48.284 seconds
+Complete requests:      100000
+Failed requests:        0
+Write errors:           0
+Total transferred:      &lt;span class="m"&gt;15700000&lt;/span&gt; bytes
+HTML transferred:       &lt;span class="m"&gt;4100000&lt;/span&gt; bytes
+Requests per second:    2071.08 &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="c1"&gt;#/sec] (mean)&lt;/span&gt;
+Time per request:       48.284 &lt;span class="o"&gt;[&lt;/span&gt;ms&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;mean&lt;span class="o"&gt;)&lt;/span&gt;
+Time per request:       0.483 &lt;span class="o"&gt;[&lt;/span&gt;ms&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;mean, across all concurrent requests&lt;span class="o"&gt;)&lt;/span&gt;
+Transfer rate:          317.54 &lt;span class="o"&gt;[&lt;/span&gt;Kbytes/sec&lt;span class="o"&gt;]&lt;/span&gt; received
+
+Connection Times &lt;span class="o"&gt;(&lt;/span&gt;ms&lt;span class="o"&gt;)&lt;/span&gt;
+              min  mean&lt;span class="o"&gt;[&lt;/span&gt;+/-sd&lt;span class="o"&gt;]&lt;/span&gt; median   max
+Connect:        &lt;span class="m"&gt;0&lt;/span&gt;    &lt;span class="m"&gt;1&lt;/span&gt;   0.7      &lt;span class="m"&gt;1&lt;/span&gt;      14
+Processing:    &lt;span class="m"&gt;13&lt;/span&gt;   &lt;span class="m"&gt;47&lt;/span&gt;  12.0     &lt;span class="m"&gt;47&lt;/span&gt;     105
+Waiting:        &lt;span class="m"&gt;3&lt;/span&gt;   &lt;span class="m"&gt;35&lt;/span&gt;  10.4     &lt;span class="m"&gt;34&lt;/span&gt;      99
+Total:         &lt;span class="m"&gt;14&lt;/span&gt;   &lt;span class="m"&gt;48&lt;/span&gt;  12.0     &lt;span class="m"&gt;48&lt;/span&gt;     112
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Node + Express&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ab -n &lt;span class="m"&gt;100000&lt;/span&gt; -c &lt;span class="m"&gt;100&lt;/span&gt; http://localhost:8080/10
+...
+Concurrency Level:      100
+Time taken &lt;span class="k"&gt;for&lt;/span&gt; tests:   59.962 seconds
+Complete requests:      100000
+Failed requests:        0
+Write errors:           0
+Total transferred:      &lt;span class="m"&gt;20700000&lt;/span&gt; bytes
+HTML transferred:       &lt;span class="m"&gt;3000000&lt;/span&gt; bytes
+Requests per second:    1667.72 &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="c1"&gt;#/sec] (mean)&lt;/span&gt;
+Time per request:       59.962 &lt;span class="o"&gt;[&lt;/span&gt;ms&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;mean&lt;span class="o"&gt;)&lt;/span&gt;
+Time per request:       0.600 &lt;span class="o"&gt;[&lt;/span&gt;ms&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;mean, across all concurrent requests&lt;span class="o"&gt;)&lt;/span&gt;
+Transfer rate:          337.13 &lt;span class="o"&gt;[&lt;/span&gt;Kbytes/sec&lt;span class="o"&gt;]&lt;/span&gt; received
+
+Connection Times &lt;span class="o"&gt;(&lt;/span&gt;ms&lt;span class="o"&gt;)&lt;/span&gt;
+              min  mean&lt;span class="o"&gt;[&lt;/span&gt;+/-sd&lt;span class="o"&gt;]&lt;/span&gt; median   max
+Connect:        &lt;span class="m"&gt;0&lt;/span&gt;    &lt;span class="m"&gt;0&lt;/span&gt;   0.5      &lt;span class="m"&gt;0&lt;/span&gt;      20
+Processing:    &lt;span class="m"&gt;26&lt;/span&gt;   &lt;span class="m"&gt;59&lt;/span&gt;  11.2     &lt;span class="m"&gt;59&lt;/span&gt;     168
+Waiting:       &lt;span class="m"&gt;16&lt;/span&gt;   &lt;span class="m"&gt;56&lt;/span&gt;  10.8     &lt;span class="m"&gt;55&lt;/span&gt;     168
+Total:         &lt;span class="m"&gt;26&lt;/span&gt;   &lt;span class="m"&gt;60&lt;/span&gt;  11.1     &lt;span class="m"&gt;59&lt;/span&gt;     171
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;总结：&lt;/h2&gt;
+&lt;table class="table table-bordered"&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Web framework&lt;/th&gt;
+&lt;th align="center"&gt;avg&lt;/th&gt;
+&lt;th align="center"&gt;min&lt;/th&gt;
+&lt;th align="center"&gt;max&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Flask(Python)&lt;/td&gt;
+&lt;td align="center"&gt;168ms&lt;/td&gt;
+&lt;td align="center"&gt;26ms&lt;/td&gt;
+&lt;td align="center"&gt;295ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Sinatra(Ruby)&lt;/td&gt;
+&lt;td align="center"&gt;496ms&lt;/td&gt;
+&lt;td align="center"&gt;180ms&lt;/td&gt;
+&lt;td align="center"&gt;10507ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Martini(Go)&lt;/td&gt;
+&lt;td align="center"&gt;48ms&lt;/td&gt;
+&lt;td align="center"&gt;14ms&lt;/td&gt;
+&lt;td align="center"&gt;112ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Express(Node)&lt;/td&gt;
+&lt;td align="center"&gt;60ms&lt;/td&gt;
+&lt;td align="center"&gt;26ms&lt;/td&gt;
+&lt;td align="center"&gt;171ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;可见，&lt;a href="https://github.com/go-martini/martini"&gt;Matini&lt;/a&gt;(Golang)和&lt;a href="https://github.com/expressjs/express"&gt;Express&lt;/a&gt;(Node)性能优势比较明显，也在意料之中，&lt;a href="https://github.com/mitsuhiko/flask"&gt;Flask&lt;/a&gt;(Python)表现中规中矩，相较之下，&lt;a href="https://github.com/sinatra/sinatra"&gt;Sinatra&lt;/a&gt;(Ruby)的性能简直是没法忍（PS: 我不是Ruby黑）！感兴趣的亲们可以在自己的环境测试下。完。&lt;/p&gt;
+&lt;p&gt;参考链接：&lt;br /&gt;
+&lt;a href="https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison"&gt;https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/&lt;/a&gt;&lt;br /&gt;
+&lt;a href="https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.6katm1qn2"&gt;https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.6katm1qn2&lt;/a&gt;&lt;/p&gt;</summary><category term="Flask"></category><category term="Sinatra"></category><category term="Martini"></category><category term="Express"></category><category term="Performance"></category></entry></feed>

@@ -6,7 +6,7 @@
     <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
     <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
     <link href="http://startover.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Full Atom Feed" />
-    <link href="http://startover.github.io/feeds/python-ruby-go-node.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Categories Atom Feed" />
+    <link href="http://startover.github.io/feeds/benchmark.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Categories Atom Feed" />
     <link rel="stylesheet" href="http://startover.github.io/theme/css/screen.css" type="text/css" />
     <link rel="stylesheet" href="http://startover.github.io/theme/css/pygments.css" type="text/css" />
     <link rel="stylesheet" href="http://startover.github.io/theme/css/print.css" type="text/css" media="print" />
@@ -35,19 +35,19 @@
         </div>
     </header>
     <div id="wrapper">
-        <div id="content">        <h4 class="date">Mar 15, 2016</h4>
+        <div id="content">        <h4 class="date"> 3月 15, 2016</h4>
 
     <article class="post">
             <h2 class="title">
                 <a href="http://startover.github.io/articles/2016/03/15/python-ruby-go-node-benchmark/" rel="bookmark" title="Permanent Link to &quot;Python Flask vs Ruby Sinatra vs Go Martini vs Node Express&quot;">Python Flask vs Ruby Sinatra vs Go Martini vs Node Express</a>
             </h2>
 
-            <p>题外话一：<br />
-最近一段时间，Cloud Insight接连发布了三种语言（Python, Node, Ruby）的SDK，Cloud Insight Agent也迎来了重大突破，发布了Windows监控第一个版本，总算可以松口气写点东西了~</p>
-<p>题外话二：<br />
-偶然的机会看到一篇<a href="https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/">blog</a>，文中详细的介绍了<a href="https://github.com/mitsuhiko/flask">Flask</a>(Python), <a href="https://github.com/sinatra/sinatra">Sinatra</a>(Ruby)以及 <a href="https://github.com/go-martini/martini">Matini</a>(Golang)这三类微型框架的用法，并提供了各个框架在Docker下的部署方式。然而，美中不足的是没有提供各个框架的性能对比情况，经过一番搜罗，发现了一篇对现今主流框架做性能对比的<a href="https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.vticwh9tn">文章</a>，找到两者的结合点，于是才有了今天这篇文章~</p>
+            <p><em>题外话一</em>：<br />
+最近一段时间，Cloud Insight接连发布了三种语言（Python, Node, Ruby）的SDK，Cloud Insight Agent也迎来了重大突破，发布了<a href="http://www.oneapm.com/ci/windows.html">Windows监控</a>第一个版本，总算可以松口气写点东西了...</p>
+<p><em>题外话二</em>：<br />
+偶然的机会看到一篇<a href="https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/">blog</a>，文中详细介绍了<a href="https://github.com/mitsuhiko/flask">Flask</a>(Python), <a href="https://github.com/sinatra/sinatra">Sinatra</a>(Ruby)以及<a href="https://github.com/go-martini/martini">Matini</a>(Golang)这三类微型框架的用法，并提供了各个框架在Docker下的部署方式。然而，美中不足的是没有提供各个框架的性能对比情况，经过一番搜罗，发现了一篇对现今主流框架做<a href="https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.vticwh9tn">性能对比的文章</a>，找到两者的结合点，于是才有了今天这篇文章 :)</p>
 <hr />
-<p>回归正题，之所以选择<a href="https://github.com/mitsuhiko/flask">Flask</a>(Python), <a href="https://github.com/sinatra/sinatra">Sinatra</a>(Ruby),  <a href="https://github.com/go-martini/martini">Matini</a>(Golang)和<a href="https://github.com/expressjs/express">Express</a>(Node)，主要是经验所限以及个人比较喜欢这类微型框架，下面我们就对各个框架在同等条件下的性能表现一探究竟。</p>
+<p>回归正题，之所以选择<a href="https://github.com/mitsuhiko/flask">Flask</a>(Python), <a href="https://github.com/sinatra/sinatra">Sinatra</a>(Ruby), <a href="https://github.com/go-martini/martini">Matini</a>(Golang)和<a href="https://github.com/expressjs/express">Express</a>(Node)，主要是经验所限以及个人比较喜欢这类微型框架，下面我们就对各个框架在同等条件下的性能表现一探究竟。</p>
 <p>本文源码地址：<a href="https://github.com/startover/fibonacci-webapp-benchmark">https://github.com/startover/fibonacci-webapp-benchmark</a></p>
 <h2>环境准备：</h2>
 <ul>
@@ -64,167 +64,170 @@
 </li>
 </ul>
 <h2>启动容器</h2>
-<div class="highlight"><pre><span class="nv">$</span> <span class="nv">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nv">@github</span><span class="o">.</span><span class="n">com:startover</span><span class="o">/</span><span class="n">fibonacci</span><span class="o">-</span><span class="n">webapp</span><span class="o">-</span><span class="n">benchmark</span><span class="o">.</span><span class="n">git</span>
-<span class="nv">$</span> <span class="nv">cd</span> <span class="n">fibonacci</span><span class="o">-</span><span class="n">webapp</span><span class="o">-</span><span class="n">benchmark</span>
-<span class="nv">$</span> <span class="err">./</span><span class="nv">docker</span><span class="o">-</span><span class="n">compose</span> <span class="n">up</span> <span class="o">-</span><span class="n">d</span>
-<span class="n">Recreating</span> <span class="n">fibonacciwebappbenchmark_python_1</span><span class="o">...</span>
-<span class="n">Recreating</span> <span class="n">fibonacciwebappbenchmark_go_1</span><span class="o">...</span>
-<span class="n">Recreating</span> <span class="n">fibonacciwebappbenchmark_ruby_1</span><span class="o">...</span>
-<span class="n">Recreating</span> <span class="n">fibonacciwebappbenchmark_node_1</span><span class="o">...</span>
-<span class="nv">$</span> <span class="nv">docker</span> <span class="n">ps</span>
-<span class="n">CONTAINER</span> <span class="n">ID</span>        <span class="n">IMAGE</span>                             <span class="n">COMMAND</span>                  <span class="n">CREATED</span>             <span class="n">STATUS</span>              <span class="n">PORTS</span>                    <span class="n">NAMES</span>
-<span class="mf">14e0</span><span class="n">d2388dca</span>        <span class="n">fibonacciwebappbenchmark_node</span>     <span class="s">&quot;npm start&quot;</span>              <span class="mi">6</span> <span class="n">seconds</span> <span class="n">ago</span>       <span class="n">Up</span> <span class="mi">5</span> <span class="n">seconds</span>        <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">8080</span><span class="o">-&gt;</span><span class="mi">8080</span><span class="o">/</span><span class="n">tcp</span>   <span class="n">fibonacciwebappbenchmark_node_1</span>
-<span class="mi">8</span><span class="n">b1bdd070f83</span>        <span class="n">fibonacciwebappbenchmark_ruby</span>     <span class="s">&quot;bundle exec ruby sin&quot;</span>   <span class="mi">23</span> <span class="n">seconds</span> <span class="n">ago</span>      <span class="n">Up</span> <span class="mi">22</span> <span class="n">seconds</span>       <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">4567</span><span class="o">-&gt;</span><span class="mi">4567</span><span class="o">/</span><span class="n">tcp</span>   <span class="n">fibonacciwebappbenchmark_ruby_1</span>
-<span class="mi">333360123</span><span class="n">b56</span>        <span class="n">fibonacciwebappbenchmark_go</span>       <span class="s">&quot;go run martini.go&quot;</span>      <span class="mi">34</span> <span class="n">seconds</span> <span class="n">ago</span>      <span class="n">Up</span> <span class="mi">32</span> <span class="n">seconds</span>       <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">3000</span><span class="o">-&gt;</span><span class="mi">3000</span><span class="o">/</span><span class="n">tcp</span>   <span class="n">fibonacciwebappbenchmark_go_1</span>
-<span class="n">df50829f511b</span>        <span class="n">fibonacciwebappbenchmark_python</span>   <span class="s">&quot;python app.py&quot;</span>          <span class="mi">42</span> <span class="n">seconds</span> <span class="n">ago</span>      <span class="n">Up</span> <span class="mi">41</span> <span class="n">seconds</span>       <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">5000</span><span class="o">-&gt;</span><span class="mi">5000</span><span class="o">/</span><span class="n">tcp</span>   <span class="n">fibonacciwebappbenchmark_python_1</span>
+<div class="highlight"><pre><span></span>$ git clone git@github.com:startover/fibonacci-webapp-benchmark.git
+$ <span class="nb">cd</span> fibonacci-webapp-benchmark
+$ ./docker-compose up -d
+Recreating fibonacciwebappbenchmark_python_1...
+Recreating fibonacciwebappbenchmark_go_1...
+Recreating fibonacciwebappbenchmark_ruby_1...
+Recreating fibonacciwebappbenchmark_node_1...
+$ docker ps
+CONTAINER ID        IMAGE                             COMMAND                  CREATED             STATUS              PORTS                    NAMES
+14e0d2388dca        fibonacciwebappbenchmark_node     <span class="s2">&quot;npm start&quot;</span>              <span class="m">6</span> seconds ago       Up <span class="m">5</span> seconds        0.0.0.0:8080-&gt;8080/tcp   fibonacciwebappbenchmark_node_1
+8b1bdd070f83        fibonacciwebappbenchmark_ruby     <span class="s2">&quot;bundle exec ruby sin&quot;</span>   <span class="m">23</span> seconds ago      Up <span class="m">22</span> seconds       0.0.0.0:4567-&gt;4567/tcp   fibonacciwebappbenchmark_ruby_1
+333360123b56        fibonacciwebappbenchmark_go       <span class="s2">&quot;go run martini.go&quot;</span>      <span class="m">34</span> seconds ago      Up <span class="m">32</span> seconds       0.0.0.0:3000-&gt;3000/tcp   fibonacciwebappbenchmark_go_1
+df50829f511b        fibonacciwebappbenchmark_python   <span class="s2">&quot;python app.py&quot;</span>          <span class="m">42</span> seconds ago      Up <span class="m">41</span> seconds       0.0.0.0:5000-&gt;5000/tcp   fibonacciwebappbenchmark_python_1
 </pre></div>
 
 
 <h2>性能测试（请求数10w，并发100）</h2>
 <h4>Python + Flask</h4>
-<div class="highlight"><pre><span class="nv">$</span> <span class="nv">ab</span> <span class="o">-</span><span class="n">n</span> <span class="mi">100000</span> <span class="o">-</span><span class="n">c</span> <span class="mi">100</span> <span class="n">http:</span><span class="sr">//</span><span class="n">localhost:5000</span><span class="o">/</span><span class="mi">10</span>
-<span class="o">...</span>
-<span class="n">Concurrency</span> <span class="n">Level:</span>      <span class="mi">100</span>
-<span class="n">Time</span> <span class="n">taken</span> <span class="k">for</span> <span class="n">tests:</span>   <span class="mf">168.322</span> <span class="n">seconds</span>
-<span class="n">Complete</span> <span class="n">requests:</span>      <span class="mi">100000</span>
-<span class="n">Failed</span> <span class="n">requests:</span>        <span class="mi">0</span>
-<span class="n">Write</span> <span class="n">errors:</span>           <span class="mi">0</span>
-<span class="n">Total</span> <span class="n">transferred:</span>      <span class="mi">18400000</span> <span class="n">bytes</span>
-<span class="n">HTML</span> <span class="n">transferred:</span>       <span class="mi">2900000</span> <span class="n">bytes</span>
-<span class="n">Requests</span> <span class="n">per</span> <span class="n">second:</span>    <span class="mf">594.10</span> <span class="p">[</span><span class="c1">#/sec] (mean)</span>
-<span class="n">Time</span> <span class="n">per</span> <span class="n">request:</span>       <span class="mf">168.322</span> <span class="p">[</span><span class="n">ms</span><span class="p">]</span> <span class="p">(</span><span class="n">mean</span><span class="p">)</span>
-<span class="n">Time</span> <span class="n">per</span> <span class="n">request:</span>       <span class="mf">1.683</span> <span class="p">[</span><span class="n">ms</span><span class="p">]</span> <span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">across</span> <span class="n">all</span> <span class="n">concurrent</span> <span class="n">requests</span><span class="p">)</span>
-<span class="n">Transfer</span> <span class="n">rate:</span>          <span class="mf">106.75</span> <span class="p">[</span><span class="n">Kbytes</span><span class="o">/</span><span class="n">sec</span><span class="p">]</span> <span class="n">received</span>
+<div class="highlight"><pre><span></span>$ ab -n <span class="m">100000</span> -c <span class="m">100</span> http://localhost:5000/10
+...
+Concurrency Level:      100
+Time taken <span class="k">for</span> tests:   168.322 seconds
+Complete requests:      100000
+Failed requests:        0
+Write errors:           0
+Total transferred:      <span class="m">18400000</span> bytes
+HTML transferred:       <span class="m">2900000</span> bytes
+Requests per second:    594.10 <span class="o">[</span><span class="c1">#/sec] (mean)</span>
+Time per request:       168.322 <span class="o">[</span>ms<span class="o">]</span> <span class="o">(</span>mean<span class="o">)</span>
+Time per request:       1.683 <span class="o">[</span>ms<span class="o">]</span> <span class="o">(</span>mean, across all concurrent requests<span class="o">)</span>
+Transfer rate:          106.75 <span class="o">[</span>Kbytes/sec<span class="o">]</span> received
 
-<span class="n">Connection</span> <span class="n">Times</span> <span class="p">(</span><span class="n">ms</span><span class="p">)</span>
-              <span class="n">min</span>  <span class="n">mean</span><span class="p">[</span><span class="o">+/-</span><span class="n">sd</span><span class="p">]</span> <span class="n">median</span>   <span class="n">max</span>
-<span class="n">Connect:</span>        <span class="mi">0</span>    <span class="mi">0</span>   <span class="mf">0.3</span>      <span class="mi">0</span>      <span class="mi">12</span>
-<span class="n">Processing:</span>    <span class="mi">21</span>  <span class="mi">168</span>  <span class="mf">15.3</span>    <span class="mi">166</span>     <span class="mi">295</span>
-<span class="n">Waiting:</span>       <span class="mi">13</span>  <span class="mi">167</span>  <span class="mf">15.1</span>    <span class="mi">165</span>     <span class="mi">286</span>
-<span class="n">Total:</span>         <span class="mi">26</span>  <span class="mi">168</span>  <span class="mf">15.3</span>    <span class="mi">166</span>     <span class="mi">295</span>
-<span class="o">...</span>
+Connection Times <span class="o">(</span>ms<span class="o">)</span>
+              min  mean<span class="o">[</span>+/-sd<span class="o">]</span> median   max
+Connect:        <span class="m">0</span>    <span class="m">0</span>   0.3      <span class="m">0</span>      12
+Processing:    <span class="m">21</span>  <span class="m">168</span>  15.3    <span class="m">166</span>     295
+Waiting:       <span class="m">13</span>  <span class="m">167</span>  15.1    <span class="m">165</span>     286
+Total:         <span class="m">26</span>  <span class="m">168</span>  15.3    <span class="m">166</span>     295
+...
 </pre></div>
 
 
 <h4>Ruby + Sinatra</h4>
-<div class="highlight"><pre><span class="nv">$</span> <span class="nv">ab</span> <span class="o">-</span><span class="n">n</span> <span class="mi">100000</span> <span class="o">-</span><span class="n">c</span> <span class="mi">100</span> <span class="n">http:</span><span class="sr">//</span><span class="n">localhost:4567</span><span class="o">/</span><span class="mi">10</span>
-<span class="o">...</span>
-<span class="n">Concurrency</span> <span class="n">Level:</span>      <span class="mi">100</span>
-<span class="n">Time</span> <span class="n">taken</span> <span class="k">for</span> <span class="n">tests:</span>   <span class="mf">496.401</span> <span class="n">seconds</span>
-<span class="n">Complete</span> <span class="n">requests:</span>      <span class="mi">100000</span>
-<span class="n">Failed</span> <span class="n">requests:</span>        <span class="mi">0</span>
-<span class="n">Write</span> <span class="n">errors:</span>           <span class="mi">0</span>
-<span class="n">Total</span> <span class="n">transferred:</span>      <span class="mi">30700000</span> <span class="n">bytes</span>
-<span class="n">HTML</span> <span class="n">transferred:</span>       <span class="mi">3000000</span> <span class="n">bytes</span>
-<span class="n">Requests</span> <span class="n">per</span> <span class="n">second:</span>    <span class="mf">201.45</span> <span class="p">[</span><span class="c1">#/sec] (mean)</span>
-<span class="n">Time</span> <span class="n">per</span> <span class="n">request:</span>       <span class="mf">496.401</span> <span class="p">[</span><span class="n">ms</span><span class="p">]</span> <span class="p">(</span><span class="n">mean</span><span class="p">)</span>
-<span class="n">Time</span> <span class="n">per</span> <span class="n">request:</span>       <span class="mf">4.964</span> <span class="p">[</span><span class="n">ms</span><span class="p">]</span> <span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">across</span> <span class="n">all</span> <span class="n">concurrent</span> <span class="n">requests</span><span class="p">)</span>
-<span class="n">Transfer</span> <span class="n">rate:</span>          <span class="mf">60.40</span> <span class="p">[</span><span class="n">Kbytes</span><span class="o">/</span><span class="n">sec</span><span class="p">]</span> <span class="n">received</span>
+<div class="highlight"><pre><span></span>$ ab -n <span class="m">100000</span> -c <span class="m">100</span> http://localhost:4567/10
+...
+Concurrency Level:      100
+Time taken <span class="k">for</span> tests:   496.401 seconds
+Complete requests:      100000
+Failed requests:        0
+Write errors:           0
+Total transferred:      <span class="m">30700000</span> bytes
+HTML transferred:       <span class="m">3000000</span> bytes
+Requests per second:    201.45 <span class="o">[</span><span class="c1">#/sec] (mean)</span>
+Time per request:       496.401 <span class="o">[</span>ms<span class="o">]</span> <span class="o">(</span>mean<span class="o">)</span>
+Time per request:       4.964 <span class="o">[</span>ms<span class="o">]</span> <span class="o">(</span>mean, across all concurrent requests<span class="o">)</span>
+Transfer rate:          60.40 <span class="o">[</span>Kbytes/sec<span class="o">]</span> received
 
-<span class="n">Connection</span> <span class="n">Times</span> <span class="p">(</span><span class="n">ms</span><span class="p">)</span>
-              <span class="n">min</span>  <span class="n">mean</span><span class="p">[</span><span class="o">+/-</span><span class="n">sd</span><span class="p">]</span> <span class="n">median</span>   <span class="n">max</span>
-<span class="n">Connect:</span>        <span class="mi">0</span>    <span class="mi">0</span>   <span class="mf">0.3</span>      <span class="mi">0</span>      <span class="mi">14</span>
-<span class="n">Processing:</span>   <span class="mi">180</span>  <span class="mi">493</span> <span class="mf">522.3</span>    <span class="mi">412</span>   <span class="mi">10507</span>
-<span class="n">Waiting:</span>      <span class="mi">177</span>  <span class="mi">485</span> <span class="mf">521.7</span>    <span class="mi">404</span>   <span class="mi">10505</span>
-<span class="n">Total:</span>        <span class="mi">180</span>  <span class="mi">493</span> <span class="mf">522.3</span>    <span class="mi">412</span>   <span class="mi">10507</span>
-<span class="o">...</span>
+Connection Times <span class="o">(</span>ms<span class="o">)</span>
+              min  mean<span class="o">[</span>+/-sd<span class="o">]</span> median   max
+Connect:        <span class="m">0</span>    <span class="m">0</span>   0.3      <span class="m">0</span>      14
+Processing:   <span class="m">180</span>  <span class="m">493</span> 522.3    <span class="m">412</span>   10507
+Waiting:      <span class="m">177</span>  <span class="m">485</span> 521.7    <span class="m">404</span>   10505
+Total:        <span class="m">180</span>  <span class="m">493</span> 522.3    <span class="m">412</span>   10507
+...
 </pre></div>
 
 
 <h4>Go + Martini</h4>
-<div class="highlight"><pre><span class="nv">$</span> <span class="nv">ab</span> <span class="o">-</span><span class="n">n</span> <span class="mi">100000</span> <span class="o">-</span><span class="n">c</span> <span class="mi">100</span> <span class="n">http:</span><span class="sr">//</span><span class="n">localhost:3000</span><span class="o">/</span><span class="mi">10</span>
-<span class="o">...</span>
-<span class="n">Concurrency</span> <span class="n">Level:</span>      <span class="mi">100</span>
-<span class="n">Time</span> <span class="n">taken</span> <span class="k">for</span> <span class="n">tests:</span>   <span class="mf">48.284</span> <span class="n">seconds</span>
-<span class="n">Complete</span> <span class="n">requests:</span>      <span class="mi">100000</span>
-<span class="n">Failed</span> <span class="n">requests:</span>        <span class="mi">0</span>
-<span class="n">Write</span> <span class="n">errors:</span>           <span class="mi">0</span>
-<span class="n">Total</span> <span class="n">transferred:</span>      <span class="mi">15700000</span> <span class="n">bytes</span>
-<span class="n">HTML</span> <span class="n">transferred:</span>       <span class="mi">4100000</span> <span class="n">bytes</span>
-<span class="n">Requests</span> <span class="n">per</span> <span class="n">second:</span>    <span class="mf">2071.08</span> <span class="p">[</span><span class="c1">#/sec] (mean)</span>
-<span class="n">Time</span> <span class="n">per</span> <span class="n">request:</span>       <span class="mf">48.284</span> <span class="p">[</span><span class="n">ms</span><span class="p">]</span> <span class="p">(</span><span class="n">mean</span><span class="p">)</span>
-<span class="n">Time</span> <span class="n">per</span> <span class="n">request:</span>       <span class="mf">0.483</span> <span class="p">[</span><span class="n">ms</span><span class="p">]</span> <span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">across</span> <span class="n">all</span> <span class="n">concurrent</span> <span class="n">requests</span><span class="p">)</span>
-<span class="n">Transfer</span> <span class="n">rate:</span>          <span class="mf">317.54</span> <span class="p">[</span><span class="n">Kbytes</span><span class="o">/</span><span class="n">sec</span><span class="p">]</span> <span class="n">received</span>
+<div class="highlight"><pre><span></span>$ ab -n <span class="m">100000</span> -c <span class="m">100</span> http://localhost:3000/10
+...
+Concurrency Level:      100
+Time taken <span class="k">for</span> tests:   48.284 seconds
+Complete requests:      100000
+Failed requests:        0
+Write errors:           0
+Total transferred:      <span class="m">15700000</span> bytes
+HTML transferred:       <span class="m">4100000</span> bytes
+Requests per second:    2071.08 <span class="o">[</span><span class="c1">#/sec] (mean)</span>
+Time per request:       48.284 <span class="o">[</span>ms<span class="o">]</span> <span class="o">(</span>mean<span class="o">)</span>
+Time per request:       0.483 <span class="o">[</span>ms<span class="o">]</span> <span class="o">(</span>mean, across all concurrent requests<span class="o">)</span>
+Transfer rate:          317.54 <span class="o">[</span>Kbytes/sec<span class="o">]</span> received
 
-<span class="n">Connection</span> <span class="n">Times</span> <span class="p">(</span><span class="n">ms</span><span class="p">)</span>
-              <span class="n">min</span>  <span class="n">mean</span><span class="p">[</span><span class="o">+/-</span><span class="n">sd</span><span class="p">]</span> <span class="n">median</span>   <span class="n">max</span>
-<span class="n">Connect:</span>        <span class="mi">0</span>    <span class="mi">1</span>   <span class="mf">0.7</span>      <span class="mi">1</span>      <span class="mi">14</span>
-<span class="n">Processing:</span>    <span class="mi">13</span>   <span class="mi">47</span>  <span class="mf">12.0</span>     <span class="mi">47</span>     <span class="mi">105</span>
-<span class="n">Waiting:</span>        <span class="mi">3</span>   <span class="mi">35</span>  <span class="mf">10.4</span>     <span class="mi">34</span>      <span class="mi">99</span>
-<span class="n">Total:</span>         <span class="mi">14</span>   <span class="mi">48</span>  <span class="mf">12.0</span>     <span class="mi">48</span>     <span class="mi">112</span>
-<span class="o">...</span>
+Connection Times <span class="o">(</span>ms<span class="o">)</span>
+              min  mean<span class="o">[</span>+/-sd<span class="o">]</span> median   max
+Connect:        <span class="m">0</span>    <span class="m">1</span>   0.7      <span class="m">1</span>      14
+Processing:    <span class="m">13</span>   <span class="m">47</span>  12.0     <span class="m">47</span>     105
+Waiting:        <span class="m">3</span>   <span class="m">35</span>  10.4     <span class="m">34</span>      99
+Total:         <span class="m">14</span>   <span class="m">48</span>  12.0     <span class="m">48</span>     112
+...
 </pre></div>
 
 
 <h4>Node + Express</h4>
-<div class="highlight"><pre><span class="nv">$</span> <span class="nv">ab</span> <span class="o">-</span><span class="n">n</span> <span class="mi">100000</span> <span class="o">-</span><span class="n">c</span> <span class="mi">100</span> <span class="n">http:</span><span class="sr">//</span><span class="n">localhost:8080</span><span class="o">/</span><span class="mi">10</span>
-<span class="o">...</span>
-<span class="n">Concurrency</span> <span class="n">Level:</span>      <span class="mi">100</span>
-<span class="n">Time</span> <span class="n">taken</span> <span class="k">for</span> <span class="n">tests:</span>   <span class="mf">59.962</span> <span class="n">seconds</span>
-<span class="n">Complete</span> <span class="n">requests:</span>      <span class="mi">100000</span>
-<span class="n">Failed</span> <span class="n">requests:</span>        <span class="mi">0</span>
-<span class="n">Write</span> <span class="n">errors:</span>           <span class="mi">0</span>
-<span class="n">Total</span> <span class="n">transferred:</span>      <span class="mi">20700000</span> <span class="n">bytes</span>
-<span class="n">HTML</span> <span class="n">transferred:</span>       <span class="mi">3000000</span> <span class="n">bytes</span>
-<span class="n">Requests</span> <span class="n">per</span> <span class="n">second:</span>    <span class="mf">1667.72</span> <span class="p">[</span><span class="c1">#/sec] (mean)</span>
-<span class="n">Time</span> <span class="n">per</span> <span class="n">request:</span>       <span class="mf">59.962</span> <span class="p">[</span><span class="n">ms</span><span class="p">]</span> <span class="p">(</span><span class="n">mean</span><span class="p">)</span>
-<span class="n">Time</span> <span class="n">per</span> <span class="n">request:</span>       <span class="mf">0.600</span> <span class="p">[</span><span class="n">ms</span><span class="p">]</span> <span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">across</span> <span class="n">all</span> <span class="n">concurrent</span> <span class="n">requests</span><span class="p">)</span>
-<span class="n">Transfer</span> <span class="n">rate:</span>          <span class="mf">337.13</span> <span class="p">[</span><span class="n">Kbytes</span><span class="o">/</span><span class="n">sec</span><span class="p">]</span> <span class="n">received</span>
+<div class="highlight"><pre><span></span>$ ab -n <span class="m">100000</span> -c <span class="m">100</span> http://localhost:8080/10
+...
+Concurrency Level:      100
+Time taken <span class="k">for</span> tests:   59.962 seconds
+Complete requests:      100000
+Failed requests:        0
+Write errors:           0
+Total transferred:      <span class="m">20700000</span> bytes
+HTML transferred:       <span class="m">3000000</span> bytes
+Requests per second:    1667.72 <span class="o">[</span><span class="c1">#/sec] (mean)</span>
+Time per request:       59.962 <span class="o">[</span>ms<span class="o">]</span> <span class="o">(</span>mean<span class="o">)</span>
+Time per request:       0.600 <span class="o">[</span>ms<span class="o">]</span> <span class="o">(</span>mean, across all concurrent requests<span class="o">)</span>
+Transfer rate:          337.13 <span class="o">[</span>Kbytes/sec<span class="o">]</span> received
 
-<span class="n">Connection</span> <span class="n">Times</span> <span class="p">(</span><span class="n">ms</span><span class="p">)</span>
-              <span class="n">min</span>  <span class="n">mean</span><span class="p">[</span><span class="o">+/-</span><span class="n">sd</span><span class="p">]</span> <span class="n">median</span>   <span class="n">max</span>
-<span class="n">Connect:</span>        <span class="mi">0</span>    <span class="mi">0</span>   <span class="mf">0.5</span>      <span class="mi">0</span>      <span class="mi">20</span>
-<span class="n">Processing:</span>    <span class="mi">26</span>   <span class="mi">59</span>  <span class="mf">11.2</span>     <span class="mi">59</span>     <span class="mi">168</span>
-<span class="n">Waiting:</span>       <span class="mi">16</span>   <span class="mi">56</span>  <span class="mf">10.8</span>     <span class="mi">55</span>     <span class="mi">168</span>
-<span class="n">Total:</span>         <span class="mi">26</span>   <span class="mi">60</span>  <span class="mf">11.1</span>     <span class="mi">59</span>     <span class="mi">171</span>
-<span class="o">...</span>
+Connection Times <span class="o">(</span>ms<span class="o">)</span>
+              min  mean<span class="o">[</span>+/-sd<span class="o">]</span> median   max
+Connect:        <span class="m">0</span>    <span class="m">0</span>   0.5      <span class="m">0</span>      20
+Processing:    <span class="m">26</span>   <span class="m">59</span>  11.2     <span class="m">59</span>     168
+Waiting:       <span class="m">16</span>   <span class="m">56</span>  10.8     <span class="m">55</span>     168
+Total:         <span class="m">26</span>   <span class="m">60</span>  11.1     <span class="m">59</span>     171
+...
 </pre></div>
 
 
 <h2>总结：</h2>
-<table class="table table-bordered table-striped table-condensed">
-    <tr>
-        <td> </td>
-        <td>avg(ms) </td>
-        <td>min(ms) </td>
-        <td>max(ms)</td>
-    </tr>
-    <tr>
-        <td>Flask(Python) </td>
-        <td>168 </td>
-        <td>26 </td>
-        <td>295</td>
-    </tr>
-    <tr>
-        <td>Sinatra(Ruby) </td>
-        <td>496 </td>
-        <td>180 </td>
-        <td>10507</td>
-    </tr>
-    <tr>
-        <td>Martini(Go) </td>
-        <td>48 </td>
-        <td>14 </td>
-        <td>112</td>
-    </tr>
-    <tr>
-        <td>Express(Node) </td>
-        <td>60 </td>
-        <td>26 </td>
-        <td>171</td>
-    </tr>
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Web framework</th>
+<th align="center">avg</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flask(Python)</td>
+<td align="center">168ms</td>
+<td align="center">26ms</td>
+<td align="center">295ms</td>
+</tr>
+<tr>
+<td>Sinatra(Ruby)</td>
+<td align="center">496ms</td>
+<td align="center">180ms</td>
+<td align="center">10507ms</td>
+</tr>
+<tr>
+<td>Martini(Go)</td>
+<td align="center">48ms</td>
+<td align="center">14ms</td>
+<td align="center">112ms</td>
+</tr>
+<tr>
+<td>Express(Node)</td>
+<td align="center">60ms</td>
+<td align="center">26ms</td>
+<td align="center">171ms</td>
+</tr>
+</tbody>
 </table>
-
 <p>可见，<a href="https://github.com/go-martini/martini">Matini</a>(Golang)和<a href="https://github.com/expressjs/express">Express</a>(Node)性能优势比较明显，也在意料之中，<a href="https://github.com/mitsuhiko/flask">Flask</a>(Python)表现中规中矩，相较之下，<a href="https://github.com/sinatra/sinatra">Sinatra</a>(Ruby)的性能简直是没法忍（PS: 我不是Ruby黑）！感兴趣的亲们可以在自己的环境测试下。完。</p>
 <p>参考链接：<br />
-<a href="https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison">https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/</a>
+<a href="https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison">https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/</a><br />
 <a href="https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.6katm1qn2">https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.6katm1qn2</a></p>
 
         <div class="clear"></div>
 
         <div class="info">
             <a href="http://startover.github.io/articles/2016/03/15/python-ruby-go-node-benchmark/">posted at 14:21</a>
-            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/python-ruby-go-node/" rel="tag">Python, Ruby, Go, Node</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/benchmark/" rel="tag">Benchmark</a>
             &nbsp;&middot;
             &nbsp;<a href="http://startover.github.io/tag/flask/" class="tags">Flask</a>
             &nbsp;<a href="http://startover.github.io/tag/sinatra/" class="tags">Sinatra</a>

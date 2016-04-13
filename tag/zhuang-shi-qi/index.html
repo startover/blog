@@ -33,7 +33,7 @@
         </div>
     </header>
     <div id="wrapper">
-        <div id="content">        <h4 class="date">Apr 27, 2015</h4>
+        <div id="content">        <h4 class="date"> 4月 27, 2015</h4>
 
     <article class="post">
             <h2 class="title">
@@ -43,35 +43,35 @@
             <div class="entry-content"> <h2><strong>装饰器基本概念</strong></h2>
 <p>大家都知道装饰器是一个很著名的设计模式，经常被用于AOP(面向切面编程)的场景，较为经典的有插入日志，性能测试，事务处理，Web权限校验，Cache等。</p>
 <p>Python语言本身提供了装饰器语法（@），典型的装饰器实现如下：</p>
-<div class="highlight"><pre>    <span class="nd">@function_wrapper</span>
-    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-        <span class="k">pass</span>
+<div class="highlight"><pre><span></span><span class="nd">@function_wrapper</span>
+<span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+    <span class="k">pass</span>
 </pre></div>
 
 
 <p>@实际上是python2.4才提出的语法糖，针对python2.4以前的版本有另一种等价的实现：</p>
-<div class="highlight"><pre>    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-        <span class="k">pass</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+    <span class="k">pass</span>
 
-    <span class="n">function</span> <span class="o">=</span> <span class="n">function_wrapper</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+<span class="n">function</span> <span class="o">=</span> <span class="n">function_wrapper</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 </pre></div>
 
 
 <h2><strong>装饰器的两种实现</strong></h2>
 <p><strong>函数包装器 - 经典实现</strong></p>
-<div class="highlight"><pre>    <span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">_wrapper</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_wrapper</span>
 
-    <span class="nd">@function_wrapper</span>
-    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-        <span class="k">pass</span>
+<span class="nd">@function_wrapper</span>
+<span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+    <span class="k">pass</span>
 </pre></div>
 
 
-<p><strong>类包装器 - 易于理解</strong></p>
-<div class="highlight"><pre>    <span class="k">class</span> <span class="nc">function_wrapper ...</span></pre></div> </div>
+<p><strong>类包装器 - 更易于理解</strong></p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">function_wrapper ...</span></pre></div> </div>
             <div class="medium primary btn"><a href="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/" rel="bookmark" title="Permalink to Python - 装饰器使用过程中的误区">Read more <i class="icon-arrow-right"></i></a></div>
 
         <div class="clear"></div>

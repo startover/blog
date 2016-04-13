@@ -33,7 +33,7 @@
         </div>
     </header>
     <div id="wrapper">
-        <div id="content">        <h4 class="date">Jun 06, 2015</h4>
+        <div id="content">        <h4 class="date"> 6月 06, 2015</h4>
 
     <article class="post">
             <h2 class="title">
@@ -44,7 +44,7 @@
 <p>今天我们来谈论下mock的使用。当然，请不要误会，这里的mock可不是嘲弄的意思。mock是一门技术，通过伪造部分实际代码，从而让我们能够验证剩余代码的正确性。现在我们将通过几个简单的示例演示mock在Python测试代码中的使用，以及这项极其有用的技术是如何帮助我们改善测试代码的。</p>
 <h2>为什么我们需要mock？</h2>
 <p>当我们进行单元测试的时候，我们的目标往往是为了测试非常小的代码块，例如一个独立存在的函数或类方法。换句话说，我们只需要针对那个函数内部的代码进行测试。如果测试代码依赖于其他的代码片段，即使被测试的函数没有变化，我们会发现在某种不幸的情形下，这部分内嵌代码的修改可能会破坏原有的测试。看看下面的例子，你将豁然开朗：</p>
-<div class="highlight"><pre><span class="c"># function.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># function.py</span>
 <span class="k">def</span> <span class="nf">add_and_multiply</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
 
     <span class="n">addition</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
@@ -67,7 +67,7 @@
             &nbsp;<a href="http://startover.github.io/tag/python/" class="tags selected">Python</a>
             &nbsp;<a href="http://startover.github.io/tag/mock/" class="tags">mock</a>
         </div>
-    </article>        <h4 class="date">May 18, 2015</h4>
+    </article>        <h4 class="date"> 5月 18, 2015</h4>
 
     <article class="post">
             <h2 class="title">
@@ -99,7 +99,7 @@
             &nbsp;<a href="http://startover.github.io/tag/python/" class="tags selected">Python</a>
             &nbsp;<a href="http://startover.github.io/tag/performance/" class="tags">Performance</a>
         </div>
-    </article>        <h4 class="date">Apr 27, 2015</h4>
+    </article>        <h4 class="date"> 4月 27, 2015</h4>
 
     <article class="post">
             <h2 class="title">
@@ -109,35 +109,35 @@
             <div class="entry-content"> <h2><strong>装饰器基本概念</strong></h2>
 <p>大家都知道装饰器是一个很著名的设计模式，经常被用于AOP(面向切面编程)的场景，较为经典的有插入日志，性能测试，事务处理，Web权限校验，Cache等。</p>
 <p>Python语言本身提供了装饰器语法（@），典型的装饰器实现如下：</p>
-<div class="highlight"><pre>    <span class="nd">@function_wrapper</span>
-    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-        <span class="k">pass</span>
+<div class="highlight"><pre><span></span><span class="nd">@function_wrapper</span>
+<span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+    <span class="k">pass</span>
 </pre></div>
 
 
 <p>@实际上是python2.4才提出的语法糖，针对python2.4以前的版本有另一种等价的实现：</p>
-<div class="highlight"><pre>    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-        <span class="k">pass</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+    <span class="k">pass</span>
 
-    <span class="n">function</span> <span class="o">=</span> <span class="n">function_wrapper</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+<span class="n">function</span> <span class="o">=</span> <span class="n">function_wrapper</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 </pre></div>
 
 
 <h2><strong>装饰器的两种实现</strong></h2>
 <p><strong>函数包装器 - 经典实现</strong></p>
-<div class="highlight"><pre>    <span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">_wrapper</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_wrapper</span>
 
-    <span class="nd">@function_wrapper</span>
-    <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-        <span class="k">pass</span>
+<span class="nd">@function_wrapper</span>
+<span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+    <span class="k">pass</span>
 </pre></div>
 
 
-<p><strong>类包装器 - 易于理解</strong></p>
-<div class="highlight"><pre>    <span class="k">class</span> <span class="nc">function_wrapper ...</span></pre></div> </div>
+<p><strong>类包装器 - 更易于理解</strong></p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">function_wrapper ...</span></pre></div> </div>
             <div class="medium primary btn"><a href="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/" rel="bookmark" title="Permalink to Python - 装饰器使用过程中的误区">Read more <i class="icon-arrow-right"></i></a></div>
 
         <div class="clear"></div>
