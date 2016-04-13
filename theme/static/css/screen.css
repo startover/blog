@@ -80,7 +80,7 @@ table {
 
 body {
     font-family: Georgia, serif;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.5em;
     color: #444;
 }
@@ -161,6 +161,7 @@ blockquote {
 
 .post {
     margin: 0 0 4.5em 150px;
+    line-height: 1.6;
 }
 .post.archives {
     margin-bottom: 1.5em;
@@ -222,8 +223,8 @@ sub {
 
 .post pre, .page pre {
     padding: .8em;
-    font-size: 12px;
-    font-family: Monospace;
+    font-size: 16px;
+    font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
     line-height: 1.1em;
     overflow: auto;
 }

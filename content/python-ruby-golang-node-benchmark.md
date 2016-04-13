@@ -1,20 +1,20 @@
 Title: Python Flask vs Ruby Sinatra vs Go Martini vs Node Express
 Date: 2016-03-15 14:21
-Category: Python, Ruby, Go, Node
+Category: Benchmark
 Tags: Flask, Sinatra, Martini, Express, Performance
 Slug: python-ruby-go-node-benchmark
 Authors: startover
 
 
-题外话一：  
-最近一段时间，Cloud Insight接连发布了三种语言（Python, Node, Ruby）的SDK，Cloud Insight Agent也迎来了重大突破，发布了Windows监控第一个版本，总算可以松口气写点东西了~
+<em>题外话一</em>：  
+最近一段时间，Cloud Insight接连发布了三种语言（Python, Node, Ruby）的SDK，Cloud Insight Agent也迎来了重大突破，发布了[Windows监控](http://www.oneapm.com/ci/windows.html)第一个版本，总算可以松口气写点东西了...
 
-题外话二：  
-偶然的机会看到一篇[blog](https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/)，文中详细的介绍了[Flask](https://github.com/mitsuhiko/flask)(Python), [Sinatra](https://github.com/sinatra/sinatra)(Ruby)以及 [Matini](https://github.com/go-martini/martini)(Golang)这三类微型框架的用法，并提供了各个框架在Docker下的部署方式。然而，美中不足的是没有提供各个框架的性能对比情况，经过一番搜罗，发现了一篇对现今主流框架做性能对比的[文章](https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.vticwh9tn)，找到两者的结合点，于是才有了今天这篇文章~
+<em>题外话二</em>：  
+偶然的机会看到一篇[blog](https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/)，文中详细介绍了[Flask](https://github.com/mitsuhiko/flask)(Python), [Sinatra](https://github.com/sinatra/sinatra)(Ruby)以及[Matini](https://github.com/go-martini/martini)(Golang)这三类微型框架的用法，并提供了各个框架在Docker下的部署方式。然而，美中不足的是没有提供各个框架的性能对比情况，经过一番搜罗，发现了一篇对现今主流框架做[性能对比的文章](https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.vticwh9tn)，找到两者的结合点，于是才有了今天这篇文章 :)
 
 * * *
 
-回归正题，之所以选择[Flask](https://github.com/mitsuhiko/flask)(Python), [Sinatra](https://github.com/sinatra/sinatra)(Ruby),  [Matini](https://github.com/go-martini/martini)(Golang)和[Express](https://github.com/expressjs/express)(Node)，主要是经验所限以及个人比较喜欢这类微型框架，下面我们就对各个框架在同等条件下的性能表现一探究竟。
+回归正题，之所以选择[Flask](https://github.com/mitsuhiko/flask)(Python), [Sinatra](https://github.com/sinatra/sinatra)(Ruby), [Matini](https://github.com/go-martini/martini)(Golang)和[Express](https://github.com/expressjs/express)(Node)，主要是经验所限以及个人比较喜欢这类微型框架，下面我们就对各个框架在同等条件下的性能表现一探究竟。
 
 本文源码地址：[https://github.com/startover/fibonacci-webapp-benchmark](https://github.com/startover/fibonacci-webapp-benchmark)
 
@@ -175,6 +175,6 @@ Total:         26   60  11.1     59     171
 可见，[Matini](https://github.com/go-martini/martini)(Golang)和[Express](https://github.com/expressjs/express)(Node)性能优势比较明显，也在意料之中，[Flask](https://github.com/mitsuhiko/flask)(Python)表现中规中矩，相较之下，[Sinatra](https://github.com/sinatra/sinatra)(Ruby)的性能简直是没法忍（PS: 我不是Ruby黑）！感兴趣的亲们可以在自己的环境测试下。完。
 
 
-参考链接：
-[https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/](https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison)
+参考链接：  
+[https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/](https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison)  
 [https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.6katm1qn2](https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.6katm1qn2)
