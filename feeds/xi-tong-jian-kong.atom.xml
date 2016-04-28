@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/xi-tong-jian-kong.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-04-28T16:47:00+08:00</updated><entry><title>Cloud Insight Agent 与 Nagios 集成</title><link href="http://startover.github.io/articles/2016/04/28/cloud-insight-nagios-integration/" rel="alternate"></link><published>2016-04-28T16:47:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-04-28:articles/2016/04/28/cloud-insight-nagios-integration/</id><summary type="html">&lt;h2&gt;原理介绍&lt;/h2&gt;
+&lt;p&gt;同大多数 Nagios 的可视化系统一样，Cloud Insight Agent 依赖于 Nagios 输出的指标数据，也即需要启用 Nagios 的性能数据处理功能（在 nagios.cfg 文件中，设置process_performance_data=1即可）。&lt;/p&gt;
+&lt;h2&gt;Nagios 安装配置&lt;/h2&gt;
+&lt;p&gt;由于 Nagios 安装配置较为繁琐，这里通过 Docker 容器的方式来解决这个问题。&lt;/p&gt;
+&lt;p&gt;然而，Cloud Insight Agent 需要读取 Nagios 的配置文件且依赖于 Nagios 输出的指标数据，所以我们需要将这部分文件挂载到系统主机上。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建 Nagios 配置文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo mkdir -p /usr/local/nagios/data
+$ sudo mkdir -p /usr/local/nagios/etc
+$ sudo vi /usr/local/nagios/etc/nagios.cfg
+...
+&lt;span class="c1"&gt;# 启用 Nagios 的性能数据处理功能&lt;/span&gt;
+&lt;span class="nv"&gt;process_performance_data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1
+
+&lt;span class="nv"&gt;host_perfdata_command&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;process-host-perfdata
+&lt;span class="nv"&gt;service_perfdata_command&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;process-service-perfdata
+
+&lt;span class="nv"&gt;host_perfdata_file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/nagios/data/host-perfdata
+&lt;span class="nv"&gt;service_perfdata_file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/nagios/data/service-perfdata
+
+&lt;span class="nv"&gt;host_perfdata_file_template&lt;/span&gt;&lt;span class="o"&gt;=[&lt;/span&gt;HOSTPERFDATA&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$TIMET&lt;/span&gt;$&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$HOSTNAME&lt;/span&gt;$&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$HOSTEXECUTIONTIME&lt;/span&gt;$&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$HOSTOUTPUT&lt;/span&gt;$&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$HOSTPERFDATA&lt;/span&gt;$
+&lt;span class="nv"&gt;service_perfdata_file_template&lt;/span&gt;&lt;span class="o"&gt;=[&lt;/span&gt;SERVICEPERFDATA&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$TIMET&lt;/span&gt;$&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$HOSTNAME&lt;/span&gt;$&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$SERVICEDESC&lt;/span&gt;$&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$SERVICEEXECUTIONTIME&lt;/span&gt;$&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$SERVICELATENCY&lt;/span&gt;$&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$SERVICEOUTPUT&lt;/span&gt;$&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="nv"&gt;$SERVICEPERFDATA&lt;/span&gt;$
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;挂载文件权限设置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;由于挂载文件默认是root用户访问权限，需将其赋予容器内的 nagios 用户，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo chown -R 999:999 /usr/local/nagios
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;运行 Nagios 容器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker run -d --name docker-nagios &lt;span class="se"&gt;\&lt;/span&gt;
+             -h docker-nagios &lt;span class="se"&gt;\&lt;/span&gt;
+             -p &lt;span class="m"&gt;25&lt;/span&gt; -p &lt;span class="m"&gt;80&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+             -v /usr/local/nagios/etc/nagios.cfg:/usr/local/nagios/etc/nagios.cfg &lt;span class="se"&gt;\&lt;/span&gt;
+             -v /usr/local/nagios/data:/usr/local/nagios/data &lt;span class="se"&gt;\&lt;/span&gt;
+             -v /etc/localtime:/etc/localtime:ro &lt;span class="se"&gt;\&lt;/span&gt;
+             quantumobject/docker-nagios
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Cloud Insight Agent 集成&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;安装 Cloud Insight Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nv"&gt;CI_LICENSE_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;YOUR_LICENSE_KEY_HERE bash -c &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;curl -L https://download.oneapm.com/oneapm_ci_agent/install_agent.sh&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;配置 Nagios 监控&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; /etc/oneapm-ci-agent/conf.d
+$ sudo cp nagios.yaml.example nagios.yaml
+$ sudo vi nagios.yaml
+init_config:
+  &lt;span class="c1"&gt;# check_freq: 30&lt;/span&gt;
+
+instances:
+  - nagios_conf: /usr/local/nagios/etc/nagios.cfg
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;重启 Cloud Insight Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo /etc/init.d/oneapm-ci-agent restart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;关于 Nagios 的介绍和相关配置，请参考下面几篇文章：&lt;br /&gt;
+&lt;a href="http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html"&gt;http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html&lt;/a&gt;&lt;br /&gt;
+&lt;a href="http://www.unixmen.com/install-configure-nagios-4-centos-7/"&gt;http://www.unixmen.com/install-configure-nagios-4-centos-7/&lt;/a&gt;&lt;br /&gt;
+&lt;a href="https://kura.io/2010/03/21/configuring-nagios-to-monitor-remote-load-disk-using-nrpe/"&gt;https://kura.io/2010/03/21/configuring-nagios-to-monitor-remote-load-disk-using-nrpe/&lt;/a&gt;&lt;/p&gt;</summary><category term="Cloud Insight"></category><category term="Nagios"></category></entry></feed>

@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8" />
-    <title>startover's blog</title>
+    <title>startover's blog | articles tagged "Cloud Insight"</title>
     <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
     <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
     <link href="http://startover.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Full Atom Feed" />
@@ -20,10 +20,11 @@
     <header>
         <nav>
             <ul>
+                <li class="ephemeral selected"><a href="http://startover.github.io/tag/cloud-insight/index.html">Cloud Insight</a></li>
                 <li><a href="http://startover.github.io/">Home</a></li>
                 <li><a href="http://startover.github.io/about">About</a></li>
                 <li><a href="http://startover.github.io/categories">Categories</a></li>
-                <li class="selected"><a href="http://startover.github.io/tags">Tags</a></li>
+                <li><a href="http://startover.github.io/tags">Tags</a></li>
                 <li><a href="http://startover.github.io/archives">Archives</a></li>
             </ul>
         </nav>
@@ -32,18 +33,35 @@
         </div>
     </header>
     <div id="wrapper">
-        <div id="content"><ul>
-        <li><a href="http://startover.github.io/tag/flask/">Flask</a></li>
-        <li><a href="http://startover.github.io/tag/express/">Express</a></li>
-        <li><a href="http://startover.github.io/tag/nagios/">Nagios</a></li>
-        <li><a href="http://startover.github.io/tag/sinatra/">Sinatra</a></li>
-        <li><a href="http://startover.github.io/tag/cloud-insight/">Cloud Insight</a></li>
-        <li><a href="http://startover.github.io/tag/zhuang-shi-qi/">装饰器</a></li>
-        <li><a href="http://startover.github.io/tag/performance/">Performance</a></li>
-        <li><a href="http://startover.github.io/tag/martini/">Martini</a></li>
-        <li><a href="http://startover.github.io/tag/mock/">mock</a></li>
-        <li><a href="http://startover.github.io/tag/python/">Python</a></li>
+        <div id="content">        <h4 class="date"> 4月 28, 2016</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2016/04/28/cloud-insight-nagios-integration/" rel="bookmark" title="Permanent Link to &quot;Cloud Insight Agent 与 Nagios 集成&quot;">Cloud Insight Agent 与 Nagios 集成</a>
+            </h2>
+
+            <div class="entry-content"> <h2>原理介绍</h2>
+<p>同大多数 Nagios 的可视化系统一样，Cloud Insight Agent 依赖于 Nagios 输出的指标数据，也即需要启用 Nagios 的性能数据处理功能（在 nagios.cfg 文件中，设置process_performance_data=1即可）。</p>
+<h2>Nagios 安装配置</h2>
+<p>由于 Nagios 安装配置较为繁琐，这里通过 Docker 容器的方式来解决这个问题。</p>
+<p>然而，Cloud Insight Agent 需要读取 Nagios 的配置文件且依赖于 Nagios 输出的指标数据，所以我们需要将这部分文件挂载到系统主机上。</p>
+<ul>
+<li>创建 Nagios 配置文件</li>
 </ul>
+<div class="highlight"><pre><span></span>$ sudo mkdir -p /usr/local/nagios/data
+$ sudo mkdir -p ...</pre></div> </div>
+            <div class="medium primary btn"><a href="http://startover.github.io/articles/2016/04/28/cloud-insight-nagios-integration/" rel="bookmark" title="Permalink to Cloud Insight Agent 与 Nagios 集成">Read more <i class="icon-arrow-right"></i></a></div>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2016/04/28/cloud-insight-nagios-integration/">posted at 16:47</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/xi-tong-jian-kong/" rel="tag">系统监控</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/cloud-insight/" class="tags selected">Cloud Insight</a>
+            &nbsp;<a href="http://startover.github.io/tag/nagios/" class="tags">Nagios</a>
+        </div>
+    </article>
 
             <div class="clear"></div>
             <footer>
