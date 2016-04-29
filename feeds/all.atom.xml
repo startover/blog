@@ -9,6 +9,7 @@
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo mkdir -p /usr/local/nagios/data
 $ sudo mkdir -p /usr/local/nagios/etc
+$ sudo wget -O /usr/local/nagios/etc/nagios.cfg https://raw.githubusercontent.com/startover/cloudinsight-docker-nagios/master/nagios.cfg
 $ sudo vi /usr/local/nagios/etc/nagios.cfg
 ...
 &lt;span class="c1"&gt;# 启用 Nagios 的性能数据处理功能&lt;/span&gt;
