@@ -63,8 +63,7 @@ $ docker exec docker-cacti mysql -e "grant select on cacti.* to 'oneapm'@'%';" -
 
 Debian/Ubuntu
 ```
-sudo docker cp docker-cacti:/usr/lib/x86_64-linux-gnu/librrd.so.4 /usr/lib/x86_64-linux-gnu
-sudo docker cp docker-cacti:/usr/lib/x86_64-linux-gnu/librrd.so.4.3.0 /usr/lib/x86_64-linux-gnu
+sudo apt-get install rrdtool
 ```
 
 CentOS/Redhat
