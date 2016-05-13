@@ -54,8 +54,7 @@ $ docker &lt;span class="nb"&gt;exec&lt;/span&gt; docker-cacti mysql -e &lt;span
 &lt;/ul&gt;
 &lt;p&gt;由于 Cacti 运行在 docker 容器内，为确保 &lt;a href="https://pypi.python.org/pypi/python-rrdtool"&gt;python-rrdtool&lt;/a&gt; 能够正常运行，需要在本机安装相关依赖。&lt;/p&gt;
 &lt;p&gt;Debian/Ubuntu&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo docker cp docker-cacti:/usr/lib/x86_64-linux-gnu/librrd.so.4 /usr/lib/x86_64-linux-gnu
-sudo docker cp docker-cacti:/usr/lib/x86_64-linux-gnu/librrd.so.4.3.0 /usr/lib/x86_64-linux-gnu
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install rrdtool
 &lt;/pre&gt;&lt;/div&gt;
 
 
