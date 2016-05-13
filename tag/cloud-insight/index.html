@@ -33,7 +33,35 @@
         </div>
     </header>
     <div id="wrapper">
-        <div id="content">        <h4 class="date"> 4月 28, 2016</h4>
+        <div id="content">        <h4 class="date"> 5月 13, 2016</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2016/05/13/cloud-insight-cacti-integration/" rel="bookmark" title="Permanent Link to &quot;Cloud Insight Agent 与 Cacti 集成&quot;">Cloud Insight Agent 与 Cacti 集成</a>
+            </h2>
+
+            <div class="entry-content"> <h2>原理介绍</h2>
+<p>Cloud Insight Agent 通过 <a href="https://pypi.python.org/pypi/python-rrdtool">python-rrdtool</a> 读取 Cacti 生成的 rrd 文件（在 cacti 根目录的 rra 文件夹下），并将其中的数据解析后上传至 <a href="http://docs-ci.oneapm.com/">Cloud Insight</a> 进行可视化。</p>
+<h2>Cacti 安装配置</h2>
+<p>由于 Cacti 安装配置较为繁琐，这里通过 Docker 容器的方式来解决这个问题。</p>
+<p>然而，Cloud Insight Agent 需要读取 Cacti 生成的 rrd 文件，所以我们需要将这部分文件挂载到系统主机上。</p>
+<ul>
+<li>创建挂载文件</li>
+</ul>
+<div class="highlight"><pre><span></span>$ sudo mkdir -p /var/lib/cacti/rra
+$ sudo wget -O /etc ...</pre></div> </div>
+            <div class="medium primary btn"><a href="http://startover.github.io/articles/2016/05/13/cloud-insight-cacti-integration/" rel="bookmark" title="Permalink to Cloud Insight Agent 与 Cacti 集成">Read more <i class="icon-arrow-right"></i></a></div>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2016/05/13/cloud-insight-cacti-integration/">posted at 18:00</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/xi-tong-jian-kong/" rel="tag">系统监控</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/cloud-insight/" class="tags selected">Cloud Insight</a>
+            &nbsp;<a href="http://startover.github.io/tag/cacti/" class="tags">Cacti</a>
+        </div>
+    </article>        <h4 class="date"> 4月 28, 2016</h4>
 
     <article class="post">
             <h2 class="title">

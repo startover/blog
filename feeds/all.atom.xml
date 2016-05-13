@@ -1,5 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/all.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-04-28T16:47:00+08:00</updated><entry><title>Cloud Insight Agent 与 Nagios 集成</title><link href="http://startover.github.io/articles/2016/04/28/cloud-insight-nagios-integration/" rel="alternate"></link><published>2016-04-28T16:47:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-04-28:articles/2016/04/28/cloud-insight-nagios-integration/</id><summary type="html">&lt;h2&gt;原理介绍&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/all.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-05-13T18:00:00+08:00</updated><entry><title>Cloud Insight Agent 与 Cacti 集成</title><link href="http://startover.github.io/articles/2016/05/13/cloud-insight-cacti-integration/" rel="alternate"></link><published>2016-05-13T18:00:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-05-13:articles/2016/05/13/cloud-insight-cacti-integration/</id><summary type="html">&lt;h2&gt;原理介绍&lt;/h2&gt;
+&lt;p&gt;Cloud Insight Agent 通过 &lt;a href="https://pypi.python.org/pypi/python-rrdtool"&gt;python-rrdtool&lt;/a&gt; 读取 Cacti 生成的 rrd 文件（在 cacti 根目录的 rra 文件夹下），并将其中的数据解析后上传至 &lt;a href="http://docs-ci.oneapm.com/"&gt;Cloud Insight&lt;/a&gt; 进行可视化。&lt;/p&gt;
+&lt;h2&gt;Cacti 安装配置&lt;/h2&gt;
+&lt;p&gt;由于 Cacti 安装配置较为繁琐，这里通过 Docker 容器的方式来解决这个问题。&lt;/p&gt;
+&lt;p&gt;然而，Cloud Insight Agent 需要读取 Cacti 生成的 rrd 文件，所以我们需要将这部分文件挂载到系统主机上。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建挂载文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo mkdir -p /var/lib/cacti/rra
+$ sudo wget -O /etc/mysql/mysqld.cnf https://raw.githubusercontent.com/cloudinsight/cloudinsight-docker-cacti/master/mysqld.cnf
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;挂载文件权限设置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;由于挂载文件默认是root用户访问权限，需将其赋予容器内的 www-data 用户，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo chown -R 33:33 /var/lib/cacti
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;运行 Cacti 容器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker run -d --name docker-cacti &lt;span class="se"&gt;\&lt;/span&gt;
+             -h docker-cacti &lt;span class="se"&gt;\&lt;/span&gt;
+             -p &lt;span class="m"&gt;80&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+             -v /etc/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf &lt;span class="se"&gt;\&lt;/span&gt;
+             -v /var/lib/cacti/rra:/var/lib/cacti/rra &lt;span class="se"&gt;\&lt;/span&gt;
+             -v /etc/localtime:/etc/localtime:ro &lt;span class="se"&gt;\&lt;/span&gt;
+             quantumobject/docker-cacti
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Cloud Insight Agent 集成&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;安装 Cloud Insight Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nv"&gt;CI_LICENSE_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;YOUR_LICENSE_KEY_HERE bash -c &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;curl -L https://download.oneapm.com/oneapm_ci_agent/install_agent.sh&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;配置 MySQL 访问权限&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker &lt;span class="nb"&gt;exec&lt;/span&gt; docker-cacti mysql -e &lt;span class="s2"&gt;&amp;quot;create user &amp;#39;oneapm&amp;#39;@&amp;#39;%&amp;#39; identified by &amp;#39;oneapm&amp;#39;;&amp;quot;&lt;/span&gt; -uroot -pmysqlpsswd
+$ docker &lt;span class="nb"&gt;exec&lt;/span&gt; docker-cacti mysql -e &lt;span class="s2"&gt;&amp;quot;grant select on cacti.* to &amp;#39;oneapm&amp;#39;@&amp;#39;%&amp;#39;;&amp;quot;&lt;/span&gt; -uroot -pmysqlpsswd
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;安装 RRDTool 依赖包&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;由于 Cacti 运行在 docker 容器内，为确保 &lt;a href="https://pypi.python.org/pypi/python-rrdtool"&gt;python-rrdtool&lt;/a&gt; 能够正常运行，需要在本机安装相关依赖。&lt;/p&gt;
+&lt;p&gt;Debian/Ubuntu&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo docker cp docker-cacti:/usr/lib/x86_64-linux-gnu/librrd.so.4 /usr/lib/x86_64-linux-gnu
+sudo docker cp docker-cacti:/usr/lib/x86_64-linux-gnu/librrd.so.4.3.0 /usr/lib/x86_64-linux-gnu
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;CentOS/Redhat&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo yum -y install rrdtool*
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;配置 Cacti 监控&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker inspect --format &lt;span class="s1"&gt;&amp;#39;{{ .NetworkSettings.IPAddress }}&amp;#39;&lt;/span&gt; docker-cacti
+172.17.0.2
+$ &lt;span class="nb"&gt;cd&lt;/span&gt; /etc/oneapm-ci-agent/conf.d
+$ sudo cp cacti.yaml.example cacti.yaml
+$ sudo vi cacti.yaml
+init_config:
+
+instances:
+  - mysql_host: 172.17.0.2  &lt;span class="c1"&gt;# 这里是容器的IP地址，可通过上面的命令获取&lt;/span&gt;
+    mysql_user: oneapm
+    mysql_password: oneapm
+    rrd_path: /var/lib/cacti/rra
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;重启 Cloud Insight Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo /etc/init.d/oneapm-ci-agent restart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;相关链接：
+&lt;a href="https://github.com/QuantumObject/docker-cacti"&gt;https://github.com/QuantumObject/docker-cacti&lt;/a&gt;&lt;/p&gt;</summary><category term="Cloud Insight"></category><category term="Cacti"></category></entry><entry><title>Cloud Insight Agent 与 Nagios 集成</title><link href="http://startover.github.io/articles/2016/04/28/cloud-insight-nagios-integration/" rel="alternate"></link><published>2016-04-28T16:47:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-04-28:articles/2016/04/28/cloud-insight-nagios-integration/</id><summary type="html">&lt;h2&gt;原理介绍&lt;/h2&gt;
 &lt;p&gt;同大多数 Nagios 的可视化系统一样，Cloud Insight Agent 依赖于 Nagios 输出的指标数据，也即需要启用 Nagios 的性能数据处理功能（在 nagios.cfg 文件中，设置process_performance_data=1即可）。&lt;/p&gt;
 &lt;h2&gt;Nagios 安装配置&lt;/h2&gt;
 &lt;p&gt;由于 Nagios 安装配置较为繁琐，这里通过 Docker 容器的方式来解决这个问题。&lt;/p&gt;
