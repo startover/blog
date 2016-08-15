@@ -21,8 +21,8 @@ Go 语言于2009年11月正式宣布推出，自2012年发布1.0，最新稳定�
 * 清晰的语法
 * 清晰的语义
 * 偏向组合而不是继承
-* 编程模型（垃圾回收、并发）所代理的简单性
-* 易于为它编写工具（Easy tooling ）(gotool、gofmt、godoc、gofix)
+* 提供简单的编程模型（垃圾回收、并发）
+* 强大的内置工具（gofmt、godoc、gofix等）
 
 建议有兴趣的同学看看 [Go在谷歌：以软件工程为目的的语言设计](http://www.oschina.net/translate/go-at-google-language-design-in-the-service-of-software-engineering)。
 
@@ -38,7 +38,7 @@ Go 语言于2009年11月正式宣布推出，自2012年发布1.0，最新稳定�
 从个人对 Golang 的初步使用来说，体验还是相当不错的，但是也有下面几点需要注意：
 
 * 驼峰式命名风格（依据首字母大小写来决定其是否能被其他包引用），但我更喜欢 Python 的小写字母加下划线命名风格。
-* 没有好用的包管理器，Golang 官方也没有推荐最佳的包管理方案，目前公认的比较好用的有 Godeps, Govendor及Glide，而 Python 的包管理器 pip 已形成自己的一套标准。
+* 没有好用的包管理器，Golang 官方也没有推荐最佳的包管理方案，目前公认的比较好用的有 Godeps, Govendor 及 Glide，而 Python 的包管理器 pip 已形成自己的一套标准。
 * 多行字符串的变量声明需要用反引号（`），Python 里是三个双引号（"""），参考[http://stackoverflow.com/questions/7933460/how-do-you-write-multiline-strings-in-go](http://stackoverflow.com/questions/7933460/how-do-you-write-multiline-strings-in-go)
 * Golang 中的类型匹配是很严格的，不同的类型之间通常需要手动转换，所以在字符串拼接时往往需要对整型进行显式转换，如 `fmt.Println("num: " + strconv.Itoa(1))`
 * Golang 语言语法里的语法糖并不多，如在 Python 中很流行的 map, reduce, range 等，在 Golang 里都没有得到支持。
@@ -60,7 +60,7 @@ Go 语言于2009年11月正式宣布推出，自2012年发布1.0，最新稳定�
 
 ## 总结
 
-虽然 Go 有很多被诟病的地方，比如 GC 和对错误的处理方式，但没有任何语言是完美的，从实用角度来讲，Go 有不输于 Python 的开发效率，完善的第三方工具，以及强大的社区支持，这些就足够了。
+虽然 Go 有很多被诟病的地方，比如 GC 和对错误的处理方式，但没有任何语言是完美的，从实用角度来讲，Go 有着不输于 Python 的开发效率，完善的第三方工具，以及强大的社区支持，这些就足够了。
 
 
 
