@@ -53,8 +53,8 @@
 <li>清晰的语法</li>
 <li>清晰的语义</li>
 <li>偏向组合而不是继承</li>
-<li>编程模型（垃圾回收、并发）所代理的简单性</li>
-<li>易于为它编写工具（Easy tooling ）(gotool、gofmt、godoc、gofix)</li>
+<li>提供简单的编程模型（垃圾回收、并发）</li>
+<li>强大的内置工具（gofmt、godoc、gofix等）</li>
 </ul>
 <p>建议有兴趣的同学看看 <a href="http://www.oschina.net/translate/go-at-google-language-design-in-the-service-of-software-engineering">Go在谷歌：以软件工程为目的的语言设计</a>。</p>
 <h2>Go 语言相对 Python 有哪些优势</h2>
@@ -68,7 +68,7 @@
 <p>从个人对 Golang 的初步使用来说，体验还是相当不错的，但是也有下面几点需要注意：</p>
 <ul>
 <li>驼峰式命名风格（依据首字母大小写来决定其是否能被其他包引用），但我更喜欢 Python 的小写字母加下划线命名风格。</li>
-<li>没有好用的包管理器，Golang 官方也没有推荐最佳的包管理方案，目前公认的比较好用的有 Godeps, Govendor及Glide，而 Python 的包管理器 pip 已形成自己的一套标准。</li>
+<li>没有好用的包管理器，Golang 官方也没有推荐最佳的包管理方案，目前公认的比较好用的有 Godeps, Govendor 及 Glide，而 Python 的包管理器 pip 已形成自己的一套标准。</li>
 <li>多行字符串的变量声明需要用反引号（`），Python 里是三个双引号（"""），参考<a href="http://stackoverflow.com/questions/7933460/how-do-you-write-multiline-strings-in-go">http://stackoverflow.com/questions/7933460/how-do-you-write-multiline-strings-in-go</a></li>
 <li>Golang 中的类型匹配是很严格的，不同的类型之间通常需要手动转换，所以在字符串拼接时往往需要对整型进行显式转换，如 <code>fmt.Println("num: " + strconv.Itoa(1))</code></li>
 <li>Golang 语言语法里的语法糖并不多，如在 Python 中很流行的 map, reduce, range 等，在 Golang 里都没有得到支持。</li>
@@ -85,7 +85,7 @@
 <p>官方文档看完后，基本也算入门了，这时候可以看看 <a href="https://gobyexample.com/">Go 的示例代码</a>，或者去 <a href="https://projecteuler.net/">Project Euler</a> 刷刷题。</p>
 <p>当然也可以去知乎看看大牛们都是如何学习的，链接 <a href="https://www.zhihu.com/question/23486344">https://www.zhihu.com/question/23486344</a>。</p>
 <h2>总结</h2>
-<p>虽然 Go 有很多被诟病的地方，比如 GC 和对错误的处理方式，但没有任何语言是完美的，从实用角度来讲，Go 有不输于 Python 的开发效率，完善的第三方工具，以及强大的社区支持，这些就足够了。</p>
+<p>虽然 Go 有很多被诟病的地方，比如 GC 和对错误的处理方式，但没有任何语言是完美的，从实用角度来讲，Go 有着不输于 Python 的开发效率，完善的第三方工具，以及强大的社区支持，这些就足够了。</p>
 <p>参考链接：<br />
 <a href="https://golang.org/doc/">https://golang.org/doc/</a><br />
 <a href="https://talks.golang.org/2012/splash.article">https://talks.golang.org/2012/splash.article</a><br />
