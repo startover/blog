@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+        <meta charset="utf-8" />
+    <title>startover's blog | Python 程序员的 Golang 学习指南（I）: Go 之初体验</title>
+    <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
+    <link href="http://startover.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Full Atom Feed" />
+    <link href="http://startover.github.io/feeds/golang.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Categories Atom Feed" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/screen.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/print.css" type="text/css" media="print" />
+    <meta name="generator" content="Pelican" />
+
+    <meta name="keywords" content="Golang,Python" />
+</head>
+<body>
+    <!-- Fork me on github -->
+    <a target="_blank" href="https://github.com/startover">
+    <img width="149px" height="149px" style="position: absolute; top: 0px; right: 0; border: 0; margin: 0; box-shadow: initial" src="http://startover.github.io/theme/icons/forkme.png" alt="Fork me on GitHub" />
+    </a>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="http://startover.github.io/">Home</a></li>
+                <li><a href="http://startover.github.io/about">About</a></li>
+                <li><a href="http://startover.github.io/categories">Categories</a></li>
+                <li><a href="http://startover.github.io/tags">Tags</a></li>
+                <li><a href="http://startover.github.io/archives">Archives</a></li>
+            </ul>
+        </nav>
+        <div class="header_box">
+            <h1><a href="http://startover.github.io/">startover's blog</a></h1>
+        </div>
+    </header>
+    <div id="wrapper">
+        <div id="content">        <h4 class="date"> 8月 15, 2016</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/" rel="bookmark" title="Permanent Link to &quot;Python 程序员的 Golang 学习指南（I）: Go 之初体验&quot;">Python 程序员的 Golang 学习指南（I）: Go 之初体验</a>
+            </h2>
+
+            <h2>Go 语言简介</h2>
+<p>Go，又称 golang，是 Google 开发的一种静态强类型，编译型，并发型，并具有垃圾回收功能的编程语言。</p>
+<p>Go 语言于2009年11月正式宣布推出，自2012年发布1.0，最新稳定版1.6。目前，Go的相关工具和生态已逐渐趋于完善，也不乏重量级项目，如 Docker, Kubernetes, Etcd, InfluxDB 等。</p>
+<h2>Go 语言能解决什么样的问题</h2>
+<p>同绝大多数通用型编程语言相比，Go 语言更多的是为了解决我们在构建大型服务器软件过程中所遇到的软件工程方面的问题而设计的。乍看上去，这么讲可能会让人感觉 Go 非常无趣且工业化，但实际上，在设计过程中就着重于清晰和简洁，以及较高的可组合性，最后得到的反而会是一门使用起来效率高而且很有趣的编程语言，很多程序员都会发现，它有极强的表达力而且功能非常强大。</p>
+<p>总结为以下几点：</p>
+<ul>
+<li>清晰的依赖关系</li>
+<li>清晰的语法</li>
+<li>清晰的语义</li>
+<li>偏向组合而不是继承</li>
+<li>编程模型（垃圾回收、并发）所代理的简单性</li>
+<li>易于为它编写工具（Easy tooling ）(gotool、gofmt、godoc、gofix)</li>
+</ul>
+<p>建议有兴趣的同学看看 <a href="http://www.oschina.net/translate/go-at-google-language-design-in-the-service-of-software-engineering">Go在谷歌：以软件工程为目的的语言设计</a>。</p>
+<h2>Go 语言相对 Python 有哪些优势</h2>
+<p>这里引用一段<a href="https://www.zhihu.com/question/21409296">知乎</a>上某大牛的回答，如下：</p>
+<ul>
+<li><strong>部署简单</strong>。Go 编译生成的是一个静态可执行文件，除了 glibc 外没有其他外部依赖。这让部署变得异常方便：目标机器上只需要一个基础的系统和必要的管理、监控工具，完全不需要操心应用所需的各种包、库的依赖关系，大大减轻了维护的负担。这和 Python 有着巨大的区别。由于历史的原因，Python 的部署工具生态相当混乱【比如 setuptools, distutils, pip, buildout 的不同适用场合以及兼容性问题】。官方 PyPI 源又经常出问题，需要搭建私有镜像，而维护这个镜像又要花费不少时间和精力。</li>
+<li><strong>并发性好</strong>。Goroutine 和 channel 使得编写高并发的服务端软件变得相当容易，很多情况下完全不需要考虑锁机制以及由此带来的各种问题。单个 Go 应用也能有效的利用多个 CPU 核，并行执行的性能好。这和 Python 也是天壤之比。多线程和多进程的服务端程序编写起来并不简单，而且由于全局锁 GIL 的原因，多线程的 Python 程序并不能有效利用多核，只能用多进程的方式部署；如果用标准库里的 multiprocessing 包又会对监控和管理造成不少的挑战【我们用的 supervisor 管理进程，对 fork 支持不好】。部署 Python 应用的时候通常是每个 CPU 核部署一个应用，这会造成不少资源的浪费，比如假设某个 Python 应用启动后需要占用 100MB 内存，而服务器有 32 个 CPU 核，那么留一个核给系统、运行 31 个应用副本就要浪费 3GB 的内存资源。</li>
+<li><strong>良好的语言设计</strong>。从学术的角度讲 Go 语言其实非常平庸，不支持许多高级的语言特性；但从工程的角度讲，Go 的设计是非常优秀的：规范足够简单灵活，有其他语言基础的程序员都能迅速上手。更重要的是 Go 自带完善的工具链，大大提高了团队协作的一致性。比如 gofmt 自动排版 Go 代码，很大程度上杜绝了不同人写的代码排版风格不一致的问题。把编辑器配置成在编辑存档的时候自动运行 gofmt，这样在编写代码的时候可以随意摆放位置，存档的时候自动变成正确排版的代码。此外还有 gofix, govet 等非常有用的工具。</li>
+<li><strong>执行性能好</strong>。虽然不如 C 和 Java，但通常比原生 Python 应用还是高一个数量级的，适合编写一些瓶颈业务。内存占用也非常省。</li>
+</ul>
+<p>从个人对 Golang 的初步使用来说，体验还是相当不错的，但是也有下面几点需要注意：</p>
+<ul>
+<li>驼峰式命名风格（依据首字母大小写来决定其是否能被其他包引用），但我更喜欢 Python 的小写字母加下划线命名风格。</li>
+<li>没有好用的包管理器，Golang 官方也没有推荐最佳的包管理方案，目前公认的比较好用的有 Godeps, Govendor及Glide，而 Python 的包管理器 pip 已形成自己的一套标准。</li>
+<li>多行字符串的变量声明需要用反引号（`），Python 里是三个双引号（"""），参考<a href="http://stackoverflow.com/questions/7933460/how-do-you-write-multiline-strings-in-go">http://stackoverflow.com/questions/7933460/how-do-you-write-multiline-strings-in-go</a></li>
+<li>Golang 中的类型匹配是很严格的，不同的类型之间通常需要手动转换，所以在字符串拼接时往往需要对整型进行显式转换，如 <code>fmt.Println("num: " + strconv.Itoa(1))</code></li>
+<li>Golang 语言语法里的语法糖并不多，如在 Python 中很流行的 map, reduce, range 等，在 Golang 里都没有得到支持。</li>
+</ul>
+<p>另外，推荐阅读 <a href="http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/">Golang 新手开发者要注意的陷阱和常见错误</a>。</p>
+<h2>学习资料推荐</h2>
+<p>建议先把 Go 的<a href="https://golang.org/doc/">官方文档</a>过一遍，主要有以下几项：</p>
+<ul>
+<li><a href="https://tour.golang.org/welcome/1">A Tour of Go</a></li>
+<li><a href="https://golang.org/doc/code.html">How to write Go code</a></li>
+<li><a href="https://golang.org/doc/effective_go.html">Effective Go</a></li>
+<li><a href="https://golang.org/ref/spec">Language Specification</a></li>
+</ul>
+<p>官方文档看完后，基本也算入门了，这时候可以看看 <a href="https://gobyexample.com/">Go 的示例代码</a>，或者去 <a href="https://projecteuler.net/">Project Euler</a> 刷刷题。</p>
+<p>当然也可以去知乎看看大牛们都是如何学习的，链接 <a href="https://www.zhihu.com/question/23486344">https://www.zhihu.com/question/23486344</a>。</p>
+<h2>总结</h2>
+<p>虽然 Go 有很多被诟病的地方，比如 GC 和对错误的处理方式，但没有任何语言是完美的，从实用角度来讲，Go 有不输于 Python 的开发效率，完善的第三方工具，以及强大的社区支持，这些就足够了。</p>
+<p>参考链接：<br />
+<a href="https://golang.org/doc/">https://golang.org/doc/</a><br />
+<a href="https://talks.golang.org/2012/splash.article">https://talks.golang.org/2012/splash.article</a><br />
+<a href="https://www.zhihu.com/question/21409296">https://www.zhihu.com/question/21409296</a><br />
+<a href="https://www.zhihu.com/question/23486344">https://www.zhihu.com/question/23486344</a><br />
+<a href="http://stackoverflow.com/questions/7933460/how-do-you-write-multiline-strings-in-go">http://stackoverflow.com/questions/7933460/how-do-you-write-multiline-strings-in-go</a><br />
+<a href="http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/">http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/</a><br />
+<a href="http://www.oschina.net/translate/go-at-google-language-design-in-the-service-of-software-engineering">http://www.oschina.net/translate/go-at-google-language-design-in-the-service-of-software-engineering</a></p>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/">posted at 12:00</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/golang/" rel="tag">Golang</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/golang/" class="tags">Golang</a>
+            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags">Python</a>
+        </div>
+    </article>
+<ul style="float:right;">
+    <li>
+        上一篇：<a href="http://startover.github.io/articles/2016/05/13/cloud-insight-cacti-integration/">
+            Cloud Insight Agent 与 Cacti 集成
+        </a>
+    </li>
+</ul>
+
+<section>
+<h1>Comments</h1>
+<div id="DuoShuoComment" aria-live="polite">
+<!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="golang-for-pythonistas" data-title="Python 程序员的 Golang 学习指南（I）: Go 之初体验" data-url="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"startover"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<!-- 多说公共JS代码 end --></div>
+</section>
+
+            <div class="clear"></div>
+            <footer>
+                <p>
+                <a href="https://github.com/jody-frankowski/blue-penguin">Blue Penguin</a> Theme
+                &middot;
+                Powered by <a href="http://getpelican.com">Pelican</a>
+                &middot;
+                <a href="http://startover.github.io/feeds/all.atom.xml" rel="alternate">Atom Feed</a>
+            </footer>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+<script src="http://startover.github.io/theme/js/libs/jquery-1.9.1.min.js"></script>
+<script>
+    (function() {
+    var $backToTopTxt = "返回顶部", $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+    .text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+    }), $backToTopFun = function() {
+    var st = $(document).scrollTop(), winh = $(window).height();
+    (st > 0)? $backToTopEle.show(): $backToTopEle.hide();
+    //IE6下的定位
+    if (!window.XMLHttpRequest) {
+    $backToTopEle.css("top", st + winh - 166);
+    }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $(function() { $backToTopFun(); });
+    })();
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63815463-1', 'startover.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
