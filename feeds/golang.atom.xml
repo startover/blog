@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/golang.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-08-15T12:00:00+08:00</updated><entry><title>Python 程序员的 Golang 学习指南（I）: Go 之初体验</title><link href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/" rel="alternate"></link><published>2016-08-15T12:00:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-08-15:articles/2016/08/15/golang-for-pythonistas/</id><summary type="html">&lt;h2&gt;Go 语言简介&lt;/h2&gt;
 &lt;p&gt;Go，又称 golang，是 Google 开发的一种静态强类型，编译型，并发型，并具有垃圾回收功能的编程语言。&lt;/p&gt;
-&lt;p&gt;Go 语言于2009年11月正式宣布推出，自2012年发布1.0，最新稳定版1.6。目前，Go的相关工具和生态已逐渐趋于完善，也不乏重量级项目，如 Docker, Kubernetes, Etcd, InfluxDB 等。&lt;/p&gt;
+&lt;p&gt;Go 语言于2009年11月正式宣布推出，自2012年发布1.0，最新稳定版1.7。目前，Go的相关工具和生态已逐渐趋于完善，也不乏重量级项目，如 Docker, Kubernetes, Etcd, InfluxDB 等。&lt;/p&gt;
 &lt;h2&gt;Go 语言能解决什么样的问题&lt;/h2&gt;
 &lt;p&gt;同绝大多数通用型编程语言相比，Go 语言更多的是为了解决我们在构建大型服务器软件过程中所遇到的软件工程方面的问题而设计的。乍看上去，这么讲可能会让人感觉 Go 非常无趣且工业化，但实际上，在设计过程中就着重于清晰和简洁，以及较高的可组合性，最后得到的反而会是一门使用起来效率高而且很有趣的编程语言，很多程序员都会发现，它有极强的表达力而且功能非常强大。&lt;/p&gt;
 &lt;p&gt;总结为以下几点：&lt;/p&gt;
