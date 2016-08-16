@@ -9,7 +9,7 @@ Authors: startover
 
 Go，又称 golang，是 Google 开发的一种静态强类型，编译型，并发型，并具有垃圾回收功能的编程语言。
 
-Go 语言于2009年11月正式宣布推出，自2012年发布1.0，最新稳定版1.6。目前，Go的相关工具和生态已逐渐趋于完善，也不乏重量级项目，如 Docker, Kubernetes, Etcd, InfluxDB 等。
+Go 语言于2009年11月正式宣布推出，自2012年发布1.0，最新稳定版1.7。目前，Go的相关工具和生态已逐渐趋于完善，也不乏重量级项目，如 Docker, Kubernetes, Etcd, InfluxDB 等。
 
 ## Go 语言能解决什么样的问题
 
