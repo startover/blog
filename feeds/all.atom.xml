@@ -50,11 +50,11 @@
 &lt;a href="https://www.zhihu.com/question/23486344"&gt;https://www.zhihu.com/question/23486344&lt;/a&gt;&lt;br /&gt;
 &lt;a href="http://stackoverflow.com/questions/7933460/how-do-you-write-multiline-strings-in-go"&gt;http://stackoverflow.com/questions/7933460/how-do-you-write-multiline-strings-in-go&lt;/a&gt;&lt;br /&gt;
 &lt;a href="http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/"&gt;http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/&lt;/a&gt;&lt;br /&gt;
-&lt;a href="http://www.oschina.net/translate/go-at-google-language-design-in-the-service-of-software-engineering"&gt;http://www.oschina.net/translate/go-at-google-language-design-in-the-service-of-software-engineering&lt;/a&gt;&lt;/p&gt;</summary><category term="Golang"></category><category term="Python"></category></entry><entry><title>Cloud Insight Agent 与 Cacti 集成</title><link href="http://startover.github.io/articles/2016/05/13/cloud-insight-cacti-integration/" rel="alternate"></link><published>2016-05-13T18:00:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-05-13:articles/2016/05/13/cloud-insight-cacti-integration/</id><summary type="html">&lt;h2&gt;原理介绍&lt;/h2&gt;
-&lt;p&gt;Cloud Insight Agent 通过 &lt;a href="https://pypi.python.org/pypi/python-rrdtool"&gt;python-rrdtool&lt;/a&gt; 读取 Cacti 生成的 rrd 文件（在 cacti 根目录的 rra 文件夹下），并将其中的数据解析后上传至 &lt;a href="http://docs-ci.oneapm.com/"&gt;Cloud Insight&lt;/a&gt; 进行可视化。&lt;/p&gt;
+&lt;a href="http://www.oschina.net/translate/go-at-google-language-design-in-the-service-of-software-engineering"&gt;http://www.oschina.net/translate/go-at-google-language-design-in-the-service-of-software-engineering&lt;/a&gt;&lt;/p&gt;</summary><category term="Golang"></category><category term="Python"></category></entry><entry><title>Cloudinsight Agent 与 Cacti 集成</title><link href="http://startover.github.io/articles/2016/05/13/cloudinsight-cacti-integration/" rel="alternate"></link><published>2016-05-13T18:00:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-05-13:articles/2016/05/13/cloudinsight-cacti-integration/</id><summary type="html">&lt;h2&gt;原理介绍&lt;/h2&gt;
+&lt;p&gt;Cloudinsight Agent 通过 &lt;a href="https://pypi.python.org/pypi/python-rrdtool"&gt;python-rrdtool&lt;/a&gt; 读取 Cacti 生成的 rrd 文件（在 cacti 根目录的 rra 文件夹下），并将其中的数据解析后上传至 &lt;a href="http://cloudinsight.oneapm.com/"&gt;Cloudinsight&lt;/a&gt; 进行可视化。&lt;/p&gt;
 &lt;h2&gt;Cacti 安装配置&lt;/h2&gt;
 &lt;p&gt;由于 Cacti 安装配置较为繁琐，这里通过 Docker 容器的方式来解决这个问题。&lt;/p&gt;
-&lt;p&gt;然而，Cloud Insight Agent 需要读取 Cacti 生成的 rrd 文件，所以我们需要将这部分文件挂载到系统主机上。&lt;/p&gt;
+&lt;p&gt;然而，Cloudinsight Agent 需要读取 Cacti 生成的 rrd 文件，所以我们需要将这部分文件挂载到系统主机上。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;创建挂载文件&lt;/li&gt;
 &lt;/ul&gt;
@@ -84,16 +84,14 @@ $ sudo wget -O /etc/mysql/mysqld.cnf https://raw.githubusercontent.com/cloudinsi
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h2&gt;Cloud Insight Agent 集成&lt;/h2&gt;
+&lt;h2&gt;Cloudinsight Agent 集成&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;安装 Cloud Insight Agent&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nv"&gt;CI_LICENSE_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;YOUR_LICENSE_KEY_HERE bash -c &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;curl -L https://download.oneapm.com/oneapm_ci_agent/install_agent.sh&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;ul&gt;
-&lt;li&gt;配置 MySQL 访问权限&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://cloud.oneapm.com/#/settings"&gt;安装&lt;/a&gt; Cloudinsight Agent&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;配置 MySQL 访问权限&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker &lt;span class="nb"&gt;exec&lt;/span&gt; docker-cacti mysql -e &lt;span class="s2"&gt;&amp;quot;create user &amp;#39;oneapm&amp;#39;@&amp;#39;%&amp;#39; identified by &amp;#39;oneapm&amp;#39;;&amp;quot;&lt;/span&gt; -uroot -pmysqlpsswd
 $ docker &lt;span class="nb"&gt;exec&lt;/span&gt; docker-cacti mysql -e &lt;span class="s2"&gt;&amp;quot;grant select on cacti.* to &amp;#39;oneapm&amp;#39;@&amp;#39;%&amp;#39;;&amp;quot;&lt;/span&gt; -uroot -pmysqlpsswd
@@ -119,7 +117,7 @@ $ docker &lt;span class="nb"&gt;exec&lt;/span&gt; docker-cacti mysql -e &lt;span
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker inspect --format &lt;span class="s1"&gt;&amp;#39;{{ .NetworkSettings.IPAddress }}&amp;#39;&lt;/span&gt; docker-cacti
 172.17.0.2
-$ &lt;span class="nb"&gt;cd&lt;/span&gt; /etc/oneapm-ci-agent/conf.d
+$ &lt;span class="nb"&gt;cd&lt;/span&gt; /etc/cloudinsight-agent/conf.d
 $ sudo cp cacti.yaml.example cacti.yaml
 $ sudo vi cacti.yaml
 init_config:
@@ -133,18 +131,18 @@ instances:
 
 
 &lt;ul&gt;
-&lt;li&gt;重启 Cloud Insight Agent&lt;/li&gt;
+&lt;li&gt;重启 Cloudinsight Agent&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo /etc/init.d/oneapm-ci-agent restart
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo /etc/init.d/cloudinsight-agent restart
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;相关链接：
-&lt;a href="https://github.com/QuantumObject/docker-cacti"&gt;https://github.com/QuantumObject/docker-cacti&lt;/a&gt;&lt;/p&gt;</summary><category term="Cloud Insight"></category><category term="Cacti"></category></entry><entry><title>Cloud Insight Agent 与 Nagios 集成</title><link href="http://startover.github.io/articles/2016/04/28/cloud-insight-nagios-integration/" rel="alternate"></link><published>2016-04-28T16:47:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-04-28:articles/2016/04/28/cloud-insight-nagios-integration/</id><summary type="html">&lt;h2&gt;原理介绍&lt;/h2&gt;
-&lt;p&gt;同大多数 Nagios 的可视化系统一样，Cloud Insight Agent 依赖于 Nagios 输出的指标数据，也即需要启用 Nagios 的性能数据处理功能（在 nagios.cfg 文件中，设置process_performance_data=1即可）。&lt;/p&gt;
+&lt;a href="https://github.com/QuantumObject/docker-cacti"&gt;https://github.com/QuantumObject/docker-cacti&lt;/a&gt;&lt;/p&gt;</summary><category term="Cloudinsight"></category><category term="Cacti"></category></entry><entry><title>Cloudinsight Agent 与 Nagios 集成</title><link href="http://startover.github.io/articles/2016/04/28/cloudinsight-nagios-integration/" rel="alternate"></link><published>2016-04-28T16:47:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-04-28:articles/2016/04/28/cloudinsight-nagios-integration/</id><summary type="html">&lt;h2&gt;原理介绍&lt;/h2&gt;
+&lt;p&gt;同大多数 Nagios 的可视化系统一样，Cloudinsight Agent 依赖于 Nagios 输出的指标数据，也即需要启用 Nagios 的性能数据处理功能（在 nagios.cfg 文件中，设置process_performance_data=1即可）。&lt;/p&gt;
 &lt;h2&gt;Nagios 安装配置&lt;/h2&gt;
 &lt;p&gt;由于 Nagios 安装配置较为繁琐，这里通过 Docker 容器的方式来解决这个问题。&lt;/p&gt;
-&lt;p&gt;然而，Cloud Insight Agent 需要读取 Nagios 的配置文件且依赖于 Nagios 输出的指标数据，所以我们需要将这部分文件挂载到系统主机上。&lt;/p&gt;
+&lt;p&gt;然而，Cloudinsight Agent 需要读取 Nagios 的配置文件且依赖于 Nagios 输出的指标数据，所以我们需要将这部分文件挂载到系统主机上。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;创建 Nagios 配置文件&lt;/li&gt;
 &lt;/ul&gt;
@@ -189,18 +187,16 @@ $ sudo vi /usr/local/nagios/etc/nagios.cfg
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h2&gt;Cloud Insight Agent 集成&lt;/h2&gt;
+&lt;h2&gt;Cloudinsight Agent 集成&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;安装 Cloud Insight Agent&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://cloud.oneapm.com/#/settings"&gt;安装&lt;/a&gt; Cloudinsight Agent&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;配置 Nagios 监控&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nv"&gt;CI_LICENSE_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;YOUR_LICENSE_KEY_HERE bash -c &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;curl -L https://download.oneapm.com/oneapm_ci_agent/install_agent.sh&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;ul&gt;
-&lt;li&gt;配置 Nagios 监控&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; /etc/oneapm-ci-agent/conf.d
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; /etc/cloudinsight-agent/conf.d
 $ sudo cp nagios.yaml.example nagios.yaml
 $ sudo vi nagios.yaml
 init_config:
@@ -212,17 +208,17 @@ instances:
 
 
 &lt;ul&gt;
-&lt;li&gt;重启 Cloud Insight Agent&lt;/li&gt;
+&lt;li&gt;重启 Cloudinsight Agent&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo /etc/init.d/oneapm-ci-agent restart
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo /etc/init.d/cloudinsight-agent restart
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;关于 Nagios 的介绍和相关配置，请参考下面几篇文章：&lt;br /&gt;
 &lt;a href="http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html"&gt;http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html&lt;/a&gt;&lt;br /&gt;
 &lt;a href="http://www.unixmen.com/install-configure-nagios-4-centos-7/"&gt;http://www.unixmen.com/install-configure-nagios-4-centos-7/&lt;/a&gt;&lt;br /&gt;
-&lt;a href="https://kura.io/2010/03/21/configuring-nagios-to-monitor-remote-load-disk-using-nrpe/"&gt;https://kura.io/2010/03/21/configuring-nagios-to-monitor-remote-load-disk-using-nrpe/&lt;/a&gt;&lt;/p&gt;</summary><category term="Cloud Insight"></category><category term="Nagios"></category></entry><entry><title>Python Flask vs Ruby Sinatra vs Go Martini vs Node Express</title><link href="http://startover.github.io/articles/2016/03/15/python-ruby-go-node-benchmark/" rel="alternate"></link><published>2016-03-15T14:21:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-03-15:articles/2016/03/15/python-ruby-go-node-benchmark/</id><summary type="html">&lt;p&gt;&lt;em&gt;题外话一&lt;/em&gt;：&lt;br /&gt;
-最近一段时间，Cloud Insight接连发布了三种语言（Python, Node, Ruby）的SDK，Cloud Insight Agent也迎来了重大突破，发布了&lt;a href="http://www.oneapm.com/ci/windows.html"&gt;Windows监控&lt;/a&gt;第一个版本，总算可以松口气写点东西了...&lt;/p&gt;
+&lt;a href="https://kura.io/2010/03/21/configuring-nagios-to-monitor-remote-load-disk-using-nrpe/"&gt;https://kura.io/2010/03/21/configuring-nagios-to-monitor-remote-load-disk-using-nrpe/&lt;/a&gt;&lt;/p&gt;</summary><category term="Cloudinsight"></category><category term="Nagios"></category></entry><entry><title>Python Flask vs Ruby Sinatra vs Go Martini vs Node Express</title><link href="http://startover.github.io/articles/2016/03/15/python-ruby-go-node-benchmark/" rel="alternate"></link><published>2016-03-15T14:21:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-03-15:articles/2016/03/15/python-ruby-go-node-benchmark/</id><summary type="html">&lt;p&gt;&lt;em&gt;题外话一&lt;/em&gt;：&lt;br /&gt;
+最近一段时间，Cloudinsight接连发布了三种语言（Python, Node, Ruby）的SDK，Cloudinsight Agent也迎来了重大突破，发布了&lt;a href="http://www.oneapm.com/ci/windows.html"&gt;Windows监控&lt;/a&gt;第一个版本，总算可以松口气写点东西了...&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;题外话二&lt;/em&gt;：&lt;br /&gt;
 偶然的机会看到一篇&lt;a href="https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/"&gt;blog&lt;/a&gt;，文中详细介绍了&lt;a href="https://github.com/mitsuhiko/flask"&gt;Flask&lt;/a&gt;(Python), &lt;a href="https://github.com/sinatra/sinatra"&gt;Sinatra&lt;/a&gt;(Ruby)以及&lt;a href="https://github.com/go-martini/martini"&gt;Matini&lt;/a&gt;(Golang)这三类微型框架的用法，并提供了各个框架在Docker下的部署方式。然而，美中不足的是没有提供各个框架的性能对比情况，经过一番搜罗，发现了一篇对现今主流框架做&lt;a href="https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.vticwh9tn"&gt;性能对比的文章&lt;/a&gt;，找到两者的结合点，于是才有了今天这篇文章 :)&lt;/p&gt;
 &lt;hr /&gt;

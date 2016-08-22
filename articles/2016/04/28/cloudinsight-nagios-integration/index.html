@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
         <meta charset="utf-8" />
-    <title>startover's blog | Cloud Insight Agent 与 Nagios 集成</title>
+    <title>startover's blog | Cloudinsight Agent 与 Nagios 集成</title>
     <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
     <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
     <link href="http://startover.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Full Atom Feed" />
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="http://startover.github.io/theme/css/print.css" type="text/css" media="print" />
     <meta name="generator" content="Pelican" />
 
-    <meta name="keywords" content="Cloud Insight,Nagios" />
+    <meta name="keywords" content="Cloudinsight,Nagios" />
 </head>
 <body>
     <!-- Fork me on github -->
@@ -39,14 +39,14 @@
 
     <article class="post">
             <h2 class="title">
-                <a href="http://startover.github.io/articles/2016/04/28/cloud-insight-nagios-integration/" rel="bookmark" title="Permanent Link to &quot;Cloud Insight Agent 与 Nagios 集成&quot;">Cloud Insight Agent 与 Nagios 集成</a>
+                <a href="http://startover.github.io/articles/2016/04/28/cloudinsight-nagios-integration/" rel="bookmark" title="Permanent Link to &quot;Cloudinsight Agent 与 Nagios 集成&quot;">Cloudinsight Agent 与 Nagios 集成</a>
             </h2>
 
             <h2>原理介绍</h2>
-<p>同大多数 Nagios 的可视化系统一样，Cloud Insight Agent 依赖于 Nagios 输出的指标数据，也即需要启用 Nagios 的性能数据处理功能（在 nagios.cfg 文件中，设置process_performance_data=1即可）。</p>
+<p>同大多数 Nagios 的可视化系统一样，Cloudinsight Agent 依赖于 Nagios 输出的指标数据，也即需要启用 Nagios 的性能数据处理功能（在 nagios.cfg 文件中，设置process_performance_data=1即可）。</p>
 <h2>Nagios 安装配置</h2>
 <p>由于 Nagios 安装配置较为繁琐，这里通过 Docker 容器的方式来解决这个问题。</p>
-<p>然而，Cloud Insight Agent 需要读取 Nagios 的配置文件且依赖于 Nagios 输出的指标数据，所以我们需要将这部分文件挂载到系统主机上。</p>
+<p>然而，Cloudinsight Agent 需要读取 Nagios 的配置文件且依赖于 Nagios 输出的指标数据，所以我们需要将这部分文件挂载到系统主机上。</p>
 <ul>
 <li>创建 Nagios 配置文件</li>
 </ul>
@@ -91,18 +91,16 @@ $ sudo vi /usr/local/nagios/etc/nagios.cfg
 </pre></div>
 
 
-<h2>Cloud Insight Agent 集成</h2>
+<h2>Cloudinsight Agent 集成</h2>
 <ul>
-<li>安装 Cloud Insight Agent</li>
+<li>
+<p><a href="http://cloud.oneapm.com/#/settings">安装</a> Cloudinsight Agent</p>
+</li>
+<li>
+<p>配置 Nagios 监控</p>
+</li>
 </ul>
-<div class="highlight"><pre><span></span>$ <span class="nv">CI_LICENSE_KEY</span><span class="o">=</span>YOUR_LICENSE_KEY_HERE bash -c <span class="s2">&quot;</span><span class="k">$(</span>curl -L https://download.oneapm.com/oneapm_ci_agent/install_agent.sh<span class="k">)</span><span class="s2">&quot;</span>
-</pre></div>
-
-
-<ul>
-<li>配置 Nagios 监控</li>
-</ul>
-<div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /etc/oneapm-ci-agent/conf.d
+<div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /etc/cloudinsight-agent/conf.d
 $ sudo cp nagios.yaml.example nagios.yaml
 $ sudo vi nagios.yaml
 init_config:
@@ -114,9 +112,9 @@ instances:
 
 
 <ul>
-<li>重启 Cloud Insight Agent</li>
+<li>重启 Cloudinsight Agent</li>
 </ul>
-<div class="highlight"><pre><span></span>$ sudo /etc/init.d/oneapm-ci-agent restart
+<div class="highlight"><pre><span></span>$ sudo /etc/init.d/cloudinsight-agent restart
 </pre></div>
 
 
@@ -128,10 +126,10 @@ instances:
         <div class="clear"></div>
 
         <div class="info">
-            <a href="http://startover.github.io/articles/2016/04/28/cloud-insight-nagios-integration/">posted at 16:47</a>
+            <a href="http://startover.github.io/articles/2016/04/28/cloudinsight-nagios-integration/">posted at 16:47</a>
             &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/xi-tong-jian-kong/" rel="tag">系统监控</a>
             &nbsp;&middot;
-            &nbsp;<a href="http://startover.github.io/tag/cloud-insight/" class="tags">Cloud Insight</a>
+            &nbsp;<a href="http://startover.github.io/tag/cloudinsight/" class="tags">Cloudinsight</a>
             &nbsp;<a href="http://startover.github.io/tag/nagios/" class="tags">Nagios</a>
         </div>
     </article>
@@ -142,8 +140,8 @@ instances:
         </a>
     </li>
     <li>
-        下一篇：<a href="http://startover.github.io/articles/2016/05/13/cloud-insight-cacti-integration/">
-            Cloud Insight Agent 与 Cacti 集成
+        下一篇：<a href="http://startover.github.io/articles/2016/05/13/cloudinsight-cacti-integration/">
+            Cloudinsight Agent 与 Cacti 集成
         </a>
     </li>
 </ul>
@@ -152,7 +150,7 @@ instances:
 <h1>Comments</h1>
 <div id="DuoShuoComment" aria-live="polite">
 <!-- 多说评论框 start -->
-<div class="ds-thread" data-thread-key="cloud-insight-nagios-integration" data-title="Cloud Insight Agent 与 Nagios 集成" data-url="http://startover.github.io/articles/2016/04/28/cloud-insight-nagios-integration/"></div>
+<div class="ds-thread" data-thread-key="cloudinsight-nagios-integration" data-title="Cloudinsight Agent 与 Nagios 集成" data-url="http://startover.github.io/articles/2016/04/28/cloudinsight-nagios-integration/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
