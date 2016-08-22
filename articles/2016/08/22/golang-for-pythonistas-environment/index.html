@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+        <meta charset="utf-8" />
+    <title>startover's blog | Python 程序员的 Golang 学习指南（II）: 开发环境搭建</title>
+    <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
+    <link href="http://startover.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Full Atom Feed" />
+    <link href="http://startover.github.io/feeds/golang.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Categories Atom Feed" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/screen.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/print.css" type="text/css" media="print" />
+    <meta name="generator" content="Pelican" />
+
+    <meta name="keywords" content="Golang,Python" />
+</head>
+<body>
+    <!-- Fork me on github -->
+    <a target="_blank" href="https://github.com/startover">
+    <img width="149px" height="149px" style="position: absolute; top: 0px; right: 0; border: 0; margin: 0; box-shadow: initial" src="http://startover.github.io/theme/icons/forkme.png" alt="Fork me on GitHub" />
+    </a>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="http://startover.github.io/">Home</a></li>
+                <li><a href="http://startover.github.io/about">About</a></li>
+                <li><a href="http://startover.github.io/categories">Categories</a></li>
+                <li><a href="http://startover.github.io/tags">Tags</a></li>
+                <li><a href="http://startover.github.io/archives">Archives</a></li>
+            </ul>
+        </nav>
+        <div class="header_box">
+            <h1><a href="http://startover.github.io/">startover's blog</a></h1>
+        </div>
+    </header>
+    <div id="wrapper">
+        <div id="content">        <h4 class="date"> 8月 22, 2016</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2016/08/22/golang-for-pythonistas-environment/" rel="bookmark" title="Permanent Link to &quot;Python 程序员的 Golang 学习指南（II）: 开发环境搭建&quot;">Python 程序员的 Golang 学习指南（II）: 开发环境搭建</a>
+            </h2>
+
+            <p><a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/">上一篇文章</a>我们已经对 Golang 有了初步的了解，这篇主要介绍如何在 Ubuntu 14.04 上搭建 Golang 开发环境。</p>
+<h2>安装 Golang</h2>
+<p>这里就按照<a href="https://golang.org/doc/install#install">官方文档</a>进行安装即可，如下：</p>
+<ul>
+<li>下载并解压安装包到指定目录</li>
+</ul>
+<div class="highlight"><pre><span></span>$ wget https://storage.googleapis.com/golang/go1.6.3.linux-amd64.tar.gz
+$ tar -C /usr/local -xzf go1.6.3.linux-amd64.tar.gz
+</pre></div>
+
+
+<ul>
+<li>设置 PATH</li>
+</ul>
+<div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="s2">&quot;export PATH=</span><span class="nv">$PATH</span><span class="s2">:/usr/local/go/bin&quot;</span> &gt;&gt; ~/.bashrc
+$ <span class="nb">source</span> ~/.bashrc
+</pre></div>
+
+
+<ul>
+<li>验证安装</li>
+</ul>
+<div class="highlight"><pre><span></span>$ go version
+go version go1.6.3 linux/amd64
+</pre></div>
+
+
+<h2>环境变量设置</h2>
+<div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="s2">&quot;export GOROOT=/usr/local/go&quot;</span> &gt;&gt; ~/.bashrc
+$ <span class="nb">echo</span> <span class="s2">&quot;export GOPATH=</span><span class="nv">$HOME</span><span class="s2">/go&quot;</span> &gt;&gt; ~/.bashrc
+$ <span class="nb">source</span> ~/.bashrc
+</pre></div>
+
+
+<p>其中，GOROOT 为 Golang 的安装目录，只有当 Golang 安装到除 /usr/local 之外的路径时需要设置，反之则不用设置，GOPATH 是 Golang 的开发目录，详细可参考<a href="https://golang.org/cmd/go/#hdr-GOPATH_environment_variable">官方文档</a>。</p>
+<h2>开发工具</h2>
+<p>工欲善其事，必先利其器，作为一名伪 VIMer，这里主要介绍下如何在 Vim 下配置 Golang 开发环境。</p>
+<p>由于之前一直使用 <a href="https://github.com/wklken/k-vim">k-vim</a> 作为 Python 开发环境，而 <a href="https://github.com/wklken/k-vim">k-vim</a> 已经集成了当前使用最为广泛的用于搭建 Golang 开发环境的 vim 插件 <a href="https://github.com/fatih/vim-go">vim-go</a>，只是默认没有开启，需要我们手动进行相关设置。 </p>
+<p>在 <a href="https://github.com/wklken/k-vim">k-vim</a> 中开启 Golang 语言的支持，非常简单，如下：</p>
+<ul>
+<li>修改 ~/.vimrc.bundles（开启 golang 支持，并修改 vim-go 的默认配置，增加快捷键配置等）。</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="nb">let</span> g:bundle_groups<span class="o">=[</span><span class="s1">&#39;python&#39;</span>, <span class="s1">&#39;javascript&#39;</span>, <span class="s1">&#39;markdown&#39;</span>, <span class="s1">&#39;html&#39;</span>, <span class="s1">&#39;css&#39;</span>, <span class="s1">&#39;tmux&#39;</span>, <span class="s1">&#39;beta&#39;</span>, <span class="s1">&#39;json&#39;</span>, <span class="s1">&#39;golang&#39;</span><span class="o">]</span>
+
+<span class="s2">&quot; vimgo {{{</span>
+<span class="s2">    let g:go_highlight_functions = 1</span>
+<span class="s2">    let g:go_highlight_methods = 1</span>
+<span class="s2">    let g:go_highlight_structs = 1</span>
+<span class="s2">    let g:go_highlight_operators = 1</span>
+<span class="s2">    let g:go_highlight_build_constraints = 1</span>
+
+<span class="s2">    let g:go_fmt_fail_silently = 1</span>
+<span class="s2">    let g:go_fmt_command = &quot;</span>goimports<span class="s2">&quot;</span>
+<span class="s2">    let g:syntastic_go_checkers = [&#39;golint&#39;, &#39;govet&#39;, &#39;errcheck&#39;]</span>
+
+<span class="s2">    &quot;</span> vim-go custom mappings
+    au FileType go nmap &lt;Leader&gt;s &lt;Plug&gt;<span class="o">(</span>go-implements<span class="o">)</span>
+    au FileType go nmap &lt;Leader&gt;i &lt;Plug&gt;<span class="o">(</span>go-info<span class="o">)</span>
+    au FileType go nmap &lt;Leader&gt;gd &lt;Plug&gt;<span class="o">(</span>go-doc<span class="o">)</span>
+    au FileType go nmap &lt;Leader&gt;gv &lt;Plug&gt;<span class="o">(</span>go-doc-vertical<span class="o">)</span>
+    au FileType go nmap &lt;leader&gt;r &lt;Plug&gt;<span class="o">(</span>go-run<span class="o">)</span>
+    au FileType go nmap &lt;leader&gt;b &lt;Plug&gt;<span class="o">(</span>go-build<span class="o">)</span>
+    au FileType go nmap &lt;leader&gt;t &lt;Plug&gt;<span class="o">(</span>go-test<span class="o">)</span>
+    au FileType go nmap &lt;leader&gt;c &lt;Plug&gt;<span class="o">(</span>go-coverage<span class="o">)</span>
+    au FileType go nmap &lt;Leader&gt;ds &lt;Plug&gt;<span class="o">(</span>go-def-split<span class="o">)</span>
+    au FileType go nmap &lt;Leader&gt;dv &lt;Plug&gt;<span class="o">(</span>go-def-vertical<span class="o">)</span>
+    au FileType go nmap &lt;Leader&gt;dt &lt;Plug&gt;<span class="o">(</span>go-def-tab<span class="o">)</span>
+    au FileType go nmap &lt;Leader&gt;e &lt;Plug&gt;<span class="o">(</span>go-rename<span class="o">)</span>
+    au FileType go nnoremap &lt;leader&gt;gr :GoRun %&lt;CR&gt;
+<span class="s2">&quot; }}}</span>
+</pre></div>
+
+
+<ul>
+<li>
+<p>在 Vim 内执行 <code>:PlugInstall</code>，安装 <a href="https://github.com/fatih/vim-go">vim-go</a>。</p>
+</li>
+<li>
+<p>在 Vim 内执行 <code>:GoInstallBinaries</code>，下载并安装 <a href="https://github.com/fatih/vim-go">vim-go</a> 依赖的二进制工具，<code>goimports</code>，<code>golint</code> 等。</p>
+</li>
+<li>
+<p>安装 <a href="https://github.com/jstemmer/gotags">gotags</a>，使 <code>tagbar</code> 配置生效。</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span>$ go get -u github.com/jstemmer/gotags
+</pre></div>
+
+
+<p>我们来看一下最终效果：</p>
+<p><img alt="Image of Golang Environment in Vim" src="http://startover.github.io/images/golang-for-pythonistas-environment.png" /></p>
+<h2>编写第一个程序</h2>
+<p>进入工作目录，新建文件 <code>hello.go</code>，如下：</p>
+<div class="highlight"><pre><span></span><span class="err">$</span> <span class="n">cd</span> <span class="err">$</span><span class="n">GOPATH</span>
+<span class="err">$</span> <span class="n">vim</span> <span class="n">hello</span><span class="o">.</span><span class="n">go</span>
+<span class="n">package</span> <span class="n">main</span>
+
+<span class="kn">import</span> <span class="s2">&quot;fmt&quot;</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&quot;Hello, World！&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>运行程序：</p>
+<div class="highlight"><pre><span></span>$ go run hello.go
+Hello, World！
+</pre></div>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2016/08/22/golang-for-pythonistas-environment/">posted at 16:10</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/golang/" rel="tag">Golang</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/golang/" class="tags">Golang</a>
+            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags">Python</a>
+        </div>
+    </article>
+<ul style="float:right;">
+    <li>
+        上一篇：<a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/">
+            Python 程序员的 Golang 学习指南（I）: Go 之初体验
+        </a>
+    </li>
+</ul>
+
+<section>
+<h1>Comments</h1>
+<div id="DuoShuoComment" aria-live="polite">
+<!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="golang-for-pythonistas-environment" data-title="Python 程序员的 Golang 学习指南（II）: 开发环境搭建" data-url="http://startover.github.io/articles/2016/08/22/golang-for-pythonistas-environment/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"startover"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<!-- 多说公共JS代码 end --></div>
+</section>
+
+            <div class="clear"></div>
+            <footer>
+                <p>
+                <a href="https://github.com/jody-frankowski/blue-penguin">Blue Penguin</a> Theme
+                &middot;
+                Powered by <a href="http://getpelican.com">Pelican</a>
+                &middot;
+                <a href="http://startover.github.io/feeds/all.atom.xml" rel="alternate">Atom Feed</a>
+            </footer>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+<script src="http://startover.github.io/theme/js/libs/jquery-1.9.1.min.js"></script>
+<script>
+    (function() {
+    var $backToTopTxt = "返回顶部", $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+    .text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+    }), $backToTopFun = function() {
+    var st = $(document).scrollTop(), winh = $(window).height();
+    (st > 0)? $backToTopEle.show(): $backToTopEle.hide();
+    //IE6下的定位
+    if (!window.XMLHttpRequest) {
+    $backToTopEle.css("top", st + winh - 166);
+    }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $(function() { $backToTopFun(); });
+    })();
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63815463-1', 'startover.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

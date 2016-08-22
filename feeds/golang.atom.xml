@@ -1,5 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/golang.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-08-15T12:00:00+08:00</updated><entry><title>Python 程序员的 Golang 学习指南（I）: Go 之初体验</title><link href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/" rel="alternate"></link><published>2016-08-15T12:00:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-08-15:articles/2016/08/15/golang-for-pythonistas/</id><summary type="html">&lt;h2&gt;Go 语言简介&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/golang.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-08-22T16:10:00+08:00</updated><entry><title>Python 程序员的 Golang 学习指南（II）: 开发环境搭建</title><link href="http://startover.github.io/articles/2016/08/22/golang-for-pythonistas-environment/" rel="alternate"></link><published>2016-08-22T16:10:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-08-22:articles/2016/08/22/golang-for-pythonistas-environment/</id><summary type="html">&lt;p&gt;&lt;a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/"&gt;上一篇文章&lt;/a&gt;我们已经对 Golang 有了初步的了解，这篇主要介绍如何在 Ubuntu 14.04 上搭建 Golang 开发环境。&lt;/p&gt;
+&lt;h2&gt;安装 Golang&lt;/h2&gt;
+&lt;p&gt;这里就按照&lt;a href="https://golang.org/doc/install#install"&gt;官方文档&lt;/a&gt;进行安装即可，如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下载并解压安装包到指定目录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ wget https://storage.googleapis.com/golang/go1.6.3.linux-amd64.tar.gz
+$ tar -C /usr/local -xzf go1.6.3.linux-amd64.tar.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;设置 PATH&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;export PATH=&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;&lt;span class="s2"&gt;:/usr/local/go/bin&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+$ &lt;span class="nb"&gt;source&lt;/span&gt; ~/.bashrc
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;验证安装&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ go version
+go version go1.6.3 linux/amd64
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;环境变量设置&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;export GOROOT=/usr/local/go&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;export GOPATH=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/go&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+$ &lt;span class="nb"&gt;source&lt;/span&gt; ~/.bashrc
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中，GOROOT 为 Golang 的安装目录，只有当 Golang 安装到除 /usr/local 之外的路径时需要设置，反之则不用设置，GOPATH 是 Golang 的开发目录，详细可参考&lt;a href="https://golang.org/cmd/go/#hdr-GOPATH_environment_variable"&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
+&lt;h2&gt;开发工具&lt;/h2&gt;
+&lt;p&gt;工欲善其事，必先利其器，作为一名伪 VIMer，这里主要介绍下如何在 Vim 下配置 Golang 开发环境。&lt;/p&gt;
+&lt;p&gt;由于之前一直使用 &lt;a href="https://github.com/wklken/k-vim"&gt;k-vim&lt;/a&gt; 作为 Python 开发环境，而 &lt;a href="https://github.com/wklken/k-vim"&gt;k-vim&lt;/a&gt; 已经集成了当前使用最为广泛的用于搭建 Golang 开发环境的 vim 插件 &lt;a href="https://github.com/fatih/vim-go"&gt;vim-go&lt;/a&gt;，只是默认没有开启，需要我们手动进行相关设置。 &lt;/p&gt;
+&lt;p&gt;在 &lt;a href="https://github.com/wklken/k-vim"&gt;k-vim&lt;/a&gt; 中开启 Golang 语言的支持，非常简单，如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;修改 ~/.vimrc.bundles（开启 golang 支持，并修改 vim-go 的默认配置，增加快捷键配置等）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;let&lt;/span&gt; g:bundle_groups&lt;span class="o"&gt;=[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;python&amp;#39;&lt;/span&gt;, &lt;span class="s1"&gt;&amp;#39;javascript&amp;#39;&lt;/span&gt;, &lt;span class="s1"&gt;&amp;#39;markdown&amp;#39;&lt;/span&gt;, &lt;span class="s1"&gt;&amp;#39;html&amp;#39;&lt;/span&gt;, &lt;span class="s1"&gt;&amp;#39;css&amp;#39;&lt;/span&gt;, &lt;span class="s1"&gt;&amp;#39;tmux&amp;#39;&lt;/span&gt;, &lt;span class="s1"&gt;&amp;#39;beta&amp;#39;&lt;/span&gt;, &lt;span class="s1"&gt;&amp;#39;json&amp;#39;&lt;/span&gt;, &lt;span class="s1"&gt;&amp;#39;golang&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+
+&lt;span class="s2"&gt;&amp;quot; vimgo {{{&lt;/span&gt;
+&lt;span class="s2"&gt;    let g:go_highlight_functions = 1&lt;/span&gt;
+&lt;span class="s2"&gt;    let g:go_highlight_methods = 1&lt;/span&gt;
+&lt;span class="s2"&gt;    let g:go_highlight_structs = 1&lt;/span&gt;
+&lt;span class="s2"&gt;    let g:go_highlight_operators = 1&lt;/span&gt;
+&lt;span class="s2"&gt;    let g:go_highlight_build_constraints = 1&lt;/span&gt;
+
+&lt;span class="s2"&gt;    let g:go_fmt_fail_silently = 1&lt;/span&gt;
+&lt;span class="s2"&gt;    let g:go_fmt_command = &amp;quot;&lt;/span&gt;goimports&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;    let g:syntastic_go_checkers = [&amp;#39;golint&amp;#39;, &amp;#39;govet&amp;#39;, &amp;#39;errcheck&amp;#39;]&lt;/span&gt;
+
+&lt;span class="s2"&gt;    &amp;quot;&lt;/span&gt; vim-go custom mappings
+    au FileType go nmap &amp;lt;Leader&amp;gt;s &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-implements&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;Leader&amp;gt;i &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-info&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;Leader&amp;gt;gd &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-doc&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;Leader&amp;gt;gv &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-doc-vertical&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;leader&amp;gt;r &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-run&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;leader&amp;gt;b &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-build&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;leader&amp;gt;t &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-test&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;leader&amp;gt;c &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-coverage&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;Leader&amp;gt;ds &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-def-split&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;Leader&amp;gt;dv &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-def-vertical&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;Leader&amp;gt;dt &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-def-tab&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nmap &amp;lt;Leader&amp;gt;e &amp;lt;Plug&amp;gt;&lt;span class="o"&gt;(&lt;/span&gt;go-rename&lt;span class="o"&gt;)&lt;/span&gt;
+    au FileType go nnoremap &amp;lt;leader&amp;gt;gr :GoRun %&amp;lt;CR&amp;gt;
+&lt;span class="s2"&gt;&amp;quot; }}}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;在 Vim 内执行 &lt;code&gt;:PlugInstall&lt;/code&gt;，安装 &lt;a href="https://github.com/fatih/vim-go"&gt;vim-go&lt;/a&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在 Vim 内执行 &lt;code&gt;:GoInstallBinaries&lt;/code&gt;，下载并安装 &lt;a href="https://github.com/fatih/vim-go"&gt;vim-go&lt;/a&gt; 依赖的二进制工具，&lt;code&gt;goimports&lt;/code&gt;，&lt;code&gt;golint&lt;/code&gt; 等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装 &lt;a href="https://github.com/jstemmer/gotags"&gt;gotags&lt;/a&gt;，使 &lt;code&gt;tagbar&lt;/code&gt; 配置生效。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ go get -u github.com/jstemmer/gotags
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;我们来看一下最终效果：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Image of Golang Environment in Vim" src="http://startover.github.io/images/golang-for-pythonistas-environment.png" /&gt;&lt;/p&gt;
+&lt;h2&gt;编写第一个程序&lt;/h2&gt;
+&lt;p&gt;进入工作目录，新建文件 &lt;code&gt;hello.go&lt;/code&gt;，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;GOPATH&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;go&lt;/span&gt;
+&lt;span class="n"&gt;package&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;func&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;fmt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Hello, World！&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;运行程序：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ go run hello.go
+Hello, World！
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Golang"></category><category term="Python"></category></entry><entry><title>Python 程序员的 Golang 学习指南（I）: Go 之初体验</title><link href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/" rel="alternate"></link><published>2016-08-15T12:00:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-08-15:articles/2016/08/15/golang-for-pythonistas/</id><summary type="html">&lt;h2&gt;Go 语言简介&lt;/h2&gt;
 &lt;p&gt;Go，又称 golang，是 Google 开发的一种静态强类型，编译型，并发型，并具有垃圾回收功能的编程语言。&lt;/p&gt;
 &lt;p&gt;Go 语言于2009年11月正式宣布推出，自2012年发布1.0，最新稳定版1.7。目前，Go的相关工具和生态已逐渐趋于完善，也不乏重量级项目，如 Docker, Kubernetes, Etcd, InfluxDB 等。&lt;/p&gt;
 &lt;h2&gt;Go 语言能解决什么样的问题&lt;/h2&gt;
@@ -43,7 +150,7 @@
 &lt;p&gt;当然也可以去知乎看看大牛们都是如何学习的，链接 &lt;a href="https://www.zhihu.com/question/23486344"&gt;https://www.zhihu.com/question/23486344&lt;/a&gt;。&lt;/p&gt;
 &lt;h2&gt;总结&lt;/h2&gt;
 &lt;p&gt;虽然 Go 有很多被诟病的地方，比如 GC 和对错误的处理方式，但没有任何语言是完美的，从实用角度来讲，Go 有着不输于 Python 的开发效率，完善的第三方工具，以及强大的社区支持，这些就足够了。&lt;/p&gt;
-&lt;p&gt;参考链接：&lt;br /&gt;
+&lt;p&gt;相关链接：&lt;br /&gt;
 &lt;a href="https://golang.org/doc/"&gt;https://golang.org/doc/&lt;/a&gt;&lt;br /&gt;
 &lt;a href="https://talks.golang.org/2012/splash.article"&gt;https://talks.golang.org/2012/splash.article&lt;/a&gt;&lt;br /&gt;
 &lt;a href="https://www.zhihu.com/question/21409296"&gt;https://www.zhihu.com/question/21409296&lt;/a&gt;&lt;br /&gt;

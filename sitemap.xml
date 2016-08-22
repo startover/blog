@@ -5,7 +5,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://startover.github.io/</loc>
-<lastmod>2016-08-22T11:07:52-00:00</lastmod>
+<lastmod>2016-08-22T17:02:13-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -15,6 +15,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <lastmod>2015-06-02T15:25:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://startover.github.io/articles/2016/08/22/golang-for-pythonistas-environment/</loc>
+<lastmod>2016-08-22T16:10:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -75,7 +82,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://startover.github.io/category/golang/</loc>
-<lastmod>2016-08-15T12:00:00+08:06</lastmod>
+<lastmod>2016-08-22T16:10:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -117,7 +124,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://startover.github.io/tag/python/</loc>
-<lastmod>2016-08-15T12:00:00+08:06</lastmod>
+<lastmod>2016-08-22T16:10:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -138,7 +145,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://startover.github.io/tag/golang/</loc>
-<lastmod>2016-08-15T12:00:00+08:06</lastmod>
+<lastmod>2016-08-22T16:10:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
