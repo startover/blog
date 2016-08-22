@@ -1,19 +1,19 @@
-Title: Cloud Insight Agent 与 Cacti 集成
+Title: Cloudinsight Agent 与 Cacti 集成
 Date: 2016-05-13 18:00
 Category: 系统监控
-Tags: Cloud Insight, Cacti
-Slug: cloud-insight-cacti-integration
+Tags: Cloudinsight, Cacti
+Slug: cloudinsight-cacti-integration
 Authors: startover
 
 ## 原理介绍
 
-Cloud Insight Agent 通过 [python-rrdtool](https://pypi.python.org/pypi/python-rrdtool) 读取 Cacti 生成的 rrd 文件（在 cacti 根目录的 rra 文件夹下），并将其中的数据解析后上传至 [Cloud Insight](http://docs-ci.oneapm.com/) 进行可视化。
+Cloudinsight Agent 通过 [python-rrdtool](https://pypi.python.org/pypi/python-rrdtool) 读取 Cacti 生成的 rrd 文件（在 cacti 根目录的 rra 文件夹下），并将其中的数据解析后上传至 [Cloudinsight](http://cloudinsight.oneapm.com/) 进行可视化。
 
 ## Cacti 安装配置
 
 由于 Cacti 安装配置较为繁琐，这里通过 Docker 容器的方式来解决这个问题。
 
-然而，Cloud Insight Agent 需要读取 Cacti 生成的 rrd 文件，所以我们需要将这部分文件挂载到系统主机上。
+然而，Cloudinsight Agent 需要读取 Cacti 生成的 rrd 文件，所以我们需要将这部分文件挂载到系统主机上。
 
 * 创建挂载文件
 
@@ -42,13 +42,9 @@ $ docker run -d --name docker-cacti \
              quantumobject/docker-cacti
 ```
 
-## Cloud Insight Agent 集成
+## Cloudinsight Agent 集成
 
-* 安装 Cloud Insight Agent
-
-```
-$ CI_LICENSE_KEY=YOUR_LICENSE_KEY_HERE bash -c "$(curl -L https://download.oneapm.com/oneapm_ci_agent/install_agent.sh)"
-```
+* [安装](http://cloud.oneapm.com/#/settings) Cloudinsight Agent
 
 * 配置 MySQL 访问权限
 
@@ -76,7 +72,7 @@ sudo yum -y install rrdtool*
 ```
 $ docker inspect --format '{{ .NetworkSettings.IPAddress }}' docker-cacti
 172.17.0.2
-$ cd /etc/oneapm-ci-agent/conf.d
+$ cd /etc/cloudinsight-agent/conf.d
 $ sudo cp cacti.yaml.example cacti.yaml
 $ sudo vi cacti.yaml
 init_config:
@@ -88,10 +84,10 @@ instances:
     rrd_path: /var/lib/cacti/rra
 ```
 
-* 重启 Cloud Insight Agent
+* 重启 Cloudinsight Agent
 
 ```
-$ sudo /etc/init.d/oneapm-ci-agent restart
+$ sudo /etc/init.d/cloudinsight-agent restart
 ```
 
 相关链接：

@@ -7,7 +7,7 @@ Authors: startover
 
 
 <em>题外话一</em>：  
-最近一段时间，Cloud Insight接连发布了三种语言（Python, Node, Ruby）的SDK，Cloud Insight Agent也迎来了重大突破，发布了[Windows监控](http://www.oneapm.com/ci/windows.html)第一个版本，总算可以松口气写点东西了...
+最近一段时间，Cloudinsight接连发布了三种语言（Python, Node, Ruby）的SDK，Cloudinsight Agent也迎来了重大突破，发布了[Windows监控](http://www.oneapm.com/ci/windows.html)第一个版本，总算可以松口气写点东西了...
 
 <em>题外话二</em>：  
 偶然的机会看到一篇[blog](https://realpython.com/blog/python/python-ruby-and-golang-a-web-Service-application-comparison/)，文中详细介绍了[Flask](https://github.com/mitsuhiko/flask)(Python), [Sinatra](https://github.com/sinatra/sinatra)(Ruby)以及[Matini](https://github.com/go-martini/martini)(Golang)这三类微型框架的用法，并提供了各个框架在Docker下的部署方式。然而，美中不足的是没有提供各个框架的性能对比情况，经过一番搜罗，发现了一篇对现今主流框架做[性能对比的文章](https://medium.com/@tschundeee/express-vs-flask-vs-go-acc0879c2122#.vticwh9tn)，找到两者的结合点，于是才有了今天这篇文章 :)
