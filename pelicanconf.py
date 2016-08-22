@@ -98,3 +98,4 @@ SITEMAP = {
 RANDOM = 'random.html'
 
 DUOSHUO_SITENAME = "startover"
+STATIC_PATHS = ["images"]

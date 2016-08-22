@@ -64,7 +64,7 @@ Go 语言于2009年11月正式宣布推出，自2012年发布1.0，最新稳定�
 
 
 
-参考链接：  
+相关链接：  
 [https://golang.org/doc/](https://golang.org/doc/)  
 [https://talks.golang.org/2012/splash.article](https://talks.golang.org/2012/splash.article)  
 [https://www.zhihu.com/question/21409296](https://www.zhihu.com/question/21409296)  
