@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+        <meta charset="utf-8" />
+    <title>startover's blog | Python 程序员的 Golang 学习指南（III）: 入门篇</title>
+    <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
+    <link href="http://startover.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Full Atom Feed" />
+    <link href="http://startover.github.io/feeds/golang.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Categories Atom Feed" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/screen.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/print.css" type="text/css" media="print" />
+    <meta name="generator" content="Pelican" />
+
+    <meta name="keywords" content="Golang,Python" />
+</head>
+<body>
+    <!-- Fork me on github -->
+    <a target="_blank" href="https://github.com/startover">
+    <img width="149px" height="149px" style="position: absolute; top: 0px; right: 0; border: 0; margin: 0; box-shadow: initial" src="http://startover.github.io/theme/icons/forkme.png" alt="Fork me on GitHub" />
+    </a>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="http://startover.github.io/">Home</a></li>
+                <li><a href="http://startover.github.io/about">About</a></li>
+                <li><a href="http://startover.github.io/categories">Categories</a></li>
+                <li><a href="http://startover.github.io/tags">Tags</a></li>
+                <li><a href="http://startover.github.io/archives">Archives</a></li>
+            </ul>
+        </nav>
+        <div class="header_box">
+            <h1><a href="http://startover.github.io/">startover's blog</a></h1>
+        </div>
+    </header>
+    <div id="wrapper">
+        <div id="content">        <h4 class="date"> 8月 30, 2016</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2016/08/30/golang-for-pythonistas-quickstart/" rel="bookmark" title="Permanent Link to &quot;Python 程序员的 Golang 学习指南（III）: 入门篇&quot;">Python 程序员的 Golang 学习指南（III）: 入门篇</a>
+            </h2>
+
+            <h2>基础语法</h2>
+<h4>类型和关键字</h4>
+<ul>
+<li>类型</li>
+</ul>
+<div class="highlight"><pre><span></span>// 基础类型
+布尔类型: bool
+整型: int8，uint8，int16，uint16，int32，uint32，int64，uint64，int，rune，byte，complex128， complex64，其中，byte 是 int8 的别名
+浮点类型: float32 、 float64
+复数类型: complex64 、 complex128
+字符串: string
+字符类型: rune（int32的别名）
+错误类型: error
+
+// 复合类型
+指针（pointer）
+数组（array）
+切片（slice）
+字典（map）
+通道（chan）
+结构体（struct）
+接口（interface）
+</pre></div>
+
+
+<ul>
+<li>关键字</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">break</span>        <span class="n">default</span>      <span class="n">func</span>         <span class="n">interface</span>    <span class="n">select</span>
+<span class="n">case</span>         <span class="n">defer</span>        <span class="n">go</span>           <span class="nb">map</span>          <span class="n">struct</span>
+<span class="n">chan</span>         <span class="k">else</span>         <span class="n">goto</span>         <span class="n">package</span>      <span class="n">switch</span>
+<span class="n">const</span>        <span class="n">fallthrough</span>  <span class="k">if</span>           <span class="nb">range</span>        <span class="nb">type</span>
+<span class="k">continue</span>     <span class="k">for</span>          <span class="kn">import</span>       <span class="nn">return</span>       <span class="nn">var</span>
+</pre></div>
+
+
+<h4>变量</h4>
+<p>Go 同其他语言不同的地方在于变量的类型在变量名的后面，不是 <code>int a</code>，而是 <code>a int</code>。至于为什么这么定义，Go 的<a href="https://blog.golang.org/gos-declaration-syntax">官方博客</a>有给出解释，有兴趣的可以参考下。</p>
+<p>变量定义语法如下：</p>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">a</span> <span class="kt">int</span>
+<span class="nx">a</span> <span class="p">=</span> <span class="mi">2</span>
+
+<span class="c1">// 或者</span>
+<span class="nx">a</span> <span class="o">:=</span> <span class="mi">2</span>
+
+<span class="c1">// 同时定义多个变量</span>
+<span class="kd">var</span> <span class="p">(</span>
+    <span class="nx">a</span> <span class="kt">int</span>
+    <span class="nx">b</span> <span class="kt">bool</span>
+<span class="p">)</span>
+
+<span class="c1">// 同时给多个变量赋值</span>
+<span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">:=</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">true</span>
+</pre></div>
+
+
+<h4>操作符</h4>
+<div class="highlight"><pre><span></span><span class="o">+</span>    <span class="o">&amp;</span>     <span class="o">+=</span>    <span class="o">&amp;=</span>     <span class="o">&amp;&amp;</span>    <span class="o">==</span>    <span class="o">!=</span>    <span class="p">(</span>    <span class="p">)</span>
+<span class="o">-</span>    <span class="o">|</span>     <span class="o">-=</span>    <span class="o">|=</span>     <span class="o">||</span>    <span class="o">&lt;</span>     <span class="o">&lt;=</span>    <span class="p">[</span>    <span class="p">]</span>
+<span class="o">*</span>    <span class="o">^</span>     <span class="o">*=</span>    <span class="o">^=</span>     <span class="o">&lt;-</span>    <span class="o">&gt;</span>     <span class="o">&gt;=</span>    <span class="p">{</span>    <span class="p">}</span>
+<span class="o">/</span>    <span class="o">&lt;&lt;</span>    <span class="o">/=</span>    <span class="o">&lt;&lt;=</span>    <span class="o">++</span>    <span class="o">=</span>     <span class="o">:=</span>    <span class="p">,</span>    <span class="p">;</span>
+<span class="o">%    &gt;&gt;    %=</span>    <span class="o">&gt;&gt;=</span>    <span class="o">--</span>    <span class="o">!</span>     <span class="kc">...</span>   <span class="m">.</span>    <span class="o">:</span>
+     <span class="o">&amp;^</span>          <span class="o">&amp;^=</span>
+</pre></div>
+
+
+<h4>控制结构</h4>
+<p>Go 语言支持如下的几种流程控制语句:</p>
+<ul>
+<li>条件语句，对应的关键字为 if、else 和 else if；</li>
+<li>选择语句，对应的关键字为 switch、case 和 select；</li>
+<li>循环语句，对应的关键字为 for 和 range；</li>
+<li>跳转语句，对应的关键字为 goto。</li>
+</ul>
+<p>值得一提的是，Go 语言并不支持 do 或者 while 关键字，而是对 for 关键字做了增强，以实现类似的效果，如下：</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">{</span>
+    <span class="c1">// 实现无限循环，慎用！</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4>常用内置函数</h4>
+<ul>
+<li>len：计算（字符串，数组或者切片，map）长度</li>
+<li>cap：计算（数组或者切片，map）容量</li>
+<li>close：关闭通道</li>
+<li>append：追加内容到切片</li>
+<li>copy：拷贝数组/切片内容到另一个数组/切片</li>
+<li>delete：用于删除 map 的元素</li>
+</ul>
+<h4>array, slice 和 map</h4>
+<div class="highlight"><pre><span></span><span class="c1">// array</span>
+<span class="nx">a</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">}</span> <span class="c1">// 等价于 a := [...]int{ 1, 2, 3 }</span>
+
+<span class="c1">// slice</span>
+<span class="nx">s</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span> <span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1">// 创建一个长度为 3 的 slice</span>
+<span class="nx">s</span> <span class="o">:=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// 向 slice 追加元素</span>
+<span class="nx">s</span> <span class="o">:=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1">// map</span>
+<span class="nx">m</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span> <span class="c1">// 使用前必须先初始化</span>
+<span class="nx">m</span><span class="p">[</span><span class="s">&quot;golang&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="mi">7</span>
+</pre></div>
+
+
+<p>关于 array, slice 和 map 的更多惯用法，有一篇<a href="https://se77en.cc/2014/06/30/array-slice-map-and-set-in-golang/">文章</a>介绍的挺详细，有兴趣的可以看看。</p>
+<h4>函数</h4>
+<p>Go 语言的函数有如下特性：</p>
+<ul>
+<li>不定参数</li>
+</ul>
+<p>由于 Go 语言不支持函数重载（具体原因见 <a href="https://golang.org/doc/faq#overloading">Go Language FAQ</a>），但我们可以通过不定参数实现类似的效果。</p>
+<div class="highlight"><pre><span></span><span class="kd">func</span> <span class="nx">myfunc</span><span class="p">(</span><span class="nx">args</span> <span class="o">...</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// TODO</span>
+<span class="p">}</span>
+
+<span class="c1">// 可通过如下方式调用</span>
+<span class="nx">myfunc</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="nx">myfunc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+
+<ul>
+<li>多返回值</li>
+</ul>
+<p>与 C、C++ 和 Java 等开发语言的一个极大不同在于，Go 语言的函数或者成员的方法可以有多
+个返回值，这个特性能够使我们写出比其他语言更优雅、更简洁的代码。</p>
+<div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">file</span> <span class="o">*</span><span class="nx">File</span><span class="p">)</span> <span class="nx">Read</span><span class="p">(</span><span class="nx">b</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span>
+
+<span class="c1">// 我们可以通过下划线（_）来忽略某个返回值</span>
+<span class="nx">n</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+</pre></div>
+
+
+<ul>
+<li>匿名函数</li>
+</ul>
+<p>匿名函数是指不需要定义函数名的一种函数实现方式，它并不是一个新概念，最早可以回溯
+到 1958 年的 Lisp 语言。但是由于各种原因，C 和 C++ 一直都没有对匿名函数给以支持，其他的各
+种语言，比如 JavaScript、C# 和 Objective-C 等语言都提供了匿名函数特性，当然也包含Go语言。</p>
+<p>匿名函数由一个不带函数名的函数声明和函数体组成，如下：</p>
+<div class="highlight"><pre><span></span><span class="kd">func</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span> <span class="p">&lt;</span> <span class="nx">b</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>匿名函数可以直接赋值给一个变量或者直接执行：</p>
+<div class="highlight"><pre><span></span><span class="nx">f</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span> <span class="p">&lt;</span> <span class="nx">b</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span> <span class="p">&lt;</span> <span class="nx">b</span>
+<span class="p">}(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">// 花括号后直接跟参数列表表示函数调用</span>
+</pre></div>
+
+
+<ul>
+<li>闭包</li>
+</ul>
+<p>闭包是可以包含自由(未绑定到特定对象)变量的代码块，这些变量不在这个代码块内或者
+任何全局上下文中定义，而是在定义代码块的环境中定义。要执行的代码块(由于自由变量包含
+在代码块中，所以这些自由变量以及它们引用的对象没有被释放)为自由变量提供绑定的计算环
+境(作用域)。</p>
+<p>Go 的匿名函数就是一个闭包。我们来看一个例子：</p>
+<div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">j</span> <span class="o">:=</span> <span class="mi">5</span>
+    <span class="nx">a</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">()</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">i</span> <span class="o">:=</span> <span class="mi">10</span>
+        <span class="k">return</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;i, j: %d, %d\n&quot;</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}()</span>
+    <span class="nx">a</span><span class="p">()</span>
+    <span class="nx">j</span> <span class="o">*=</span> <span class="mi">2</span>
+    <span class="nx">a</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>程序输出如下：</p>
+<div class="highlight"><pre><span></span>i, j: 10, 5
+i, j: 10, 10
+</pre></div>
+
+
+<h4>错误处理</h4>
+<p>Go 语言追求简洁优雅，所以，Go 语言不支持传统的 <code>try...catch...finally</code> 这种异常，因为 Go 语言的设计者们认为，将异常与控制结构混在一起会很容易使得代码变得混乱。因为开发者很容易滥用异常，甚至一个小小的错误都抛出一个异常。在 Go 语言中，使用多值返回来返回错误。不要用异常代替错误，更不要用来控制流程。在极个别的情况下，也就是说，遇到真正的异常的情况下（比如除数为0了），才使用 Go 中引入的Exception处理：defer, panic, recover。</p>
+<p>用法如下：</p>
+<div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">defer</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;recovered:&quot;</span><span class="p">,</span> <span class="nb">recover</span><span class="p">())</span>
+    <span class="p">}()</span>
+    <span class="nb">panic</span><span class="p">(</span><span class="s">&quot;not good&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>关于 Go 语言的错误处理机制和传统的 <code>try...catch...finally</code> 异常机制孰优孰劣，属于仁者见仁，智者见智，这里不做赘速。有兴趣的同学可以去看看知乎上的讨论：<a href="https://www.zhihu.com/question/27158146">Go 语言的错误处理机制是一个优秀的设计吗？</a>。</p>
+<h2>面向对象 -&gt; 一切皆类型</h2>
+<p>Python 推崇“一切皆对象”，而在 Go 语言中，类型才是一等公民。</p>
+<p>我们可以这样定义一个结构体：</p>
+<div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Name</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">First</span>  <span class="kt">string</span>
+    <span class="nx">Middle</span> <span class="kt">string</span>
+    <span class="nx">Last</span>   <span class="kt">string</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>同样也可以定义基础类型：</p>
+<div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">SimpleName</span> <span class="kt">string</span>
+</pre></div>
+
+
+<p>还能给任意类型定义方法：</p>
+<div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">SimpleName</span><span class="p">)</span> <span class="nx">String</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">string</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">}</span>
+<span class="c1">// 或者</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">NoWay</span><span class="p">()</span>
+</pre></div>
+
+
+<h2>Golang VS Python</h2>
+<p>最后我们通过几个例子来比较一下 Golang 与 Python 的一些基本用法，如下：</p>
+<h4>生成器（Generator）</h4>
+<ul>
+<li>Python 版本</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="k">yield</span> <span class="n">a</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fib</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span> <span class="n">x</span>
+
+<span class="k">print</span> <span class="s1">&#39;done&#39;</span>
+</pre></div>
+
+
+<ul>
+<li>Golang 版本</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+
+<span class="kd">func</span> <span class="nx">fib</span><span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">)</span> <span class="kd">chan</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="nx">c</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>
+    <span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+            <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="p">=</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">a</span><span class="o">+</span><span class="nx">b</span>
+            <span class="nx">c</span> <span class="o">&lt;-</span> <span class="nx">a</span>
+        <span class="p">}</span>
+        <span class="nb">close</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+    <span class="p">}()</span>
+    <span class="k">return</span> <span class="nx">c</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">x</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4>装饰器（Decorator）</h4>
+<ul>
+<li>Python 版本</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urlparse</span> <span class="kn">import</span> <span class="n">urlparse</span><span class="p">,</span> <span class="n">parse_qs</span>
+<span class="kn">from</span> <span class="nn">BaseHTTPServer</span> <span class="kn">import</span> <span class="n">HTTPServer</span><span class="p">,</span> <span class="n">BaseHTTPRequestHandler</span>
+
+<span class="k">def</span> <span class="nf">auth_required</span><span class="p">(</span><span class="n">myfunc</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">checkuser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">user</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">myfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;unknown user&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">checkuser</span>
+
+<span class="k">class</span> <span class="nc">myHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
+    <span class="nd">@auth_required</span>
+    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Hello, </span><span class="si">%s</span><span class="s1">!&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">server</span> <span class="o">=</span> <span class="n">HTTPServer</span><span class="p">((</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">),</span> <span class="n">myHandler</span><span class="p">)</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+
+<ul>
+<li>Golang 版本</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&quot;fmt&quot;</span>
+    <span class="s">&quot;net/http&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">hiHandler</span> <span class="p">=</span> <span class="nx">authRequired</span><span class="p">(</span>
+    <span class="kd">func</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&quot;Hi, %v&quot;</span><span class="p">,</span> <span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">))</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nx">authRequired</span><span class="p">(</span><span class="nx">f</span> <span class="nx">http</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="p">)</span> <span class="nx">http</span><span class="p">.</span><span class="nx">HandlerFunc</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">func</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">r</span><span class="p">.</span><span class="nx">FormValue</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;</span> <span class="p">{</span>
+            <span class="nx">http</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&quot;unknown user&quot;</span><span class="p">,</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusForbidden</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+        <span class="nx">f</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">r</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/hi&quot;</span><span class="p">,</span> <span class="nx">hiHandler</span><span class="p">)</span>
+    <span class="nx">http</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">(</span><span class="s">&quot;:8080&quot;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4>猴子补丁（Monkey patching）</h4>
+<ul>
+<li>Python 版本</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="k">def</span> <span class="nf">say_hi</span><span class="p">(</span><span class="n">usr</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">auth</span><span class="p">(</span><span class="n">usr</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s1">&#39;Hi, </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">usr</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s1">&#39;unknown user </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">usr</span>
+
+<span class="k">def</span> <span class="nf">auth</span><span class="p">(</span><span class="n">usr</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">auth_url</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">auth_url</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">usr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">getcode</span><span class="p">()</span> <span class="o">==</span> <span class="mi">200</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+<span class="k">def</span> <span class="nf">sayhitest</span><span class="p">():</span>
+    <span class="c1"># Test authenticated user</span>
+    <span class="nb">globals</span><span class="p">()[</span><span class="s1">&#39;auth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">True</span>
+    <span class="n">say_hi</span><span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Test unauthenticated user</span>
+    <span class="nb">globals</span><span class="p">()[</span><span class="s1">&#39;auth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">False</span>
+    <span class="n">say_hi</span><span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">sayhitest</span><span class="p">()</span>
+</pre></div>
+
+
+<ul>
+<li>Golang 版本</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&quot;fmt&quot;</span>
+    <span class="s">&quot;net/http&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nx">sayHi</span><span class="p">(</span><span class="nx">user</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">!</span><span class="nx">auth</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;unknown user %v\n&quot;</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Hi, %v\n&quot;</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">auth</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">user</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="nx">authURL</span> <span class="o">:=</span> <span class="s">&quot;localhost&quot;</span>
+    <span class="nx">res</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="nx">authURL</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="nx">user</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="o">==</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">testSayHi</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">auth</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">true</span> <span class="p">}</span>
+    <span class="nx">sayHi</span><span class="p">(</span><span class="s">&quot;John&quot;</span><span class="p">)</span>
+
+    <span class="nx">auth</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">false</span> <span class="p">}</span>
+    <span class="nx">sayHi</span><span class="p">(</span><span class="s">&quot;John&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">testSayHi</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>相关链接：<br />
+<a href="https://blog.golang.org/gos-declaration-syntax">https://blog.golang.org/gos-declaration-syntax</a><br />
+<a href="https://se77en.cc/2014/06/30/array-slice-map-and-set-in-golang/">https://se77en.cc/2014/06/30/array-slice-map-and-set-in-golang/</a><br />
+<a href="https://golang.org/doc/faq#overloading">https://golang.org/doc/faq#overloading</a><br />
+<a href="https://www.zhihu.com/question/27158146">https://www.zhihu.com/question/27158146</a><br />
+<a href="https://talks.golang.org/2013/go4python.slide">https://talks.golang.org/2013/go4python.slide</a>  </p>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2016/08/30/golang-for-pythonistas-quickstart/">posted at 13:44</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/golang/" rel="tag">Golang</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/golang/" class="tags">Golang</a>
+            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags">Python</a>
+        </div>
+    </article>
+<ul style="float:right;">
+    <li>
+        上一篇：<a href="http://startover.github.io/articles/2016/08/22/golang-for-pythonistas-environment/">
+            Python 程序员的 Golang 学习指南（II）: 开发环境搭建
+        </a>
+    </li>
+</ul>
+
+<section>
+<h1>Comments</h1>
+<div id="DuoShuoComment" aria-live="polite">
+<!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="golang-for-pythonistas-quickstart" data-title="Python 程序员的 Golang 学习指南（III）: 入门篇" data-url="http://startover.github.io/articles/2016/08/30/golang-for-pythonistas-quickstart/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"startover"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<!-- 多说公共JS代码 end --></div>
+</section>
+
+            <div class="clear"></div>
+            <footer>
+                <p>
+                <a href="https://github.com/jody-frankowski/blue-penguin">Blue Penguin</a> Theme
+                &middot;
+                Powered by <a href="http://getpelican.com">Pelican</a>
+                &middot;
+                <a href="http://startover.github.io/feeds/all.atom.xml" rel="alternate">Atom Feed</a>
+            </footer>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+<script src="http://startover.github.io/theme/js/libs/jquery-1.9.1.min.js"></script>
+<script>
+    (function() {
+    var $backToTopTxt = "返回顶部", $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+    .text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+    }), $backToTopFun = function() {
+    var st = $(document).scrollTop(), winh = $(window).height();
+    (st > 0)? $backToTopEle.show(): $backToTopEle.hide();
+    //IE6下的定位
+    if (!window.XMLHttpRequest) {
+    $backToTopEle.css("top", st + winh - 166);
+    }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $(function() { $backToTopFun(); });
+    })();
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63815463-1', 'startover.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

@@ -33,7 +33,46 @@
         </div>
     </header>
     <div id="wrapper">
-        <div id="content">        <h4 class="date"> 8月 22, 2016</h4>
+        <div id="content">        <h4 class="date"> 8月 30, 2016</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2016/08/30/golang-for-pythonistas-quickstart/" rel="bookmark" title="Permanent Link to &quot;Python 程序员的 Golang 学习指南（III）: 入门篇&quot;">Python 程序员的 Golang 学习指南（III）: 入门篇</a>
+            </h2>
+
+            <div class="entry-content"> <h2>基础语法</h2>
+<h4>类型和关键字</h4>
+<ul>
+<li>类型</li>
+</ul>
+<div class="highlight"><pre><span></span>// 基础类型
+布尔类型: bool
+整型: int8，uint8，int16，uint16，int32，uint32，int64，uint64，int，rune，byte，complex128， complex64，其中，byte 是 int8 的别名
+浮点类型: float32 、 float64
+复数类型: complex64 、 complex128
+字符串: string
+字符类型: rune（int32的别名）
+错误类型: error
+
+// 复合类型
+指针（pointer）
+数组（array）
+切片（slice）
+字典（map）
+通道（chan）
+结构体 ...</pre></div> </div>
+            <div class="medium primary btn"><a href="http://startover.github.io/articles/2016/08/30/golang-for-pythonistas-quickstart/" rel="bookmark" title="Permalink to Python 程序员的 Golang 学习指南（III）: 入门篇">Read more <i class="icon-arrow-right"></i></a></div>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2016/08/30/golang-for-pythonistas-quickstart/">posted at 13:44</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/golang/" rel="tag">Golang</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/golang/" class="tags">Golang</a>
+            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags selected">Python</a>
+        </div>
+    </article>        <h4 class="date"> 8月 22, 2016</h4>
 
     <article class="post">
             <h2 class="title">
@@ -163,57 +202,14 @@ $ tar -C /usr/local -xzf go1.6.3.linux-amd64.tar.gz
             &nbsp;<a href="http://startover.github.io/tag/python/" class="tags selected">Python</a>
             &nbsp;<a href="http://startover.github.io/tag/performance/" class="tags">Performance</a>
         </div>
-    </article>        <h4 class="date"> 4月 27, 2015</h4>
-
-    <article class="post">
-            <h2 class="title">
-                <a href="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/" rel="bookmark" title="Permanent Link to &quot;Python - 装饰器使用过程中的误区&quot;">Python - 装饰器使用过程中的误区</a>
-            </h2>
-
-            <div class="entry-content"> <h2><strong>装饰器基本概念</strong></h2>
-<p>大家都知道装饰器是一个很著名的设计模式，经常被用于AOP(面向切面编程)的场景，较为经典的有插入日志，性能测试，事务处理，Web权限校验，Cache等。</p>
-<p>Python语言本身提供了装饰器语法（@），典型的装饰器实现如下：</p>
-<div class="highlight"><pre><span></span><span class="nd">@function_wrapper</span>
-<span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-    <span class="k">pass</span>
-</pre></div>
-
-
-<p>@实际上是python2.4才提出的语法糖，针对python2.4以前的版本有另一种等价的实现：</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-    <span class="k">pass</span>
-
-<span class="n">function</span> <span class="o">=</span> <span class="n">function_wrapper</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-</pre></div>
-
-
-<h2><strong>装饰器的两种实现</strong></h2>
-<p><strong>函数包装器 - 经典实现</strong></p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="n">wrapped</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_wrapper</span>
-
-<span class="nd">@function_wrapper</span>
-<span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-    <span class="k">pass</span>
-</pre></div>
-
-
-<p><strong>类包装器 - 更易于理解</strong></p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">function_wrapper ...</span></pre></div> </div>
-            <div class="medium primary btn"><a href="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/" rel="bookmark" title="Permalink to Python - 装饰器使用过程中的误区">Read more <i class="icon-arrow-right"></i></a></div>
-
-        <div class="clear"></div>
-
-        <div class="info">
-            <a href="http://startover.github.io/articles/2015/04/27/python-decorator-mistake/">posted at 14:07</a>
-            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/python/" rel="tag">Python</a>
-            &nbsp;&middot;
-            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags selected">Python</a>
-            &nbsp;<a href="http://startover.github.io/tag/zhuang-shi-qi/" class="tags">装饰器</a>
-        </div>
     </article>
+
+                <div class="clear"></div>
+                <div class="pages">
+
+                    <a href="http://startover.github.io/page/2" class="next_page">Next&nbsp;&rarr;</a>
+                    <span>Page 1 of 2</span>
+                </div>
 
             <div class="clear"></div>
             <footer>
