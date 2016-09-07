@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+        <meta charset="utf-8" />
+    <title>startover's blog | Python 程序员的 Golang 学习指南（IV）: 包管理篇</title>
+    <link rel="shortcut icon" type="image/png" href="http://startover.github.io/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="http://startover.github.io/favicon.ico">
+    <link href="http://startover.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Full Atom Feed" />
+    <link href="http://startover.github.io/feeds/golang.atom.xml" type="application/atom+xml" rel="alternate" title="startover's blog Categories Atom Feed" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/screen.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://startover.github.io/theme/css/print.css" type="text/css" media="print" />
+    <meta name="generator" content="Pelican" />
+
+    <meta name="keywords" content="Golang,Python" />
+</head>
+<body>
+    <!-- Fork me on github -->
+    <a target="_blank" href="https://github.com/startover">
+    <img width="149px" height="149px" style="position: absolute; top: 0px; right: 0; border: 0; margin: 0; box-shadow: initial" src="http://startover.github.io/theme/icons/forkme.png" alt="Fork me on GitHub" />
+    </a>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="http://startover.github.io/">Home</a></li>
+                <li><a href="http://startover.github.io/about">About</a></li>
+                <li><a href="http://startover.github.io/categories">Categories</a></li>
+                <li><a href="http://startover.github.io/tags">Tags</a></li>
+                <li><a href="http://startover.github.io/archives">Archives</a></li>
+            </ul>
+        </nav>
+        <div class="header_box">
+            <h1><a href="http://startover.github.io/">startover's blog</a></h1>
+        </div>
+    </header>
+    <div id="wrapper">
+        <div id="content">        <h4 class="date"> 9月 07, 2016</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2016/09/07/golang-for-pythonistas-package/" rel="bookmark" title="Permanent Link to &quot;Python 程序员的 Golang 学习指南（IV）: 包管理篇&quot;">Python 程序员的 Golang 学习指南（IV）: 包管理篇</a>
+            </h2>
+
+            <p>在<a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/">第一篇文章</a>我们有提到，Golang 官方并没有推荐最佳的包管理方案，对于像我这样习惯了 Python 包管理的开发者，自然还是希望有像 pip 一样好用的工具，帮助我们进行依赖管理，下面就让我们对 Golang 的包管理机制一探究竟。</p>
+<h2>Golang 包管理机制</h2>
+<p>Go 语言的包管理系统是去中心化的，我们可以通过 <code>go get</code> 命令获取存放在远程仓库的代码协议。实际上，<code>go get</code> 支持以下 VCS 协议：</p>
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>名称</th>
+<th>主命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mercurial</td>
+<td>hg</td>
+<td>Mercurial是一种轻量级分布式版本控制系统，采用Python语言实现，易于学习和使用，扩展性强。</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>git</td>
+<td>Git最开始是Linux Torvalds为了帮助管理 Linux 内核开发而开发的一个开源的分布式版本控制软件。但现在已被广泛使用。它是被用来进行有效、高速的各种规模项目的版本管理。</td>
+</tr>
+<tr>
+<td>Subversion</td>
+<td>svn</td>
+<td>Subversion是一个版本控制系统，也是第一个将分支概念和功能纳入到版本控制模型的系统。但相对于Git和Mercurial而言，它只算是传统版本控制系统的一员。</td>
+</tr>
+<tr>
+<td>Bazaar</td>
+<td>bzr</td>
+<td>Bazaar是一个开源的分布式版本控制系统。但相比而言，用它来作为VCS的项目并不多。</td>
+</tr>
+</tbody>
+</table>
+<p>比如，我们现在需要获取 godep 这个项目，可以执行如下命令：</p>
+<div class="highlight"><pre><span></span>$ go get github.com/tools/godep
+</pre></div>
+
+
+<p>需要指出的是，<code>go get</code> 实际上执行了两个步骤：1. 下载源码包；2. 执行 <code>go install</code>，如果只下载不安装，则需要指定 <code>-d</code> 参数，如下：</p>
+<div class="highlight"><pre><span></span>$ go get -d github.com/tools/godep
+</pre></div>
+
+
+<p>除了 <code>go get</code>，Go 语言还提供了一个 <code>Workspace</code> 的机制，即通过设定 GOPATH 环境变量，指定除了 GOROOT 所指定的目录之外，Go 代码所在的位置(也就是 <code>Workspace</code> 的位置)。 一般来说，GOPATH 目录下会包含 pkg、src 和 bin 三个子目录，这三个目录各有用处。</p>
+<ul>
+<li>bin 目录用于放置编译好的可执行文件，为了使得这里的可执行文件可以方便的运行， 可在 shell 中设置 PATH 环境变量。</li>
+<li>src 目录用于放置代码源文件，在进行 import 时，是使用这个位置作为根目录的。自己编写的代码也应该放在这下面。</li>
+<li>pkg 用来放置安装的包的链接对象(Object)的。这个概念有点类似于链接库，Go 会将编译出的可连接库放在这里， 方便编译时链接。不同的系统和处理器架构的对象会在 pkg 存放在不同的文件夹中。</li>
+</ul>
+<h2>Golang 包管理现状</h2>
+<p>显然，通过 <code>go get</code> 和 <code>Workspace</code> 的方式并不足以解决项目依赖和版本依赖的问题，主要有以下几点：</p>
+<ol>
+<li>第三方包的版本控制。如果没有明确指定依赖的第三方包的版本，团队开发很容易导入不一样的版本，导致项目无法正常运行。</li>
+<li>第三方包没有内容安全审计，很容易引入代码 Bug，这是泛中心化包管理普遍存在的问题。</li>
+<li>依赖的完整性无法校验，程序编译时无法保障百分百成功。</li>
+</ol>
+<p>因此，我们必须借助第三方工具来解决这些问题。</p>
+<h2>第三方解决方案</h2>
+<p>这里我从<a href="https://github.com/golang/go/wiki/PackageManagementTools">官方推荐包管理工具</a>中挑选了几个比较常用的工具：Godep, Govendor 以及 Glide，作下简单介绍。</p>
+<h4><a href="https://github.com/tools/godep">Godep</a></h4>
+<ul>
+<li>godep save</li>
+</ul>
+<p>这个命令做了以下几件事：</p>
+<div class="highlight"><pre><span></span>1. 查找项目中所用到的所有的第三方包。
+2. 在项目目录下创建 Godeps 目录，Godeps/Godeps.json 是依赖文件，包括了 go 的版本，用到的第三方包的引入路径，版本号等信息，json 文件需要一并加入到版本控制里。
+3. 所有依赖的第三方包的代码会被拷贝到 vendor/ 下，并且移除了 .git 这样的版本控制信息。
+</pre></div>
+
+
+<ul>
+<li>godep restore</li>
+</ul>
+<p>当下载别人发布的项目时，如果下载的项目中只有 Godeps.json 文件，而没有包含第三方包，则可以使用 <code>godep restore</code> 这个命令将所有的依赖包下载到 <code>$GOPATH</code> 目录下，而不用一个一个去 <code>go get</code>，还是很方便的。</p>
+<h4><a href="https://github.com/kardianos/govendor">Govendor</a></h4>
+<ul>
+<li>govendor init</li>
+</ul>
+<p>执行 <code>govendor init</code> 会在根目录下生成一个 vendor 文件夹，以及 vendor/vendor.json，其中 vendor.json 类似 godep 工具中的描述文件版本的功能。</p>
+<ul>
+<li>govendor add +external</li>
+</ul>
+<p>执行 <code>govendor add +external</code> 会将所有依赖的第三方包的代码拷贝到 vendor 文件夹下，并且移除了 .git 这样的版本控制信息，测试所需依赖以及依赖项目的测试文件。与 <code>godep save</code> 的功能类似。</p>
+<ul>
+<li>govendor fetch</li>
+</ul>
+<p>执行 <code>govendor fetch</code> 新增的第三方包直接被 get 到根目录的 vendor 文件夹下，不会与其它的项目混用第三方包，完美避免了多个项目同用同一个第三方包的不同版本问题。</p>
+<p>这样，我们只需对 vendor/vendor.json 进行版本控制，即可对第三包依赖关系进行控制。</p>
+<h4><a href="https://github.com/Masterminds/glide">Glide</a></h4>
+<ul>
+<li>glide init</li>
+</ul>
+<p>执行 <code>glide init</code> 或 <code>glide create</code> 会在项目根目录下生成一个 glide.yaml，这个文件用来记录项目用到的第三方包的依赖关系，并支持编辑修改。</p>
+<ul>
+<li>glide install</li>
+</ul>
+<p>执行 <code>glide install</code>，会把所有依赖的第三方包都下载到 vendor 文件夹下，并且会在 glide.yaml 中添加所有依赖的第三方包名称，以及在 glide.lock 文件中记录具体的版本管理信息。</p>
+<h2>总结</h2>
+<p>上面我们分别对 Godep, Govendor 以及 Glide 这三种工具做了简单的介绍，对于 Python 开发者，个人还是比较认同 Govendor 的方式，因为其很容易实现类似 Virtualenv 的模式，从而实现不同程序使用不同版本依赖的目的。</p>
+<p>当然，如果你是 Node.js 的开发者，可能对于 <a href="https://github.com/tools/godep">Godep</a> 有更加熟悉的感觉，而对于 Ruby 开发者，<a href="https://github.com/mattn/gom">gom</a> 会让你感到更加亲切。</p>
+<p>因此，针对第三方包管理工具的选择，现阶段还完全交由开发者做裁定，这里就“仁者见仁，智者见智”了。</p>
+<p>相关链接：<br />
+<a href="http://www.infoq.com/cn/articles/golang-package-management">http://www.infoq.com/cn/articles/golang-package-management</a><br />
+<a href="https://io-meter.com/2014/07/30/go's-package-management/">https://io-meter.com/2014/07/30/go's-package-management/</a><br />
+<a href="https://github.com/golang/go/wiki/PackageManagementTools">https://github.com/golang/go/wiki/PackageManagementTools</a></p>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2016/09/07/golang-for-pythonistas-package/">posted at 10:24</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/golang/" rel="tag">Golang</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/golang/" class="tags">Golang</a>
+            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags">Python</a>
+        </div>
+    </article>
+<ul style="float:right;">
+    <li>
+        上一篇：<a href="http://startover.github.io/articles/2016/08/30/golang-for-pythonistas-quickstart/">
+            Python 程序员的 Golang 学习指南（III）: 入门篇
+        </a>
+    </li>
+</ul>
+
+<section>
+<h1>Comments</h1>
+<div id="DuoShuoComment" aria-live="polite">
+<!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="golang-for-pythonistas-package" data-title="Python 程序员的 Golang 学习指南（IV）: 包管理篇" data-url="http://startover.github.io/articles/2016/09/07/golang-for-pythonistas-package/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"startover"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<!-- 多说公共JS代码 end --></div>
+</section>
+
+            <div class="clear"></div>
+            <footer>
+                <p>
+                <a href="https://github.com/jody-frankowski/blue-penguin">Blue Penguin</a> Theme
+                &middot;
+                Powered by <a href="http://getpelican.com">Pelican</a>
+                &middot;
+                <a href="http://startover.github.io/feeds/all.atom.xml" rel="alternate">Atom Feed</a>
+            </footer>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+<script src="http://startover.github.io/theme/js/libs/jquery-1.9.1.min.js"></script>
+<script>
+    (function() {
+    var $backToTopTxt = "返回顶部", $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+    .text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+    }), $backToTopFun = function() {
+    var st = $(document).scrollTop(), winh = $(window).height();
+    (st > 0)? $backToTopEle.show(): $backToTopEle.hide();
+    //IE6下的定位
+    if (!window.XMLHttpRequest) {
+    $backToTopEle.css("top", st + winh - 166);
+    }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $(function() { $backToTopFun(); });
+    })();
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63815463-1', 'startover.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

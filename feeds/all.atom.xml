@@ -1,5 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/all.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-08-30T13:44:00+08:00</updated><entry><title>Python 程序员的 Golang 学习指南（III）: 入门篇</title><link href="http://startover.github.io/articles/2016/08/30/golang-for-pythonistas-quickstart/" rel="alternate"></link><published>2016-08-30T13:44:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-08-30:articles/2016/08/30/golang-for-pythonistas-quickstart/</id><summary type="html">&lt;h2&gt;基础语法&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/all.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-09-07T10:24:00+08:00</updated><entry><title>Python 程序员的 Golang 学习指南（IV）: 包管理篇</title><link href="http://startover.github.io/articles/2016/09/07/golang-for-pythonistas-package/" rel="alternate"></link><published>2016-09-07T10:24:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-09-07:articles/2016/09/07/golang-for-pythonistas-package/</id><summary type="html">&lt;p&gt;在&lt;a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/"&gt;第一篇文章&lt;/a&gt;我们有提到，Golang 官方并没有推荐最佳的包管理方案，对于像我这样习惯了 Python 包管理的开发者，自然还是希望有像 pip 一样好用的工具，帮助我们进行依赖管理，下面就让我们对 Golang 的包管理机制一探究竟。&lt;/p&gt;
+&lt;h2&gt;Golang 包管理机制&lt;/h2&gt;
+&lt;p&gt;Go 语言的包管理系统是去中心化的，我们可以通过 &lt;code&gt;go get&lt;/code&gt; 命令获取存放在远程仓库的代码协议。实际上，&lt;code&gt;go get&lt;/code&gt; 支持以下 VCS 协议：&lt;/p&gt;
+&lt;table class="table table-bordered"&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;名称&lt;/th&gt;
+&lt;th&gt;主命令&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Mercurial&lt;/td&gt;
+&lt;td&gt;hg&lt;/td&gt;
+&lt;td&gt;Mercurial是一种轻量级分布式版本控制系统，采用Python语言实现，易于学习和使用，扩展性强。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Git&lt;/td&gt;
+&lt;td&gt;git&lt;/td&gt;
+&lt;td&gt;Git最开始是Linux Torvalds为了帮助管理 Linux 内核开发而开发的一个开源的分布式版本控制软件。但现在已被广泛使用。它是被用来进行有效、高速的各种规模项目的版本管理。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Subversion&lt;/td&gt;
+&lt;td&gt;svn&lt;/td&gt;
+&lt;td&gt;Subversion是一个版本控制系统，也是第一个将分支概念和功能纳入到版本控制模型的系统。但相对于Git和Mercurial而言，它只算是传统版本控制系统的一员。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Bazaar&lt;/td&gt;
+&lt;td&gt;bzr&lt;/td&gt;
+&lt;td&gt;Bazaar是一个开源的分布式版本控制系统。但相比而言，用它来作为VCS的项目并不多。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;比如，我们现在需要获取 godep 这个项目，可以执行如下命令：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ go get github.com/tools/godep
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;需要指出的是，&lt;code&gt;go get&lt;/code&gt; 实际上执行了两个步骤：1. 下载源码包；2. 执行 &lt;code&gt;go install&lt;/code&gt;，如果只下载不安装，则需要指定 &lt;code&gt;-d&lt;/code&gt; 参数，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ go get -d github.com/tools/godep
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;除了 &lt;code&gt;go get&lt;/code&gt;，Go 语言还提供了一个 &lt;code&gt;Workspace&lt;/code&gt; 的机制，即通过设定 GOPATH 环境变量，指定除了 GOROOT 所指定的目录之外，Go 代码所在的位置(也就是 &lt;code&gt;Workspace&lt;/code&gt; 的位置)。 一般来说，GOPATH 目录下会包含 pkg、src 和 bin 三个子目录，这三个目录各有用处。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;bin 目录用于放置编译好的可执行文件，为了使得这里的可执行文件可以方便的运行， 可在 shell 中设置 PATH 环境变量。&lt;/li&gt;
+&lt;li&gt;src 目录用于放置代码源文件，在进行 import 时，是使用这个位置作为根目录的。自己编写的代码也应该放在这下面。&lt;/li&gt;
+&lt;li&gt;pkg 用来放置安装的包的链接对象(Object)的。这个概念有点类似于链接库，Go 会将编译出的可连接库放在这里， 方便编译时链接。不同的系统和处理器架构的对象会在 pkg 存放在不同的文件夹中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Golang 包管理现状&lt;/h2&gt;
+&lt;p&gt;显然，通过 &lt;code&gt;go get&lt;/code&gt; 和 &lt;code&gt;Workspace&lt;/code&gt; 的方式并不足以解决项目依赖和版本依赖的问题，主要有以下几点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第三方包的版本控制。如果没有明确指定依赖的第三方包的版本，团队开发很容易导入不一样的版本，导致项目无法正常运行。&lt;/li&gt;
+&lt;li&gt;第三方包没有内容安全审计，很容易引入代码 Bug，这是泛中心化包管理普遍存在的问题。&lt;/li&gt;
+&lt;li&gt;依赖的完整性无法校验，程序编译时无法保障百分百成功。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;因此，我们必须借助第三方工具来解决这些问题。&lt;/p&gt;
+&lt;h2&gt;第三方解决方案&lt;/h2&gt;
+&lt;p&gt;这里我从&lt;a href="https://github.com/golang/go/wiki/PackageManagementTools"&gt;官方推荐包管理工具&lt;/a&gt;中挑选了几个比较常用的工具：Godep, Govendor 以及 Glide，作下简单介绍。&lt;/p&gt;
+&lt;h4&gt;&lt;a href="https://github.com/tools/godep"&gt;Godep&lt;/a&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;godep save&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这个命令做了以下几件事：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;1. 查找项目中所用到的所有的第三方包。
+2. 在项目目录下创建 Godeps 目录，Godeps/Godeps.json 是依赖文件，包括了 go 的版本，用到的第三方包的引入路径，版本号等信息，json 文件需要一并加入到版本控制里。
+3. 所有依赖的第三方包的代码会被拷贝到 vendor/ 下，并且移除了 .git 这样的版本控制信息。
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;godep restore&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当下载别人发布的项目时，如果下载的项目中只有 Godeps.json 文件，而没有包含第三方包，则可以使用 &lt;code&gt;godep restore&lt;/code&gt; 这个命令将所有的依赖包下载到 &lt;code&gt;$GOPATH&lt;/code&gt; 目录下，而不用一个一个去 &lt;code&gt;go get&lt;/code&gt;，还是很方便的。&lt;/p&gt;
+&lt;h4&gt;&lt;a href="https://github.com/kardianos/govendor"&gt;Govendor&lt;/a&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;govendor init&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;执行 &lt;code&gt;govendor init&lt;/code&gt; 会在根目录下生成一个 vendor 文件夹，以及 vendor/vendor.json，其中 vendor.json 类似 godep 工具中的描述文件版本的功能。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;govendor add +external&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;执行 &lt;code&gt;govendor add +external&lt;/code&gt; 会将所有依赖的第三方包的代码拷贝到 vendor 文件夹下，并且移除了 .git 这样的版本控制信息，测试所需依赖以及依赖项目的测试文件。与 &lt;code&gt;godep save&lt;/code&gt; 的功能类似。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;govendor fetch&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;执行 &lt;code&gt;govendor fetch&lt;/code&gt; 新增的第三方包直接被 get 到根目录的 vendor 文件夹下，不会与其它的项目混用第三方包，完美避免了多个项目同用同一个第三方包的不同版本问题。&lt;/p&gt;
+&lt;p&gt;这样，我们只需对 vendor/vendor.json 进行版本控制，即可对第三包依赖关系进行控制。&lt;/p&gt;
+&lt;h4&gt;&lt;a href="https://github.com/Masterminds/glide"&gt;Glide&lt;/a&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;glide init&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;执行 &lt;code&gt;glide init&lt;/code&gt; 或 &lt;code&gt;glide create&lt;/code&gt; 会在项目根目录下生成一个 glide.yaml，这个文件用来记录项目用到的第三方包的依赖关系，并支持编辑修改。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;glide install&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;执行 &lt;code&gt;glide install&lt;/code&gt;，会把所有依赖的第三方包都下载到 vendor 文件夹下，并且会在 glide.yaml 中添加所有依赖的第三方包名称，以及在 glide.lock 文件中记录具体的版本管理信息。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;上面我们分别对 Godep, Govendor 以及 Glide 这三种工具做了简单的介绍，对于 Python 开发者，个人还是比较认同 Govendor 的方式，因为其很容易实现类似 Virtualenv 的模式，从而实现不同程序使用不同版本依赖的目的。&lt;/p&gt;
+&lt;p&gt;当然，如果你是 Node.js 的开发者，可能对于 &lt;a href="https://github.com/tools/godep"&gt;Godep&lt;/a&gt; 有更加熟悉的感觉，而对于 Ruby 开发者，&lt;a href="https://github.com/mattn/gom"&gt;gom&lt;/a&gt; 会让你感到更加亲切。&lt;/p&gt;
+&lt;p&gt;因此，针对第三方包管理工具的选择，现阶段还完全交由开发者做裁定，这里就“仁者见仁，智者见智”了。&lt;/p&gt;
+&lt;p&gt;相关链接：&lt;br /&gt;
+&lt;a href="http://www.infoq.com/cn/articles/golang-package-management"&gt;http://www.infoq.com/cn/articles/golang-package-management&lt;/a&gt;&lt;br /&gt;
+&lt;a href="https://io-meter.com/2014/07/30/go's-package-management/"&gt;https://io-meter.com/2014/07/30/go's-package-management/&lt;/a&gt;&lt;br /&gt;
+&lt;a href="https://github.com/golang/go/wiki/PackageManagementTools"&gt;https://github.com/golang/go/wiki/PackageManagementTools&lt;/a&gt;&lt;/p&gt;</summary><category term="Golang"></category><category term="Python"></category></entry><entry><title>Python 程序员的 Golang 学习指南（III）: 入门篇</title><link href="http://startover.github.io/articles/2016/08/30/golang-for-pythonistas-quickstart/" rel="alternate"></link><published>2016-08-30T13:44:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-08-30:articles/2016/08/30/golang-for-pythonistas-quickstart/</id><summary type="html">&lt;h2&gt;基础语法&lt;/h2&gt;
 &lt;h4&gt;类型和关键字&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;类型&lt;/li&gt;

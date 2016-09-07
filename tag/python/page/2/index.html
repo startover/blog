@@ -33,7 +33,39 @@
         </div>
     </header>
     <div id="wrapper">
-        <div id="content">        <h4 class="date"> 4月 27, 2015</h4>
+        <div id="content">        <h4 class="date"> 5月 18, 2015</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2015/05/18/python-performance-tips/" rel="bookmark" title="Permanent Link to &quot;【译】提高Python运行效率的六个窍门&quot;">【译】提高Python运行效率的六个窍门</a>
+            </h2>
+
+            <div class="entry-content"> <p>原文地址：<a href="https://blog.newrelic.com/2015/01/21/python-performance-tips/">https://blog.newrelic.com/2015/01/21/python-performance-tips/</a></p>
+<p>Python是一门优秀的语言，它能让你在短时间内通过极少量代码就能完成许多操作。不仅如此，它还轻松支持多任务处理，比如多进程。</p>
+<p>不喜欢Python的人经常会吐嘈Python运行太慢。但是，事实并非如此。尝试以下六个窍门，来为你的Python应用提速。</p>
+<h2>窍门一：关键代码使用外部功能包</h2>
+<p>Python简化了许多编程任务，但是对于一些时间敏感的任务，它的表现经常不尽人意。使用C/C++或机器语言的外部功能包处理时间敏感任务，可以有效提高应用的运行效率。这些功能包往往依附于特定的平台，因此你要根据自己所用的平台选择合适的功能包。简而言之，这个窍门要你牺牲应用的可移植性以换取只有通过对底层主机的直接编程才能获得的运行效率。以下是一些你可以选择用来提升效率的功能包：</p>
+<ul>
+<li><a href="http://cython.org/">Cython</a></li>
+<li><a href="http://pyinline.sourceforge.net/">Pylnlne</a></li>
+<li><a href="http://pypy.org/">PyPy</a></li>
+<li><a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">Pyrex</a></li>
+</ul>
+<p>这些功能包的用处各有不同。比如说，使用C语言的数据类型，可以使涉及内存操作的任务更高效或者更直观。Pyrex就能帮助Python延展出这样的功能。Pylnline能使你在Python应用中直接使用C代码。内联代码是独立编译的，但是它把所有编译文件都保存在某处，并能充分利用C语言提供的高效率。</p>
+<h2>窍门二：在排序时使用键</h2>
+<p>Python含有许多古老的排序规则，这些规则在你创建定制的排序方法时会占用很多时间 ...</p> </div>
+            <div class="medium primary btn"><a href="http://startover.github.io/articles/2015/05/18/python-performance-tips/" rel="bookmark" title="Permalink to 【译】提高Python运行效率的六个窍门">Read more <i class="icon-arrow-right"></i></a></div>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2015/05/18/python-performance-tips/">posted at 10:00</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/python/" rel="tag">Python</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags selected">Python</a>
+            &nbsp;<a href="http://startover.github.io/tag/performance/" class="tags">Performance</a>
+        </div>
+    </article>        <h4 class="date"> 4月 27, 2015</h4>
 
     <article class="post">
             <h2 class="title">
