@@ -47,8 +47,20 @@
 <ul>
 <li>功能测试</li>
 </ul>
-<p>Go 语言内置测试框架，其通过 testing 包以及 go test 命令来提供测试功能。</p>
-<p>假设我们现在需要测试 stringutil.go，内容如下：</p>
+<p>Go 语言内置测试框架，其通过 <code>testing</code> 包以及 <code>go test</code> 命令来提供测试功能。</p>
+<p>但编写测试代码需<strong>遵循以下原则</strong>：</p>
+<blockquote>
+<ol>
+<li>文件名必须是 <code>_test.go</code> 结尾的，这样在执行 <code>go test</code> 的时候才会执行到相应的代码。</li>
+<li>你必须 import <code>testing</code> 这个包。</li>
+<li>所有的测试用例函数必须是 <code>Test</code> 开头。</li>
+<li>测试用例会按照源代码中写的顺序依次执行。</li>
+<li>测试函数 <code>TestXxx()</code> 的参数是 <code>testing.T</code>，我们可以使用该类型来记录错误或者是测试状态。</li>
+<li>测试格式：<code>func TestXxx (t *testing.T)</code>, <code>Xxx</code> 部分可以为任意的字母数字的组合，但是首字母不能是小写字母 [a-z] ，例如 <code>Testintdiv</code> 是错误的函数名。</li>
+<li>函数中通过调用 <code>testing.T</code> 的 <code>Error</code>, <code>Errorf</code>, <code>FailNow</code>, <code>Fatal</code>, <code>FatalIf</code> 方法，说明测试不通过，调用 <code>Log</code> 方法用来记录测试的信息。</li>
+</ol>
+</blockquote>
+<p>假设我们现在需要测试 <code>stringutil.go</code>，内容如下：</p>
 <div class="highlight"><pre><span></span><span class="c1">// Package stringutil contains utility functions for working with strings.</span>
 <span class="kn">package</span> <span class="nx">stringutil</span>
 
@@ -82,36 +94,40 @@
 <div class="highlight"><pre><span></span>=== RUN   TestReverse
 --- PASS: TestReverse (0.00s)
 PASS
-ok      command-line-arguments  0.001s
+ok      github.com/startover/testing    0.001s
 </pre></div>
 
 
-<p>编写测试代码需<strong>遵循以下原则</strong>：</p>
-<blockquote>
-<ol>
-<li>文件名必须是 _test.go 结尾的，这样在执行 go test 的时候才会执行到相应的代码</li>
-<li>你必须 import testing 这个包</li>
-<li>所有的测试用例函数必须是 Test 开头</li>
-<li>测试用例会按照源代码中写的顺序依次执行</li>
-<li>测试函数 TestXxx() 的参数是 testing.T，我们可以使用该类型来记录错误或者是测试状态</li>
-<li>测试格式：func TestXxx (t *testing.T), Xxx 部分可以为任意的字母数字的组合，但是首字母不能是小写字母[a-z]，例如 Testintdiv 是错误的函数名。</li>
-<li>函数中通过调用 testing.T 的 Error, Errorf, FailNow, Fatal, FatalIf 方法，说明测试不通过，调用 Log 方法用来记录测试的信息。</li>
-</ol>
-</blockquote>
 <ul>
 <li>基准测试</li>
 </ul>
-<p>编写基准测试与功能测试类似，这里不做赘速，代码示例如下：</p>
+<p>基准测试与功能测试类似，不过有以下几点需要注意：</p>
+<blockquote>
+<ol>
+<li>基准测试用例必须遵循如下格式：<code>func BenchmarkXXX(b *testing.B) { ... }</code>，其中 XXX 可以是任意字母数字的组合，但是首字母不能是小写字母。</li>
+<li>go test不会默认执行基准测试的函数，如果要执行基准测试需要带上参数 <code>-test.bench</code>，语法：<code>-test.bench="test_name_regex"</code>，例如 <code>go test -test.bench=".*"</code> 表示测试全部的基准测试函数。</li>
+<li>在基准测试用例中，请记得在循环体内使用 <code>testing.B.N</code>，以使测试可以正常的运行。</li>
+<li>文件名也必须以 <code>_test.go</code> 结尾。</li>
+</ol>
+</blockquote>
+<p>代码示例如下：</p>
 <div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">stringutil</span>
 
 <span class="kn">import</span> <span class="s">&quot;testing&quot;</span>
 
-<span class="kd">func</span> <span class="nx">BenchmarkReverse</span><span class="p">(</span><span class="nx">b</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span> <span class="p">{</span>                                                                                                                                        
+<span class="kd">func</span> <span class="nx">BenchmarkReverse</span><span class="p">(</span><span class="nx">b</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">const</span> <span class="nx">in</span> <span class="p">=</span> <span class="s">&quot;Hello, world&quot;</span>
     <span class="k">for</span> <span class="nx">n</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">n</span> <span class="p">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">N</span><span class="p">;</span> <span class="nx">n</span><span class="o">++</span> <span class="p">{</span>
         <span class="nx">Reverse</span><span class="p">(</span><span class="nx">in</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
+</pre></div>
+
+
+<p>执行 <code>go test -v -test.bench=".*"</code>，得到如下输出：</p>
+<div class="highlight"><pre><span></span>PASS
+BenchmarkReverse-4   5000000           260 ns/op
+ok      github.com/startover/testing    1.579s
 </pre></div>
 
 
@@ -122,7 +138,7 @@ ok      command-line-arguments  0.001s
 <p>Go 语言的 struct 字面值语法让我们可以轻松写出表驱动测试，代码示例如下：</p>
 <div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">stringutil</span>
 
-<span class="kn">import</span> <span class="s">&quot;testing&quot;</span> 
+<span class="kn">import</span> <span class="s">&quot;testing&quot;</span>
 
 <span class="kd">func</span> <span class="nx">TestTableReverse</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">c</span> <span class="o">:=</span> <span class="k">range</span> <span class="p">[]</span><span class="kd">struct</span> <span class="p">{</span>
@@ -152,14 +168,14 @@ ok      command-line-arguments  0.001s
 --- PASS: TestTableReverse <span class="o">(</span>0.00s<span class="o">)</span>
 PASS
 coverage: 100.0% of statements
-ok      github.com/startover/test/testing   0.004s
+ok      github.com/startover/testing    0.004s
 </pre></div>
 
 
 <p>此外，<code>go test</code> 还可以将代码覆盖率的统计信息保存到某个文件中，这个文件可以被 <code>cover</code> 工具解析。</p>
 <div class="highlight"><pre><span></span>$ go <span class="nb">test</span> -coverprofile<span class="o">=</span>cover.out
 $ go tool cover -func<span class="o">=</span>cover.out
-github.com/startover/test/testing/stringutil.go:5:  Reverse     100.0%
+github.com/startover/testing/stringutil.go:5:   Reverse     100.0%
 total:                          <span class="o">(</span>statements<span class="o">)</span>    100.0%
 </pre></div>
 
@@ -220,11 +236,13 @@ total:                          <span class="o">(</span>statements<span class="o
 </pre></div>
 
 
+<p>这里需要特别注意的是，运行 Ginkgo 风格的测试代码需要执行 <code>ginkgo -r</code>，而不是 <code>go test</code>。</p>
 <p>完整的代码示例见：<a href="https://github.com/startover/testing">https://github.com/startover/testing</a></p>
 <p>相关链接：<br />
 <a href="https://talks.golang.org/2014/testing.slide#1">https://talks.golang.org/2014/testing.slide#1</a><br />
 <a href="https://nathany.com/go-testing-toolbox/">https://nathany.com/go-testing-toolbox/</a><br />
-<a href="http://codethoughts.info/go/2015/04/05/how-to-test-go-code/">http://codethoughts.info/go/2015/04/05/how-to-test-go-code/</a></p>
+<a href="http://codethoughts.info/go/2015/04/05/how-to-test-go-code/">http://codethoughts.info/go/2015/04/05/how-to-test-go-code/</a><br />
+<a href="https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/11.3.md">https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/11.3.md</a></p>
 
         <div class="clear"></div>
 

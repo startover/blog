@@ -44,15 +44,16 @@
 <ul>
 <li>功能测试</li>
 </ul>
-<p>Go 语言内置测试框架，其通过 testing 包以及 go test 命令来提供测试功能。</p>
-<p>假设我们现在需要测试 stringutil.go，内容如下：</p>
-<div class="highlight"><pre><span></span><span class="c1">// Package stringutil contains utility functions for working with strings.</span>
-<span class="kn">package</span> <span class="nx">stringutil</span>
-
-<span class="c1">// Reverse returns its argument string reversed rune-wise left to right.</span>
-<span class="kd">func</span> <span class="nx">Reverse</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-    <span class="nx">r</span> <span class="o">:=</span> <span class="p">[]</span><span class="nb">rune</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
-    <span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0 ...</span></pre></div> </div>
+<p>Go 语言内置测试框架，其通过 <code>testing</code> 包以及 <code>go test</code> 命令来提供测试功能。</p>
+<p>但编写测试代码需<strong>遵循以下原则</strong>：</p>
+<blockquote>
+<ol>
+<li>文件名必须是 <code>_test.go</code> 结尾的，这样在执行 <code>go test</code> 的时候才会执行到相应的代码。</li>
+<li>你必须 import <code>testing</code> 这个包。</li>
+<li>所有的测试用例函数必须是 <code>Test</code> 开头。</li>
+<li>测试用例会按照源代码中写的顺序依次执行。</li>
+<li>测试函数 <code>TestXxx()</code> 的参数是 <code>testing.T</code>，我们可以使用该类型来记录错误或者是测试状态。</li>
+<li>测试格式：<code>func TestXxx (t *testing.T)</code>, <code>Xxx</code> 部分可以为任意的字母数字的组合，但是首字母不能是小写字母 [a-z] ，例如 <code>Testintdiv</code> 是错误的函数名 ...</li></ol></blockquote> </div>
             <div class="medium primary btn"><a href="http://startover.github.io/articles/2016/09/14/golang-for-pythonistas-testing/" rel="bookmark" title="Permalink to Python 程序员的 Golang 学习指南（V）: 测试篇">Read more <i class="icon-arrow-right"></i></a></div>
 
         <div class="clear"></div>

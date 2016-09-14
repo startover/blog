@@ -4,8 +4,20 @@
 &lt;ul&gt;
 &lt;li&gt;功能测试&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Go 语言内置测试框架，其通过 testing 包以及 go test 命令来提供测试功能。&lt;/p&gt;
-&lt;p&gt;假设我们现在需要测试 stringutil.go，内容如下：&lt;/p&gt;
+&lt;p&gt;Go 语言内置测试框架，其通过 &lt;code&gt;testing&lt;/code&gt; 包以及 &lt;code&gt;go test&lt;/code&gt; 命令来提供测试功能。&lt;/p&gt;
+&lt;p&gt;但编写测试代码需&lt;strong&gt;遵循以下原则&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;文件名必须是 &lt;code&gt;_test.go&lt;/code&gt; 结尾的，这样在执行 &lt;code&gt;go test&lt;/code&gt; 的时候才会执行到相应的代码。&lt;/li&gt;
+&lt;li&gt;你必须 import &lt;code&gt;testing&lt;/code&gt; 这个包。&lt;/li&gt;
+&lt;li&gt;所有的测试用例函数必须是 &lt;code&gt;Test&lt;/code&gt; 开头。&lt;/li&gt;
+&lt;li&gt;测试用例会按照源代码中写的顺序依次执行。&lt;/li&gt;
+&lt;li&gt;测试函数 &lt;code&gt;TestXxx()&lt;/code&gt; 的参数是 &lt;code&gt;testing.T&lt;/code&gt;，我们可以使用该类型来记录错误或者是测试状态。&lt;/li&gt;
+&lt;li&gt;测试格式：&lt;code&gt;func TestXxx (t *testing.T)&lt;/code&gt;, &lt;code&gt;Xxx&lt;/code&gt; 部分可以为任意的字母数字的组合，但是首字母不能是小写字母 [a-z] ，例如 &lt;code&gt;Testintdiv&lt;/code&gt; 是错误的函数名。&lt;/li&gt;
+&lt;li&gt;函数中通过调用 &lt;code&gt;testing.T&lt;/code&gt; 的 &lt;code&gt;Error&lt;/code&gt;, &lt;code&gt;Errorf&lt;/code&gt;, &lt;code&gt;FailNow&lt;/code&gt;, &lt;code&gt;Fatal&lt;/code&gt;, &lt;code&gt;FatalIf&lt;/code&gt; 方法，说明测试不通过，调用 &lt;code&gt;Log&lt;/code&gt; 方法用来记录测试的信息。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;假设我们现在需要测试 &lt;code&gt;stringutil.go&lt;/code&gt;，内容如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;// Package stringutil contains utility functions for working with strings.&lt;/span&gt;
 &lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil&lt;/span&gt;
 
@@ -39,36 +51,40 @@
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;=== RUN   TestReverse
 --- PASS: TestReverse (0.00s)
 PASS
-ok      command-line-arguments  0.001s
+ok      github.com/startover/testing    0.001s
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;编写测试代码需&lt;strong&gt;遵循以下原则&lt;/strong&gt;：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ol&gt;
-&lt;li&gt;文件名必须是 _test.go 结尾的，这样在执行 go test 的时候才会执行到相应的代码&lt;/li&gt;
-&lt;li&gt;你必须 import testing 这个包&lt;/li&gt;
-&lt;li&gt;所有的测试用例函数必须是 Test 开头&lt;/li&gt;
-&lt;li&gt;测试用例会按照源代码中写的顺序依次执行&lt;/li&gt;
-&lt;li&gt;测试函数 TestXxx() 的参数是 testing.T，我们可以使用该类型来记录错误或者是测试状态&lt;/li&gt;
-&lt;li&gt;测试格式：func TestXxx (t *testing.T), Xxx 部分可以为任意的字母数字的组合，但是首字母不能是小写字母[a-z]，例如 Testintdiv 是错误的函数名。&lt;/li&gt;
-&lt;li&gt;函数中通过调用 testing.T 的 Error, Errorf, FailNow, Fatal, FatalIf 方法，说明测试不通过，调用 Log 方法用来记录测试的信息。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;基准测试&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;编写基准测试与功能测试类似，这里不做赘速，代码示例如下：&lt;/p&gt;
+&lt;p&gt;基准测试与功能测试类似，不过有以下几点需要注意：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;基准测试用例必须遵循如下格式：&lt;code&gt;func BenchmarkXXX(b *testing.B) { ... }&lt;/code&gt;，其中 XXX 可以是任意字母数字的组合，但是首字母不能是小写字母。&lt;/li&gt;
+&lt;li&gt;go test不会默认执行基准测试的函数，如果要执行基准测试需要带上参数 &lt;code&gt;-test.bench&lt;/code&gt;，语法：&lt;code&gt;-test.bench="test_name_regex"&lt;/code&gt;，例如 &lt;code&gt;go test -test.bench=".*"&lt;/code&gt; 表示测试全部的基准测试函数。&lt;/li&gt;
+&lt;li&gt;在基准测试用例中，请记得在循环体内使用 &lt;code&gt;testing.B.N&lt;/code&gt;，以使测试可以正常的运行。&lt;/li&gt;
+&lt;li&gt;文件名也必须以 &lt;code&gt;_test.go&lt;/code&gt; 结尾。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;代码示例如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil&lt;/span&gt;
 
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;testing&amp;quot;&lt;/span&gt;
 
-&lt;span class="kd"&gt;func&lt;/span&gt; &lt;span class="nx"&gt;BenchmarkReverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;b&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;testing&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;B&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;                                                                                                                                        
+&lt;span class="kd"&gt;func&lt;/span&gt; &lt;span class="nx"&gt;BenchmarkReverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;b&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;testing&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;B&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;in&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Hello, world&amp;quot;&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nx"&gt;n&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nx"&gt;n&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nx"&gt;b&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nx"&gt;n&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
         &lt;span class="nx"&gt;Reverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;执行 &lt;code&gt;go test -v -test.bench=".*"&lt;/code&gt;，得到如下输出：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PASS
+BenchmarkReverse-4   5000000           260 ns/op
+ok      github.com/startover/testing    1.579s
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -79,7 +95,7 @@ ok      command-line-arguments  0.001s
 &lt;p&gt;Go 语言的 struct 字面值语法让我们可以轻松写出表驱动测试，代码示例如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil&lt;/span&gt;
 
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;testing&amp;quot;&lt;/span&gt; 
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;testing&amp;quot;&lt;/span&gt;
 
 &lt;span class="kd"&gt;func&lt;/span&gt; &lt;span class="nx"&gt;TestTableReverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;testing&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;c&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="k"&gt;range&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="kd"&gt;struct&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
@@ -109,14 +125,14 @@ ok      command-line-arguments  0.001s
 --- PASS: TestTableReverse &lt;span class="o"&gt;(&lt;/span&gt;0.00s&lt;span class="o"&gt;)&lt;/span&gt;
 PASS
 coverage: 100.0% of statements
-ok      github.com/startover/test/testing   0.004s
+ok      github.com/startover/testing    0.004s
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;此外，&lt;code&gt;go test&lt;/code&gt; 还可以将代码覆盖率的统计信息保存到某个文件中，这个文件可以被 &lt;code&gt;cover&lt;/code&gt; 工具解析。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ go &lt;span class="nb"&gt;test&lt;/span&gt; -coverprofile&lt;span class="o"&gt;=&lt;/span&gt;cover.out
 $ go tool cover -func&lt;span class="o"&gt;=&lt;/span&gt;cover.out
-github.com/startover/test/testing/stringutil.go:5:  Reverse     100.0%
+github.com/startover/testing/stringutil.go:5:   Reverse     100.0%
 total:                          &lt;span class="o"&gt;(&lt;/span&gt;statements&lt;span class="o"&gt;)&lt;/span&gt;    100.0%
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -177,11 +193,13 @@ total:                          &lt;span class="o"&gt;(&lt;/span&gt;statements&l
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;这里需要特别注意的是，运行 Ginkgo 风格的测试代码需要执行 &lt;code&gt;ginkgo -r&lt;/code&gt;，而不是 &lt;code&gt;go test&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;完整的代码示例见：&lt;a href="https://github.com/startover/testing"&gt;https://github.com/startover/testing&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;相关链接：&lt;br /&gt;
 &lt;a href="https://talks.golang.org/2014/testing.slide#1"&gt;https://talks.golang.org/2014/testing.slide#1&lt;/a&gt;&lt;br /&gt;
 &lt;a href="https://nathany.com/go-testing-toolbox/"&gt;https://nathany.com/go-testing-toolbox/&lt;/a&gt;&lt;br /&gt;
-&lt;a href="http://codethoughts.info/go/2015/04/05/how-to-test-go-code/"&gt;http://codethoughts.info/go/2015/04/05/how-to-test-go-code/&lt;/a&gt;&lt;/p&gt;</summary><category term="Golang"></category><category term="Python"></category></entry><entry><title>Python 程序员的 Golang 学习指南（IV）: 包管理篇</title><link href="http://startover.github.io/articles/2016/09/07/golang-for-pythonistas-package/" rel="alternate"></link><published>2016-09-07T10:24:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-09-07:articles/2016/09/07/golang-for-pythonistas-package/</id><summary type="html">&lt;p&gt;在&lt;a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/"&gt;第一篇文章&lt;/a&gt;我们有提到，Golang 官方并没有推荐最佳的包管理方案，对于像我这样习惯了 Python 包管理的开发者，自然还是希望有像 pip 一样好用的工具，帮助我们进行依赖管理，下面就让我们对 Golang 的包管理机制一探究竟。&lt;/p&gt;
+&lt;a href="http://codethoughts.info/go/2015/04/05/how-to-test-go-code/"&gt;http://codethoughts.info/go/2015/04/05/how-to-test-go-code/&lt;/a&gt;&lt;br /&gt;
+&lt;a href="https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/11.3.md"&gt;https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/11.3.md&lt;/a&gt;&lt;/p&gt;</summary><category term="Golang"></category><category term="Python"></category></entry><entry><title>Python 程序员的 Golang 学习指南（IV）: 包管理篇</title><link href="http://startover.github.io/articles/2016/09/07/golang-for-pythonistas-package/" rel="alternate"></link><published>2016-09-07T10:24:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-09-07:articles/2016/09/07/golang-for-pythonistas-package/</id><summary type="html">&lt;p&gt;在&lt;a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/"&gt;第一篇文章&lt;/a&gt;我们有提到，Golang 官方并没有推荐最佳的包管理方案，对于像我这样习惯了 Python 包管理的开发者，自然还是希望有像 pip 一样好用的工具，帮助我们进行依赖管理，下面就让我们对 Golang 的包管理机制一探究竟。&lt;/p&gt;
 &lt;h2&gt;Golang 包管理机制&lt;/h2&gt;
 &lt;p&gt;Go 语言的包管理系统是去中心化的，我们可以通过 &lt;code&gt;go get&lt;/code&gt; 命令获取存放在远程仓库的代码协议。实际上，&lt;code&gt;go get&lt;/code&gt; 支持以下 VCS 协议：&lt;/p&gt;
 &lt;table class="table table-bordered"&gt;
