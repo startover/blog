@@ -151,10 +151,9 @@ total:                          &lt;span class="o"&gt;(&lt;/span&gt;statements&l
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://github.com/onsi/ginkgo"&gt;Ginkgo&lt;/a&gt; &amp;amp; &lt;a href="https://github.com/onsi/gomega"&gt;Gomega&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil_test&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil&lt;/span&gt;
 
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
-    &lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;github.com/golang/example/stringutil&amp;quot;&lt;/span&gt;
     &lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;github.com/onsi/ginkgo&amp;quot;&lt;/span&gt;
     &lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;github.com/onsi/gomega&amp;quot;&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
