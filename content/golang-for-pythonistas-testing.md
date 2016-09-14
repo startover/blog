@@ -164,10 +164,9 @@ func TestSpec(t *testing.T) {
 * [Ginkgo](https://github.com/onsi/ginkgo) & [Gomega](https://github.com/onsi/gomega)
 
 ```go
-package stringutil_test
+package stringutil
 
 import (
-    . "github.com/golang/example/stringutil"
     . "github.com/onsi/ginkgo"
     . "github.com/onsi/gomega"
 )
