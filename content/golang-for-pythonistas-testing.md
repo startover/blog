@@ -11,9 +11,19 @@ Authors: startover
 
 * 功能测试
 
-Go 语言内置测试框架，其通过 testing 包以及 go test 命令来提供测试功能。
+Go 语言内置测试框架，其通过 `testing` 包以及 `go test` 命令来提供测试功能。
 
-假设我们现在需要测试 stringutil.go，内容如下：
+但编写测试代码需**遵循以下原则**：
+
+> 1. 文件名必须是 `_test.go` 结尾的，这样在执行 `go test` 的时候才会执行到相应的代码。
+> 2. 你必须 import `testing` 这个包。
+> 3. 所有的测试用例函数必须是 `Test` 开头。
+> 4. 测试用例会按照源代码中写的顺序依次执行。
+> 5. 测试函数 `TestXxx()` 的参数是 `testing.T`，我们可以使用该类型来记录错误或者是测试状态。
+> 6. 测试格式：`func TestXxx (t *testing.T)`, `Xxx` 部分可以为任意的字母数字的组合，但是首字母不能是小写字母 [a-z] ，例如 `Testintdiv` 是错误的函数名。
+> 7. 函数中通过调用 `testing.T` 的 `Error`, `Errorf`, `FailNow`, `Fatal`, `FatalIf` 方法，说明测试不通过，调用 `Log` 方法用来记录测试的信息。
+
+假设我们现在需要测试 `stringutil.go`，内容如下：
 
 ```go
 // Package stringutil contains utility functions for working with strings.
@@ -51,34 +61,39 @@ func TestReverse(t *testing.T) {
 === RUN   TestReverse
 --- PASS: TestReverse (0.00s)
 PASS
-ok      command-line-arguments  0.001s
+ok      github.com/startover/testing    0.001s
 ```
-
-编写测试代码需**遵循以下原则**：
-
-> 1. 文件名必须是 _test.go 结尾的，这样在执行 go test 的时候才会执行到相应的代码
-> 2. 你必须 import testing 这个包
-> 3. 所有的测试用例函数必须是 Test 开头
-> 4. 测试用例会按照源代码中写的顺序依次执行
-> 5. 测试函数 TestXxx() 的参数是 testing.T，我们可以使用该类型来记录错误或者是测试状态
-> 6. 测试格式：func TestXxx (t *testing.T), Xxx 部分可以为任意的字母数字的组合，但是首字母不能是小写字母[a-z]，例如 Testintdiv 是错误的函数名。
-> 7. 函数中通过调用 testing.T 的 Error, Errorf, FailNow, Fatal, FatalIf 方法，说明测试不通过，调用 Log 方法用来记录测试的信息。
 
 * 基准测试
 
-编写基准测试与功能测试类似，这里不做赘速，代码示例如下：
+基准测试与功能测试类似，不过有以下几点需要注意：
+
+> 1. 基准测试用例必须遵循如下格式：`func BenchmarkXXX(b *testing.B) { ... }`，其中 XXX 可以是任意字母数字的组合，但是首字母不能是小写字母。
+> 2. go test不会默认执行基准测试的函数，如果要执行基准测试需要带上参数 `-test.bench`，语法：`-test.bench="test_name_regex"`，例如 `go test -test.bench=".*"` 表示测试全部的基准测试函数。
+> 3. 在基准测试用例中，请记得在循环体内使用 `testing.B.N`，以使测试可以正常的运行。
+> 4. 文件名也必须以 `_test.go` 结尾。
+
+代码示例如下：
 
 ```go
 package stringutil
  
 import "testing"
-
-func BenchmarkReverse(b *testing.B) {                                                                                                                                        
+ 
+func BenchmarkReverse(b *testing.B) {
     const in = "Hello, world"
     for n := 0; n < b.N; n++ {
         Reverse(in)
     }
 }
+```
+
+执行 `go test -v -test.bench=".*"`，得到如下输出：
+
+```
+PASS
+BenchmarkReverse-4   5000000           260 ns/op
+ok      github.com/startover/testing    1.579s
 ```
 
 * 表驱动测试
@@ -90,7 +105,7 @@ Go 语言的 struct 字面值语法让我们可以轻松写出表驱动测试，
 ```go
 package stringutil
 
-import "testing" 
+import "testing"
 
 func TestTableReverse(t *testing.T) {
     for _, c := range []struct {
@@ -120,7 +135,7 @@ $ go test -v -cover
 --- PASS: TestTableReverse (0.00s)
 PASS
 coverage: 100.0% of statements
-ok      github.com/startover/test/testing   0.004s
+ok      github.com/startover/testing    0.004s
 
 ```
 
@@ -129,7 +144,7 @@ ok      github.com/startover/test/testing   0.004s
 ```
 $ go test -coverprofile=cover.out
 $ go tool cover -func=cover.out
-github.com/startover/test/testing/stringutil.go:5:  Reverse     100.0%
+github.com/startover/testing/stringutil.go:5:   Reverse     100.0%
 total:                          (statements)    100.0%
 ```
 
@@ -189,10 +204,13 @@ var _ = Describe("StringutilTest", func() {
 })
 ```
 
+这里需要特别注意的是，运行 Ginkgo 风格的测试代码需要执行 `ginkgo -r`，而不是 `go test`。
+
 完整的代码示例见：[https://github.com/startover/testing](https://github.com/startover/testing)
 
 
 相关链接：  
 [https://talks.golang.org/2014/testing.slide#1](https://talks.golang.org/2014/testing.slide#1)  
 [https://nathany.com/go-testing-toolbox/](https://nathany.com/go-testing-toolbox/)  
-[http://codethoughts.info/go/2015/04/05/how-to-test-go-code/](http://codethoughts.info/go/2015/04/05/how-to-test-go-code/)
+[http://codethoughts.info/go/2015/04/05/how-to-test-go-code/](http://codethoughts.info/go/2015/04/05/how-to-test-go-code/)  
+[https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/11.3.md](https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/11.3.md)
