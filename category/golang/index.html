@@ -35,7 +35,39 @@
         </div>
     </header>
     <div id="wrapper">
-        <div id="content">        <h4 class="date"> 9月 07, 2016</h4>
+        <div id="content">        <h4 class="date"> 9月 14, 2016</h4>
+
+    <article class="post">
+            <h2 class="title">
+                <a href="http://startover.github.io/articles/2016/09/14/golang-for-pythonistas-testing/" rel="bookmark" title="Permanent Link to &quot;Python 程序员的 Golang 学习指南（V）: 测试篇&quot;">Python 程序员的 Golang 学习指南（V）: 测试篇</a>
+            </h2>
+
+            <div class="entry-content"> <p>这篇文章我们介绍下 Go 语言中如何进行测试。</p>
+<h2>单元测试</h2>
+<ul>
+<li>功能测试</li>
+</ul>
+<p>Go 语言内置测试框架，其通过 testing 包以及 go test 命令来提供测试功能。</p>
+<p>假设我们现在需要测试 stringutil.go，内容如下：</p>
+<div class="highlight"><pre><span></span><span class="c1">// Package stringutil contains utility functions for working with strings.</span>
+<span class="kn">package</span> <span class="nx">stringutil</span>
+
+<span class="c1">// Reverse returns its argument string reversed rune-wise left to right.</span>
+<span class="kd">func</span> <span class="nx">Reverse</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+    <span class="nx">r</span> <span class="o">:=</span> <span class="p">[]</span><span class="nb">rune</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0 ...</span></pre></div> </div>
+            <div class="medium primary btn"><a href="http://startover.github.io/articles/2016/09/14/golang-for-pythonistas-testing/" rel="bookmark" title="Permalink to Python 程序员的 Golang 学习指南（V）: 测试篇">Read more <i class="icon-arrow-right"></i></a></div>
+
+        <div class="clear"></div>
+
+        <div class="info">
+            <a href="http://startover.github.io/articles/2016/09/14/golang-for-pythonistas-testing/">posted at 21:10</a>
+            &nbsp;&middot;&nbsp;<a href="http://startover.github.io/category/golang/" rel="tag">Golang</a>
+            &nbsp;&middot;
+            &nbsp;<a href="http://startover.github.io/tag/golang/" class="tags">Golang</a>
+            &nbsp;<a href="http://startover.github.io/tag/python/" class="tags">Python</a>
+        </div>
+    </article>        <h4 class="date"> 9月 07, 2016</h4>
 
     <article class="post">
             <h2 class="title">

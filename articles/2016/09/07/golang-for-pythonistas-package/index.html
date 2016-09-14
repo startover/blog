@@ -107,12 +107,13 @@
 <li>godep save</li>
 </ul>
 <p>这个命令做了以下几件事：</p>
-<div class="highlight"><pre><span></span>1. 查找项目中所用到的所有的第三方包。
-2. 在项目目录下创建 Godeps 目录，Godeps/Godeps.json 是依赖文件，包括了 go 的版本，用到的第三方包的引入路径，版本号等信息，json 文件需要一并加入到版本控制里。
-3. 所有依赖的第三方包的代码会被拷贝到 vendor/ 下，并且移除了 .git 这样的版本控制信息。
-</pre></div>
-
-
+<blockquote>
+<ol>
+<li>查找项目中所用到的所有的第三方包。</li>
+<li>在项目目录下创建 Godeps 目录，Godeps/Godeps.json 是依赖文件，包括了 go 的版本，用到的第三方包的引入路径，版本号等信息，json 文件需要一并加入到版本控制里。</li>
+<li>所有依赖的第三方包的代码会被拷贝到 vendor/ 下，并且移除了 .git 这样的版本控制信息。</li>
+</ol>
+</blockquote>
 <ul>
 <li>godep restore</li>
 </ul>
@@ -163,6 +164,11 @@
     <li>
         上一篇：<a href="http://startover.github.io/articles/2016/08/30/golang-for-pythonistas-quickstart/">
             Python 程序员的 Golang 学习指南（III）: 入门篇
+        </a>
+    </li>
+    <li>
+        下一篇：<a href="http://startover.github.io/articles/2016/09/14/golang-for-pythonistas-testing/">
+            Python 程序员的 Golang 学习指南（V）: 测试篇
         </a>
     </li>
 </ul>

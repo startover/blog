@@ -1,5 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/golang.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-09-07T10:24:00+08:00</updated><entry><title>Python 程序员的 Golang 学习指南（IV）: 包管理篇</title><link href="http://startover.github.io/articles/2016/09/07/golang-for-pythonistas-package/" rel="alternate"></link><published>2016-09-07T10:24:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-09-07:articles/2016/09/07/golang-for-pythonistas-package/</id><summary type="html">&lt;p&gt;在&lt;a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/"&gt;第一篇文章&lt;/a&gt;我们有提到，Golang 官方并没有推荐最佳的包管理方案，对于像我这样习惯了 Python 包管理的开发者，自然还是希望有像 pip 一样好用的工具，帮助我们进行依赖管理，下面就让我们对 Golang 的包管理机制一探究竟。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>startover's blog</title><link href="http://startover.github.io/" rel="alternate"></link><link href="http://startover.github.io/feeds/golang.atom.xml" rel="self"></link><id>http://startover.github.io/</id><updated>2016-09-14T21:10:00+08:00</updated><entry><title>Python 程序员的 Golang 学习指南（V）: 测试篇</title><link href="http://startover.github.io/articles/2016/09/14/golang-for-pythonistas-testing/" rel="alternate"></link><published>2016-09-14T21:10:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-09-14:articles/2016/09/14/golang-for-pythonistas-testing/</id><summary type="html">&lt;p&gt;这篇文章我们介绍下 Go 语言中如何进行测试。&lt;/p&gt;
+&lt;h2&gt;单元测试&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;功能测试&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Go 语言内置测试框架，其通过 testing 包以及 go test 命令来提供测试功能。&lt;/p&gt;
+&lt;p&gt;假设我们现在需要测试 stringutil.go，内容如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;// Package stringutil contains utility functions for working with strings.&lt;/span&gt;
+&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil&lt;/span&gt;
+
+&lt;span class="c1"&gt;// Reverse returns its argument string reversed rune-wise left to right.&lt;/span&gt;
+&lt;span class="kd"&gt;func&lt;/span&gt; &lt;span class="nx"&gt;Reverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;s&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;r&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="nb"&gt;rune&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;j&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nx"&gt;i&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;j&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;j&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;r&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="nx"&gt;r&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;j&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;r&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;j&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="nx"&gt;r&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;string&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;那我们的测试用例可以写成下面这样：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;testing&amp;quot;&lt;/span&gt;
+
+&lt;span class="kd"&gt;func&lt;/span&gt; &lt;span class="nx"&gt;TestReverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;testing&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;want&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Hello, world&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;dlrow ,olleH&amp;quot;&lt;/span&gt;
+    &lt;span class="nx"&gt;got&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="nx"&gt;Reverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nx"&gt;got&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="nx"&gt;want&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;t&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Errorf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Reverse(%q) == %q, want %q&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;got&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;want&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;执行 &lt;code&gt;go test -v&lt;/code&gt;，得到如下输出：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;=== RUN   TestReverse
+--- PASS: TestReverse (0.00s)
+PASS
+ok      command-line-arguments  0.001s
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;编写测试代码需&lt;strong&gt;遵循以下原则&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;文件名必须是 _test.go 结尾的，这样在执行 go test 的时候才会执行到相应的代码&lt;/li&gt;
+&lt;li&gt;你必须 import testing 这个包&lt;/li&gt;
+&lt;li&gt;所有的测试用例函数必须是 Test 开头&lt;/li&gt;
+&lt;li&gt;测试用例会按照源代码中写的顺序依次执行&lt;/li&gt;
+&lt;li&gt;测试函数 TestXxx() 的参数是 testing.T，我们可以使用该类型来记录错误或者是测试状态&lt;/li&gt;
+&lt;li&gt;测试格式：func TestXxx (t *testing.T), Xxx 部分可以为任意的字母数字的组合，但是首字母不能是小写字母[a-z]，例如 Testintdiv 是错误的函数名。&lt;/li&gt;
+&lt;li&gt;函数中通过调用 testing.T 的 Error, Errorf, FailNow, Fatal, FatalIf 方法，说明测试不通过，调用 Log 方法用来记录测试的信息。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;基准测试&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;编写基准测试与功能测试类似，这里不做赘速，代码示例如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;testing&amp;quot;&lt;/span&gt;
+
+&lt;span class="kd"&gt;func&lt;/span&gt; &lt;span class="nx"&gt;BenchmarkReverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;b&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;testing&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;B&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;                                                                                                                                        
+    &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;in&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Hello, world&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nx"&gt;n&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nx"&gt;n&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nx"&gt;b&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nx"&gt;n&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;Reverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;表驱动测试&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;编写测试代码时，一个较好的办法是把测试的输入数据和期望的结果写在一起组成一个数据表：表中的每条记录都是一个含有输入和期望值的完整测试用例，有时还可以结合像测试名字这样的额外信息来让测试输出更多的信息。这就是&lt;strong&gt;表驱动测试&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;Go 语言的 struct 字面值语法让我们可以轻松写出表驱动测试，代码示例如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;testing&amp;quot;&lt;/span&gt; 
+
+&lt;span class="kd"&gt;func&lt;/span&gt; &lt;span class="nx"&gt;TestTableReverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;testing&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;c&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="k"&gt;range&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="kd"&gt;struct&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;want&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt;
+    &lt;span class="p"&gt;}{&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hello, world&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;dlrow ,olleH&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hello, 世界&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;界世 ,olleH&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;got&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="nx"&gt;Reverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nx"&gt;got&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;want&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nx"&gt;t&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Errorf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Reverse(%q) == %q, want %q&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;got&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;want&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;测试覆盖率&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;执行 &lt;code&gt;go test -v -cover&lt;/code&gt; 可以得到代码覆盖率的统计信息，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ go &lt;span class="nb"&gt;test&lt;/span&gt; -v -cover
+&lt;span class="o"&gt;===&lt;/span&gt; RUN   TestReverse
+--- PASS: TestReverse &lt;span class="o"&gt;(&lt;/span&gt;0.00s&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;===&lt;/span&gt; RUN   TestTableReverse
+--- PASS: TestTableReverse &lt;span class="o"&gt;(&lt;/span&gt;0.00s&lt;span class="o"&gt;)&lt;/span&gt;
+PASS
+coverage: 100.0% of statements
+ok      github.com/startover/test/testing   0.004s
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;此外，&lt;code&gt;go test&lt;/code&gt; 还可以将代码覆盖率的统计信息保存到某个文件中，这个文件可以被 &lt;code&gt;cover&lt;/code&gt; 工具解析。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ go &lt;span class="nb"&gt;test&lt;/span&gt; -coverprofile&lt;span class="o"&gt;=&lt;/span&gt;cover.out
+$ go tool cover -func&lt;span class="o"&gt;=&lt;/span&gt;cover.out
+github.com/startover/test/testing/stringutil.go:5:  Reverse     100.0%
+total:                          &lt;span class="o"&gt;(&lt;/span&gt;statements&lt;span class="o"&gt;)&lt;/span&gt;    100.0%
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;BDD 测试&lt;/h2&gt;
+&lt;p&gt;Go 语言比较主流的 BDD 测试框架主要有：&lt;a href="https://github.com/smartystreets/goconvey"&gt;GoConvey&lt;/a&gt; 和 &lt;a href="https://github.com/onsi/ginkgo"&gt;Ginkgo&lt;/a&gt;。下面让我们感受下 BDD 风格的测试代码：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/smartystreets/goconvey"&gt;GoConvey&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;quot;testing&amp;quot;&lt;/span&gt;
+
+    &lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;github.com/smartystreets/goconvey/convey&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="kd"&gt;func&lt;/span&gt; &lt;span class="nx"&gt;TestSpec&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;testing&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Only pass t into top-level Convey calls&lt;/span&gt;
+    &lt;span class="nx"&gt;Convey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Given some ASCII and UTF8 strings&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;func&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;want&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Hello, world&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;dlrow ,olleH&amp;quot;&lt;/span&gt;
+        &lt;span class="nx"&gt;Convey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;The value should be equal the reversed one&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;func&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nx"&gt;got&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="nx"&gt;Reverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="nx"&gt;So&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;got&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ShouldEqual&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;want&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;})&lt;/span&gt;
+    &lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/onsi/ginkgo"&gt;Ginkgo&lt;/a&gt; &amp;amp; &lt;a href="https://github.com/onsi/gomega"&gt;Gomega&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;stringutil_test&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;github.com/golang/example/stringutil&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;github.com/onsi/ginkgo&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;github.com/onsi/gomega&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Describe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;StringutilTest&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;func&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;want&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt;
+
+    &lt;span class="nx"&gt;BeforeEach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;func&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;want&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Hello, world&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;dlrow ,olleH&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;})&lt;/span&gt;
+
+    &lt;span class="nx"&gt;Describe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;With ASCII and UTF8 strings defined&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;func&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;Context&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Reverse the give strings&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;func&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nx"&gt;It&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;should be reversed&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;func&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="nx"&gt;got&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="nx"&gt;Reverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;in&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="nx"&gt;Expect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;got&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;To&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;Equal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;want&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="p"&gt;})&lt;/span&gt;
+        &lt;span class="p"&gt;})&lt;/span&gt;
+    &lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;完整的代码示例见：&lt;a href="https://github.com/startover/testing"&gt;https://github.com/startover/testing&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;相关链接：&lt;br /&gt;
+&lt;a href="https://talks.golang.org/2014/testing.slide#1"&gt;https://talks.golang.org/2014/testing.slide#1&lt;/a&gt;&lt;br /&gt;
+&lt;a href="https://nathany.com/go-testing-toolbox/"&gt;https://nathany.com/go-testing-toolbox/&lt;/a&gt;&lt;br /&gt;
+&lt;a href="http://codethoughts.info/go/2015/04/05/how-to-test-go-code/"&gt;http://codethoughts.info/go/2015/04/05/how-to-test-go-code/&lt;/a&gt;&lt;/p&gt;</summary><category term="Golang"></category><category term="Python"></category></entry><entry><title>Python 程序员的 Golang 学习指南（IV）: 包管理篇</title><link href="http://startover.github.io/articles/2016/09/07/golang-for-pythonistas-package/" rel="alternate"></link><published>2016-09-07T10:24:00+08:00</published><author><name>startover</name></author><id>tag:startover.github.io,2016-09-07:articles/2016/09/07/golang-for-pythonistas-package/</id><summary type="html">&lt;p&gt;在&lt;a href="http://startover.github.io/articles/2016/08/15/golang-for-pythonistas/"&gt;第一篇文章&lt;/a&gt;我们有提到，Golang 官方并没有推荐最佳的包管理方案，对于像我这样习惯了 Python 包管理的开发者，自然还是希望有像 pip 一样好用的工具，帮助我们进行依赖管理，下面就让我们对 Golang 的包管理机制一探究竟。&lt;/p&gt;
 &lt;h2&gt;Golang 包管理机制&lt;/h2&gt;
 &lt;p&gt;Go 语言的包管理系统是去中心化的，我们可以通过 &lt;code&gt;go get&lt;/code&gt; 命令获取存放在远程仓库的代码协议。实际上，&lt;code&gt;go get&lt;/code&gt; 支持以下 VCS 协议：&lt;/p&gt;
 &lt;table class="table table-bordered"&gt;
@@ -64,12 +247,13 @@
 &lt;li&gt;godep save&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;这个命令做了以下几件事：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;1. 查找项目中所用到的所有的第三方包。
-2. 在项目目录下创建 Godeps 目录，Godeps/Godeps.json 是依赖文件，包括了 go 的版本，用到的第三方包的引入路径，版本号等信息，json 文件需要一并加入到版本控制里。
-3. 所有依赖的第三方包的代码会被拷贝到 vendor/ 下，并且移除了 .git 这样的版本控制信息。
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;查找项目中所用到的所有的第三方包。&lt;/li&gt;
+&lt;li&gt;在项目目录下创建 Godeps 目录，Godeps/Godeps.json 是依赖文件，包括了 go 的版本，用到的第三方包的引入路径，版本号等信息，json 文件需要一并加入到版本控制里。&lt;/li&gt;
+&lt;li&gt;所有依赖的第三方包的代码会被拷贝到 vendor/ 下，并且移除了 .git 这样的版本控制信息。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;godep restore&lt;/li&gt;
 &lt;/ul&gt;
