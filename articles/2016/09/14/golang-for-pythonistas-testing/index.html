@@ -48,7 +48,7 @@
 <li>功能测试</li>
 </ul>
 <p>Go 语言内置测试框架，其通过 <code>testing</code> 包以及 <code>go test</code> 命令来提供测试功能。</p>
-<p>但编写测试代码需<strong>遵循以下原则</strong>：</p>
+<p>编写测试代码需<strong>遵循以下原则</strong>：</p>
 <blockquote>
 <ol>
 <li>文件名必须是 <code>_test.go</code> 结尾的，这样在执行 <code>go test</code> 的时候才会执行到相应的代码。</li>
@@ -105,7 +105,7 @@ ok      github.com/startover/testing    0.001s
 <blockquote>
 <ol>
 <li>基准测试用例必须遵循如下格式：<code>func BenchmarkXXX(b *testing.B) { ... }</code>，其中 XXX 可以是任意字母数字的组合，但是首字母不能是小写字母。</li>
-<li>go test不会默认执行基准测试的函数，如果要执行基准测试需要带上参数 <code>-test.bench</code>，语法：<code>-test.bench="test_name_regex"</code>，例如 <code>go test -test.bench=".*"</code> 表示测试全部的基准测试函数。</li>
+<li><code>go test</code> 不会默认执行基准测试的函数，如果要执行基准测试需要带上参数 <code>-test.bench</code>，语法：<code>-test.bench="test_name_regex"</code>，例如 <code>go test -test.bench=".*"</code> 表示测试全部的基准测试函数。</li>
 <li>在基准测试用例中，请记得在循环体内使用 <code>testing.B.N</code>，以使测试可以正常的运行。</li>
 <li>文件名也必须以 <code>_test.go</code> 结尾。</li>
 </ol>

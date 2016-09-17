@@ -5,7 +5,7 @@
 &lt;li&gt;功能测试&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Go 语言内置测试框架，其通过 &lt;code&gt;testing&lt;/code&gt; 包以及 &lt;code&gt;go test&lt;/code&gt; 命令来提供测试功能。&lt;/p&gt;
-&lt;p&gt;但编写测试代码需&lt;strong&gt;遵循以下原则&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;编写测试代码需&lt;strong&gt;遵循以下原则&lt;/strong&gt;：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;ol&gt;
 &lt;li&gt;文件名必须是 &lt;code&gt;_test.go&lt;/code&gt; 结尾的，这样在执行 &lt;code&gt;go test&lt;/code&gt; 的时候才会执行到相应的代码。&lt;/li&gt;
@@ -62,7 +62,7 @@ ok      github.com/startover/testing    0.001s
 &lt;blockquote&gt;
 &lt;ol&gt;
 &lt;li&gt;基准测试用例必须遵循如下格式：&lt;code&gt;func BenchmarkXXX(b *testing.B) { ... }&lt;/code&gt;，其中 XXX 可以是任意字母数字的组合，但是首字母不能是小写字母。&lt;/li&gt;
-&lt;li&gt;go test不会默认执行基准测试的函数，如果要执行基准测试需要带上参数 &lt;code&gt;-test.bench&lt;/code&gt;，语法：&lt;code&gt;-test.bench="test_name_regex"&lt;/code&gt;，例如 &lt;code&gt;go test -test.bench=".*"&lt;/code&gt; 表示测试全部的基准测试函数。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;go test&lt;/code&gt; 不会默认执行基准测试的函数，如果要执行基准测试需要带上参数 &lt;code&gt;-test.bench&lt;/code&gt;，语法：&lt;code&gt;-test.bench="test_name_regex"&lt;/code&gt;，例如 &lt;code&gt;go test -test.bench=".*"&lt;/code&gt; 表示测试全部的基准测试函数。&lt;/li&gt;
 &lt;li&gt;在基准测试用例中，请记得在循环体内使用 &lt;code&gt;testing.B.N&lt;/code&gt;，以使测试可以正常的运行。&lt;/li&gt;
 &lt;li&gt;文件名也必须以 &lt;code&gt;_test.go&lt;/code&gt; 结尾。&lt;/li&gt;
 &lt;/ol&gt;
